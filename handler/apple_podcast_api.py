@@ -1,8 +1,11 @@
-import requests
-from utils.logger import init_logger
-from  utils import user_agent
+import os
 import json
 import random
+import requests
+from utils import user_agent
+from utils.utime import get_now_time_string_short, random_sleep
+from utils.logger import init_logger
+from utils.file import download_url_resource_local
 
 logger = init_logger("apple_podcast_api")
 
@@ -40,6 +43,7 @@ def ApplePodcastsHandler(url:str, params:dict):
     applePod = ApplePod(url, resp)
     next_url = applePod.GetNextUrl()
     res_list = applePod.ParseApiData()
+    _ = applePod.DownloadAudio()
 
     if not next_url.startswith("http"):
         next_url = "https://amp-api.podcasts.apple.com" + next_url
@@ -48,7 +52,7 @@ def ApplePodcastsHandler(url:str, params:dict):
 
 
 class ApplePod:
-    ''' apple podcast 存储结构'''
+    ''' apple podcast类'''
     def __init__(self, url:str, resp:dict):
         self.url = url
         self.user_id = self.GetUserId()
@@ -113,3 +117,26 @@ class ApplePod:
         sub_str = self.url.rsplit("podcasts/")[1]
         res = sub_str.rsplit("/episodes")[0]
         return res
+
+    def DownloadAudio(self)->bool:
+        ''' 下载音频文件到本地 '''
+        # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
+        save_dir = os.path.join(".", "download", get_now_time_string_short())
+        try:
+            for data in self.resp["data"]:
+                random_sleep(rand_st=20, rand_range=10)
+                url = data["attributes"]["assetUrl"]
+                pid = "Podcast_%s_%s"%(self.user_id, data["id"])
+                sub_path = f"Podcast_{self.user_id}"
+                # file_name = os.path.basename(url)
+                file_name = pid + ".mp3"
+                save_path = os.path.join(save_dir, sub_path, file_name)
+                succ = download_url_resource_local(url, save_path)
+                if not succ:
+                    logger.error(f"DownloadAudio handler failed, url:{url}")
+                    continue
+        except Exception as e:
+            logger.error(f"DownloadAudio failed, error:{e}")
+            return False
+        else:
+            return True

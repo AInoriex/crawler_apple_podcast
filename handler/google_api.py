@@ -44,14 +44,14 @@ def Gsearch(search_word:str, start:int, search_total:int, pause:int)->list:
         return resList
 
 
-def SaveUrl(batch_id:str, keyword:str, url:str)->bool:
+def SaveUrlToDb(batch_id:str, keyword:str, url:str)->bool:
     ''' 单个url检索结果入库 '''
     if url == "":
         logger.error("SaveDb Failed, empty url.")
         return False
     db = SearchInfo(user='root', password='123456', host='127.0.0.1', database='crawler')
     table = "web_search_info"
-    user_id = GetApplePodcastUserId(url)
+    user_id = ParseApplePodcastUserId(url)
     get_dict = db.Select(table=table, condition=f"result_url = '{url}' or apple_podcast_user_id = '{user_id}'")
     if len(get_dict) > 0:
         logger.warn("SaveDb record existed, skip saving. ID:%s URL:%s USER_ID:%s"%(get_dict[0]['id'], url, user_id))
@@ -69,7 +69,7 @@ def SaveUrl(batch_id:str, keyword:str, url:str)->bool:
     finally:
         db.Close()
 
-def SaveUrls(batch_id:str, keyword:str, url_list:list)->bool:
+def SaveUrlsToDb(batch_id:str, keyword:str, url_list:list)->bool:
     ''' 单个url检索结果入库 '''
     if len(url_list) <= 0:
         logger.error("SaveDb Failed, empty url list.")
@@ -78,7 +78,7 @@ def SaveUrls(batch_id:str, keyword:str, url_list:list)->bool:
     table = "web_search_info"
 
     for url in url_list:
-        user_id = GetApplePodcastUserId(url)
+        user_id = ParseApplePodcastUserId(url)
         get_dict = db.Select(table=table, condition=f"result_url = '{url}' or apple_podcast_user_id = '{user_id}'")
         if len(get_dict) > 0:
             logger.warn("SaveDb record existed, skip saving. ID:%s URL:%s USER_ID:%s"%(get_dict[0]['id'], url, user_id))
@@ -98,9 +98,17 @@ def SaveUrls(batch_id:str, keyword:str, url_list:list)->bool:
         db.Close()
         return True
 
+def GetApplePodCastUserIdFromDb()->list:
+    uid_list = []
+    db = SearchInfo(user='root', password='123456', host='127.0.0.1', database='crawler')
+    table = "web_search_info"
 
-def GetApplePodcastUserId(url:str)->str:
-    ''' 获取链接中Apple Podcast的用户id
+    query = db.Select(table=table, condition=f"apple_podcast_user_id != ''")
+    
+    return uid_list
+
+def ParseApplePodcastUserId(url:str)->str:
+    ''' 解析链接中Apple Podcast的用户id
     \n  exp: https://podcasts.apple.com/us/podcast/oppenheimer/id1220985045 -> 1220985045
     \n  exp: https://podcasts.apple.com/us/podcast/trashfuture/id1261944206 -> 1261944206
     '''
