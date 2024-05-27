@@ -19,3 +19,7 @@ def random_sleep(rand_range:int, rand_st:int):
 def get_now_time_string():
     ''' 返回现在时间戳字符串 | 格式：%年%月%日-%时:%分:%秒 '''
     return time.strftime("%Y%m%d-%H:%M:%S", time.localtime())
+
+def get_now_time_string_short():
+    ''' 返回现在时间戳字符串 | 格式：%年%月%日%时%分%秒 '''
+    return time.strftime("%Y%m%d%H%M%S", time.localtime())
