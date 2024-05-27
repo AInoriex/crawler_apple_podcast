@@ -1,0 +1,3 @@
+2024-05-23 16:29:37,903 - main - DEBUG - [MAIN START]
+2024-05-23 16:29:37,904 - apple_podcast_api - DEBUG - ApplePodcastsHandler params, url:, params:{}
+2024-05-23 16:29:37,904 - apple_podcast_api - ERROR - ApplePodcastsHandler params invalid, empty url

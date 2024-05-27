@@ -1,0 +1,7 @@
+2024-05-23 16:43:13,151 - main - DEBUG - [MAIN START]
+2024-05-23 16:43:14,952 - apple_podcast_api - DEBUG - ApplePodcastsHandler params, url:https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes, params:{}
+2024-05-23 16:43:15,425 - apple_podcast_api - ERROR - ApplePodcastsHandler request failed, response:404 | b'{"errors":[{"id":"LAFBDIKOVIFH5YCJ2TNWSGAJ7U","title":"No related resources","detail":"No related resources found for episodes","status":"404","code":"40403"}]}'
+2024-05-23 16:43:15,428 - main - INFO - [MAIN]  []
+2024-05-23 16:43:15,428 - utils/time - INFO - random_sleep 10 seconds
+2024-05-23 16:43:25,431 - main - WARNING - [MAIN] next_url is  , break the apple_podcast handler
+2024-05-23 16:43:25,431 - main - DEBUG - [MAIN END]

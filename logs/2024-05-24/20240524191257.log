@@ -1,0 +1,398 @@
+2024-05-24 19:12:57,176 - main - INFO - [MAIN Google START]
+2024-05-24 19:12:57,176 - main - INFO - [MAIN Google PARAMS] batch_id:TEST_BATCH_240524_04 | search_word:site:https://podcasts.apple.com/us/podcast/ | search_total:5000
+2024-05-24 19:13:59,238 - google_api - DEBUG - Gsearch result debug: No.1 | https://podcasts.apple.com/us/podcast/catholic-saints/id1597828386
+2024-05-24 19:13:59,238 - google_api - DEBUG - Gsearch result debug: No.2 | https://podcasts.apple.com/us/podcast/science-friday/id73329284
+2024-05-24 19:13:59,239 - google_api - DEBUG - Gsearch result debug: No.3 | https://podcasts.apple.com/us/podcast/who-weekly/id1076377547
+2024-05-24 19:13:59,239 - google_api - DEBUG - Gsearch result debug: No.4 | https://podcasts.apple.com/us/podcast/love-letters/id1354140820
+2024-05-24 19:13:59,240 - google_api - DEBUG - Gsearch result debug: No.5 | https://podcasts.apple.com/us/podcast/bloomberg-businessweek/id393107187
+2024-05-24 19:13:59,240 - google_api - DEBUG - Gsearch result debug: No.6 | https://podcasts.apple.com/us/podcast/america-dissected/id1480634141
+2024-05-24 19:13:59,240 - google_api - DEBUG - Gsearch result debug: No.7 | https://podcasts.apple.com/us/podcast/science-weekly/id136697669
+2024-05-24 19:13:59,240 - google_api - DEBUG - Gsearch result debug: No.8 | https://podcasts.apple.com/us/podcast/rattled-shook/id1696131929
+2024-05-24 19:13:59,240 - google_api - DEBUG - Gsearch result debug: No.9 | https://podcasts.apple.com/us/podcast/the-besties/id505516789
+2024-05-24 19:13:59,240 - google_api - DEBUG - Gsearch result debug: No.10 | https://podcasts.apple.com/us/podcast/the-heist/id1530138961
+2024-05-24 19:15:00,484 - google_api - DEBUG - Gsearch result debug: No.11 | https://podcasts.apple.com/us/podcast/politico-tech/id1500970749
+2024-05-24 19:15:00,485 - google_api - DEBUG - Gsearch result debug: No.12 | https://podcasts.apple.com/us/podcast/intelligence-matters/id1286906615
+2024-05-24 19:15:00,485 - google_api - DEBUG - Gsearch result debug: No.13 | https://podcasts.apple.com/us/podcast/the-cut/id1437189814
+2024-05-24 19:15:00,485 - google_api - DEBUG - Gsearch result debug: No.14 | https://podcasts.apple.com/us/podcast/radio-atlantic/id1258635512
+2024-05-24 19:15:00,485 - google_api - DEBUG - Gsearch result debug: No.15 | https://podcasts.apple.com/us/podcast/aspen-podcasts/id1545378552
+2024-05-24 19:15:00,486 - google_api - DEBUG - Gsearch result debug: No.16 | https://podcasts.apple.com/us/podcast/targeting-ai/id1697365682
+2024-05-24 19:15:00,486 - google_api - DEBUG - Gsearch result debug: No.17 | https://podcasts.apple.com/us/podcast/heaving-bosoms/id1294702451
+2024-05-24 19:15:00,486 - google_api - DEBUG - Gsearch result debug: No.18 | https://podcasts.apple.com/us/podcast/slate-debates/id500673866
+2024-05-24 19:15:00,486 - google_api - DEBUG - Gsearch result debug: No.19 | https://podcasts.apple.com/us/podcast/trade-talks/id1270804213
+2024-05-24 19:15:00,487 - google_api - DEBUG - Gsearch result debug: No.20 | https://podcasts.apple.com/us/podcast/thinking-allowed/id261548752
+2024-05-24 19:16:02,725 - google_api - DEBUG - Gsearch result debug: No.21 | https://podcasts.apple.com/us/podcast/prophecy-watchers/id1162811009
+2024-05-24 19:16:02,726 - google_api - DEBUG - Gsearch result debug: No.22 | https://podcasts.apple.com/us/podcast/arts-ideas/id140685432
+2024-05-24 19:16:02,726 - google_api - DEBUG - Gsearch result debug: No.23 | https://podcasts.apple.com/us/podcast/how-to/id1469631127
+2024-05-24 19:16:02,726 - google_api - DEBUG - Gsearch result debug: No.24 | https://podcasts.apple.com/us/podcast/squawk-pod/id1480890290
+2024-05-24 19:16:02,726 - google_api - DEBUG - Gsearch result debug: No.25 | https://podcasts.apple.com/us/podcast/inside-bipolar/id1613398128
+2024-05-24 19:16:02,726 - google_api - DEBUG - Gsearch result debug: No.26 | https://podcasts.apple.com/us/podcast/talking-sopranos/id1500453500
+2024-05-24 19:16:02,727 - google_api - DEBUG - Gsearch result debug: No.27 | https://podcasts.apple.com/us/podcast/the-bookmonger/id959714077
+2024-05-24 19:16:02,727 - google_api - DEBUG - Gsearch result debug: No.28 | https://podcasts.apple.com/us/podcast/clauses-controversies/id1528208049
+2024-05-24 19:16:02,727 - google_api - DEBUG - Gsearch result debug: No.29 | https://podcasts.apple.com/us/podcast/money-girl/id209859739
+2024-05-24 19:16:02,727 - google_api - DEBUG - Gsearch result debug: No.30 | https://podcasts.apple.com/us/podcast/curious-city/id568409161
+2024-05-24 19:17:04,116 - google_api - DEBUG - Gsearch result debug: No.31 | https://podcasts.apple.com/us/podcast/sinica-podcast/id1121407665
+2024-05-24 19:17:04,116 - google_api - DEBUG - Gsearch result debug: No.32 | https://podcasts.apple.com/us/podcast/lgbtq-a/id1151561226
+2024-05-24 19:17:04,117 - google_api - DEBUG - Gsearch result debug: No.33 | https://podcasts.apple.com/us/podcast/skip-intro/id1468510314
+2024-05-24 19:17:04,117 - google_api - DEBUG - Gsearch result debug: No.34 | https://podcasts.apple.com/us/podcast/20-20/id987967575
+2024-05-24 19:17:04,117 - google_api - DEBUG - Gsearch result debug: No.35 | https://podcasts.apple.com/us/podcast/gender-reveal/id1330522019
+2024-05-24 19:17:04,117 - google_api - DEBUG - Gsearch result debug: No.36 | https://podcasts.apple.com/us/podcast/savvy-psychologist/id803978236
+2024-05-24 19:17:04,118 - google_api - DEBUG - Gsearch result debug: No.37 | https://podcasts.apple.com/us/podcast/bay-curious/id1172473406
+2024-05-24 19:17:04,118 - google_api - DEBUG - Gsearch result debug: No.38 | https://podcasts.apple.com/us/podcast/sincerely-x/id1238801741
+2024-05-24 19:17:04,118 - google_api - DEBUG - Gsearch result debug: No.39 | https://podcasts.apple.com/us/podcast/civics-101/id1195657423
+2024-05-24 19:17:04,118 - google_api - DEBUG - Gsearch result debug: No.40 | https://podcasts.apple.com/us/podcast/she-md/id1731012409
+2024-05-24 19:18:05,446 - google_api - DEBUG - Gsearch result debug: No.41 | https://podcasts.apple.com/us/podcast/spittin-chiclets/id1112425552
+2024-05-24 19:18:05,447 - google_api - DEBUG - Gsearch result debug: No.42 | https://podcasts.apple.com/us/podcast/crime-salad/id1457141569
+2024-05-24 19:18:05,447 - google_api - DEBUG - Gsearch result debug: No.43 | https://podcasts.apple.com/us/podcast/horror-story/id1549480640
+2024-05-24 19:18:05,447 - google_api - DEBUG - Gsearch result debug: No.44 | https://podcasts.apple.com/us/podcast/rachel-uncensored/id1579184015
+2024-05-24 19:18:05,447 - google_api - DEBUG - Gsearch result debug: No.45 | https://podcasts.apple.com/us/podcast/dumb-blonde/id1465273008
+2024-05-24 19:18:05,448 - google_api - DEBUG - Gsearch result debug: No.46 | https://podcasts.apple.com/us/podcast/radio-advisory/id1506666599
+2024-05-24 19:18:05,448 - google_api - DEBUG - Gsearch result debug: No.47 | https://podcasts.apple.com/us/podcast/ghost-story/id1708635466
+2024-05-24 19:18:05,448 - google_api - DEBUG - Gsearch result debug: No.48 | https://podcasts.apple.com/us/podcast/life-changing/id1561150286
+2024-05-24 19:18:05,449 - google_api - DEBUG - Gsearch result debug: No.49 | https://podcasts.apple.com/us/podcast/talking-tech/id658291823
+2024-05-24 19:18:05,449 - google_api - DEBUG - Gsearch result debug: No.50 | https://podcasts.apple.com/us/podcast/peoples-things/id1582768008
+2024-05-24 19:19:06,785 - google_api - DEBUG - Gsearch result debug: No.51 | https://podcasts.apple.com/us/podcast/osterholm-update/id1504360345
+2024-05-24 19:19:06,786 - google_api - DEBUG - Gsearch result debug: No.52 | https://podcasts.apple.com/us/podcast/boomer-gio/id386001601
+2024-05-24 19:19:06,786 - google_api - DEBUG - Gsearch result debug: No.53 | https://podcasts.apple.com/us/podcast/digital-folklore/id1657374458
+2024-05-24 19:19:06,786 - google_api - DEBUG - Gsearch result debug: No.54 | https://podcasts.apple.com/us/podcast/career-contessa/id1434354911
+2024-05-24 19:19:06,786 - google_api - DEBUG - Gsearch result debug: No.55 | https://podcasts.apple.com/us/podcast/ear-hustle/id1240841298
+2024-05-24 19:19:06,786 - google_api - DEBUG - Gsearch result debug: No.56 | https://podcasts.apple.com/us/podcast/sports-wars/id1458930048
+2024-05-24 19:19:06,787 - google_api - DEBUG - Gsearch result debug: No.57 | https://podcasts.apple.com/us/podcast/toothbrush-stories/id1524574790
+2024-05-24 19:19:06,787 - google_api - DEBUG - Gsearch result debug: No.58 | https://podcasts.apple.com/us/podcast/morning-joe/id974299441
+2024-05-24 19:19:06,787 - google_api - DEBUG - Gsearch result debug: No.59 | https://podcasts.apple.com/us/podcast/gone-medieval/id1564113746
+2024-05-24 19:19:06,787 - google_api - DEBUG - Gsearch result debug: No.60 | https://podcasts.apple.com/us/podcast/doable-discipleship/id1240966935
+2024-05-24 19:20:08,135 - google_api - DEBUG - Gsearch result debug: No.61 | https://podcasts.apple.com/us/podcast/womans-hour/id130950322
+2024-05-24 19:20:08,136 - google_api - DEBUG - Gsearch result debug: No.62 | https://podcasts.apple.com/us/podcast/greenbiz-350/id1056734780
+2024-05-24 19:20:08,136 - google_api - DEBUG - Gsearch result debug: No.63 | https://podcasts.apple.com/us/podcast/freakonomics-radio/id354668519
+2024-05-24 19:20:08,136 - google_api - DEBUG - Gsearch result debug: No.64 | https://podcasts.apple.com/us/podcast/art-sense/id1574394526
+2024-05-24 19:20:08,136 - google_api - DEBUG - Gsearch result debug: No.65 | https://podcasts.apple.com/us/podcast/the-exchange/id496189056
+2024-05-24 19:20:08,137 - google_api - DEBUG - Gsearch result debug: No.66 | https://podcasts.apple.com/us/podcast/the-opportunist/id1551162705
+2024-05-24 19:20:08,138 - google_api - DEBUG - Gsearch result debug: No.67 | https://podcasts.apple.com/us/podcast/meditative-story/id1472106563
+2024-05-24 19:20:08,138 - google_api - DEBUG - Gsearch result debug: No.68 | https://podcasts.apple.com/us/podcast/timcast-irl/id1503517959
+2024-05-24 19:20:08,138 - google_api - DEBUG - Gsearch result debug: No.69 | https://podcasts.apple.com/us/podcast/the-backbench/id1344871955
+2024-05-24 19:20:08,139 - google_api - DEBUG - Gsearch result debug: No.70 | https://podcasts.apple.com/us/podcast/last-seen/id1413228088
+2024-05-24 19:21:09,674 - google_api - DEBUG - Gsearch result debug: No.71 | https://podcasts.apple.com/us/podcast/ted-business/id470622782
+2024-05-24 19:21:09,674 - google_api - DEBUG - Gsearch result debug: No.72 | https://podcasts.apple.com/us/podcast/philosophize-this/id659155419
+2024-05-24 19:21:09,675 - google_api - DEBUG - Gsearch result debug: No.73 | https://podcasts.apple.com/us/podcast/carolina-insider/id1153767411
+2024-05-24 19:21:09,675 - google_api - DEBUG - Gsearch result debug: No.74 | https://podcasts.apple.com/us/podcast/haunted-road/id1573764804
+2024-05-24 19:21:09,676 - google_api - DEBUG - Gsearch result debug: No.75 | https://podcasts.apple.com/us/podcast/light-truth/id955100693
+2024-05-24 19:21:09,676 - google_api - DEBUG - Gsearch result debug: No.76 | https://podcasts.apple.com/us/podcast/inquiring-minds/id711675943
+2024-05-24 19:21:09,677 - google_api - DEBUG - Gsearch result debug: No.77 | https://podcasts.apple.com/us/podcast/hotel-matze/id1168045239
+2024-05-24 19:21:09,678 - google_api - DEBUG - Gsearch result debug: No.78 | https://podcasts.apple.com/us/podcast/fivethirtyeight-politics/id1077418457
+2024-05-24 19:21:09,678 - google_api - DEBUG - Gsearch result debug: No.79 | https://podcasts.apple.com/us/podcast/revisionist-history/id1119389968
+2024-05-24 19:21:09,679 - google_api - DEBUG - Gsearch result debug: No.80 | https://podcasts.apple.com/us/podcast/alphabet-boys/id1668980612
+2024-05-24 19:22:11,374 - google_api - DEBUG - Gsearch result debug: No.81 | https://podcasts.apple.com/us/podcast/the-editors/id1150237453
+2024-05-24 19:22:11,374 - google_api - DEBUG - Gsearch result debug: No.82 | https://podcasts.apple.com/us/podcast/day-x/id1564995058
+2024-05-24 19:22:11,376 - google_api - DEBUG - Gsearch result debug: No.83 | https://podcasts.apple.com/us/podcast/the-clearing/id1471432747
+2024-05-24 19:22:11,383 - google_api - DEBUG - Gsearch result debug: No.84 | https://podcasts.apple.com/us/podcast/unter-pfarrerst%C3%B6chtern/id1489988353
+2024-05-24 19:22:11,383 - google_api - DEBUG - Gsearch result debug: No.85 | https://podcasts.apple.com/us/podcast/trace-evidence/id1239217007
+2024-05-24 19:22:11,383 - google_api - DEBUG - Gsearch result debug: No.86 | https://podcasts.apple.com/us/podcast/media-buzzmeter/id1408801308
+2024-05-24 19:22:11,384 - google_api - DEBUG - Gsearch result debug: No.87 | https://podcasts.apple.com/us/podcast/i-spy/id1482310665
+2024-05-24 19:22:11,384 - google_api - DEBUG - Gsearch result debug: No.88 | https://podcasts.apple.com/us/podcast/critical-role/id1453805439
+2024-05-24 19:22:11,385 - google_api - DEBUG - Gsearch result debug: No.89 | https://podcasts.apple.com/us/podcast/bloomberg-law/id277975394
+2024-05-24 19:22:11,385 - google_api - DEBUG - Gsearch result debug: No.90 | https://podcasts.apple.com/us/podcast/american-scandal/id1435516849
+2024-05-24 19:23:13,223 - google_api - DEBUG - Gsearch result debug: No.91 | https://podcasts.apple.com/us/podcast/lost-notes/id1368608676
+2024-05-24 19:23:13,223 - google_api - DEBUG - Gsearch result debug: No.92 | https://podcasts.apple.com/us/podcast/darknet-diaries/id1296350485
+2024-05-24 19:23:13,225 - google_api - DEBUG - Gsearch result debug: No.93 | https://podcasts.apple.com/us/podcast/climate-one/id296762605
+2024-05-24 19:23:13,226 - google_api - DEBUG - Gsearch result debug: No.94 | https://podcasts.apple.com/us/podcast/the-sporkful/id350709629
+2024-05-24 19:23:13,233 - google_api - DEBUG - Gsearch result debug: No.95 | https://podcasts.apple.com/us/podcast/island-crime/id1513479877
+2024-05-24 19:23:13,234 - google_api - DEBUG - Gsearch result debug: No.96 | https://podcasts.apple.com/us/podcast/rotten-mango/id1517954480
+2024-05-24 19:23:13,236 - google_api - DEBUG - Gsearch result debug: No.97 | https://podcasts.apple.com/us/podcast/the-bulletin/id1653893811
+2024-05-24 19:23:13,247 - google_api - DEBUG - Gsearch result debug: No.98 | https://podcasts.apple.com/us/podcast/tower-4/id1533736348
+2024-05-24 19:23:13,248 - google_api - DEBUG - Gsearch result debug: No.99 | https://podcasts.apple.com/us/podcast/security-spoken/id1211754233
+2024-05-24 19:23:13,248 - google_api - DEBUG - Gsearch result debug: No.100 | https://podcasts.apple.com/us/podcast/radio-diaries/id207505466
+2024-05-24 19:24:14,589 - google_api - DEBUG - Gsearch result debug: No.101 | https://podcasts.apple.com/us/podcast/pbd-podcast/id1526697745
+2024-05-24 19:24:14,589 - google_api - DEBUG - Gsearch result debug: No.102 | https://podcasts.apple.com/us/podcast/economist-podcasts/id151230264
+2024-05-24 19:24:14,591 - google_api - DEBUG - Gsearch result debug: No.103 | https://podcasts.apple.com/us/podcast/felger-massarotti/id401030539
+2024-05-24 19:24:14,591 - google_api - DEBUG - Gsearch result debug: No.104 | https://podcasts.apple.com/us/podcast//id?i=1000656611215
+2024-05-24 19:24:14,598 - google_api - DEBUG - Gsearch result debug: No.105 | https://podcasts.apple.com/us/podcast/mark-levin-podcast/id209377688
+2024-05-24 19:24:14,599 - google_api - DEBUG - Gsearch result debug: No.106 | https://podcasts.apple.com/us/podcast/a-modern-shaman/id1673839010
+2024-05-24 19:24:14,599 - google_api - DEBUG - Gsearch result debug: No.107 | https://podcasts.apple.com/us/podcast/courtney-watches-movies/id1641654929
+2024-05-24 19:24:14,599 - google_api - DEBUG - Gsearch result debug: No.108 | https://podcasts.apple.com/us/podcast/the-bulwark-podcast/id1447684472
+2024-05-24 19:24:14,600 - google_api - DEBUG - Gsearch result debug: No.109 | https://podcasts.apple.com/us/podcast//id?i=1000656506975
+2024-05-24 19:24:14,600 - google_api - DEBUG - Gsearch result debug: No.110 | https://podcasts.apple.com/us/podcast//id?i=1000656530120
+2024-05-24 19:25:15,880 - google_api - DEBUG - Gsearch result debug: No.111 | https://podcasts.apple.com/us/podcast/the-lowe-post/id986595124
+2024-05-24 19:25:15,880 - google_api - DEBUG - Gsearch result debug: No.112 | https://podcasts.apple.com/us/podcast/the-apple-seed/id1432798663
+2024-05-24 19:25:15,882 - google_api - DEBUG - Gsearch result debug: No.113 | https://podcasts.apple.com/us/podcast/unlocked-with-savannah-chrisley/id1649201369
+2024-05-24 19:25:15,889 - google_api - DEBUG - Gsearch result debug: No.114 | https://podcasts.apple.com/us/podcast/disney-magic-of-storytelling/id1472428389
+2024-05-24 19:25:15,889 - google_api - DEBUG - Gsearch result debug: No.115 | https://podcasts.apple.com/us/podcast/the-ezra-klein-show/id1548604447
+2024-05-24 19:25:15,890 - google_api - DEBUG - Gsearch result debug: No.116 | https://podcasts.apple.com/us/podcast/the-mel-robbins-podcast/id1646101002
+2024-05-24 19:25:15,890 - google_api - DEBUG - Gsearch result debug: No.117 | https://podcasts.apple.com/us/podcast/the-megyn-kelly-show/id1532976305
+2024-05-24 19:25:15,891 - google_api - DEBUG - Gsearch result debug: No.118 | https://podcasts.apple.com/us/podcast/body-talk/id1734318382?i=1000655532076
+2024-05-24 19:25:15,897 - google_api - DEBUG - Gsearch result debug: No.119 | https://podcasts.apple.com/us/podcast/adapted-to-screen-podcast/id1610661136
+2024-05-24 19:25:15,898 - google_api - DEBUG - Gsearch result debug: No.120 | https://podcasts.apple.com/us/podcast/the-charlie-kirk-show/id1460600818
+2024-05-24 19:26:17,554 - google_api - DEBUG - Gsearch result debug: No.121 | https://podcasts.apple.com/us/podcast/the-rob-carson-show/id1559799362
+2024-05-24 19:26:17,554 - google_api - DEBUG - Gsearch result debug: No.122 | https://podcasts.apple.com/us/podcast/the-tucker-carlson-show/id1719657632
+2024-05-24 19:26:17,556 - google_api - DEBUG - Gsearch result debug: No.123 | https://podcasts.apple.com/us/podcast/100-best-albums-radio/id1743037216
+2024-05-24 19:26:17,562 - google_api - DEBUG - Gsearch result debug: No.124 | https://podcasts.apple.com/us/podcast/hot-off-the-wire/id1622218223
+2024-05-24 19:26:17,563 - google_api - DEBUG - Gsearch result debug: No.125 | https://podcasts.apple.com/us/podcast/the-joe-budden-podcast/id1535809341
+2024-05-24 19:26:17,563 - google_api - DEBUG - Gsearch result debug: No.126 | https://podcasts.apple.com/us/podcast/the-bill-simmons-podcast/id1043699613
+2024-05-24 19:26:17,564 - google_api - DEBUG - Gsearch result debug: No.127 | https://podcasts.apple.com/us/podcast/we-can-do-hard-things/id1564530722
+2024-05-24 19:26:17,564 - google_api - DEBUG - Gsearch result debug: No.128 | https://podcasts.apple.com/us/podcast/playbook-deep-dive/id1111319839?i=1000655899306
+2024-05-24 19:26:17,566 - google_api - DEBUG - Gsearch result debug: No.129 | https://podcasts.apple.com/us/podcast/colts-official-podcast/id1177715432?i=1000656435087
+2024-05-24 19:26:17,581 - google_api - DEBUG - Gsearch result debug: No.130 | https://podcasts.apple.com/us/podcast/trap-or-dive/id1448415816?i=1000656337223
+2024-05-24 19:27:19,086 - google_api - DEBUG - Gsearch result debug: No.131 | https://podcasts.apple.com/us/podcast/making-space-with-hoda-kotb/id1585499926
+2024-05-24 19:27:19,086 - google_api - DEBUG - Gsearch result debug: No.132 | https://podcasts.apple.com/us/podcast/2152-terrence-howard/id360084272?i=1000656009786
+2024-05-24 19:27:19,086 - google_api - DEBUG - Gsearch result debug: No.133 | https://podcasts.apple.com/us/podcast/prison-breaking-with-sarah-paul/id1727440761
+2024-05-24 19:27:19,089 - google_api - DEBUG - Gsearch result debug: No.134 | https://podcasts.apple.com/us/podcast/the-money-with-katie-show/id1589146097
+2024-05-24 19:27:19,095 - google_api - DEBUG - Gsearch result debug: No.135 | https://podcasts.apple.com/us/podcast/maximizing-the-mass/id1730124087?i=1000656363943
+2024-05-24 19:27:19,097 - google_api - DEBUG - Gsearch result debug: No.136 | https://podcasts.apple.com/us/podcast/2153-dave-smith/id360084272?i=1000656296911
+2024-05-24 19:27:19,098 - google_api - DEBUG - Gsearch result debug: No.137 | https://podcasts.apple.com/us/podcast/conan-obrien-needs-a-friend/id1438054347
+2024-05-24 19:27:19,104 - google_api - DEBUG - Gsearch result debug: No.138 | https://podcasts.apple.com/us/podcast/human-events-daily-with-jack-posobiec/id1585243541
+2024-05-24 19:27:19,106 - google_api - DEBUG - Gsearch result debug: No.139 | https://podcasts.apple.com/us/podcast/the-eagle-eye-podcast/id1330870823?i=1000656471631
+2024-05-24 19:28:20,537 - google_api - DEBUG - Gsearch result debug: No.140 | https://podcasts.apple.com/us/podcast/fast-politics-with-molly-jong-fast/id1645614328
+2024-05-24 19:28:20,538 - google_api - DEBUG - Gsearch result debug: No.141 | https://podcasts.apple.com/us/podcast/phone-tap-ronaldos-son/id1252608081?i=1000656528646
+2024-05-24 19:28:20,539 - google_api - DEBUG - Gsearch result debug: No.142 | https://podcasts.apple.com/us/podcast/drive-time-with-travis-wingfield/id1500281964?i=1000656425424
+2024-05-24 19:28:20,546 - google_api - DEBUG - Gsearch result debug: No.143 | https://podcasts.apple.com/us/podcast/masked-speaker-beauty-fill-boot/id1252608081?i=1000656525389
+2024-05-24 19:28:20,547 - google_api - DEBUG - Gsearch result debug: No.144 | https://podcasts.apple.com/us/podcast/trump-promises-a-unified-reich/id1192761536?i=1000656441740
+2024-05-24 19:28:20,548 - google_api - DEBUG - Gsearch result debug: No.145 | https://podcasts.apple.com/us/podcast/forgive-forget-update-eric-and-alyssa/id1252608081?i=1000656528511
+2024-05-24 19:28:20,556 - google_api - DEBUG - Gsearch result debug: No.146 | https://podcasts.apple.com/us/podcast/win-brookes-bucks-05-23-24/id1252608081?i=1000656536793
+2024-05-24 19:28:20,557 - google_api - DEBUG - Gsearch result debug: No.147 | https://podcasts.apple.com/us/podcast/scripture-central/id1067020550
+2024-05-24 19:28:20,558 - google_api - DEBUG - Gsearch result debug: No.148 | https://podcasts.apple.com/us/podcast/41-is-the-mic-chiefs-podcast/id1415792089?i=1000656555210
+2024-05-24 19:28:20,565 - google_api - DEBUG - Gsearch result debug: No.149 | https://podcasts.apple.com/us/podcast/day-144-davids-last-words-2024/id1539568321?i=1000656481738
+2024-05-24 19:29:21,994 - google_api - DEBUG - Gsearch result debug: No.150 | https://podcasts.apple.com/us/podcast/forgive-and-forget-update-eric-alyssa/id1252608081?i=1000656528511
+2024-05-24 19:29:21,994 - google_api - DEBUG - Gsearch result debug: No.151 | https://podcasts.apple.com/us/podcast/the-worlds-court-vs-israels-leaders/id1200361736?i=1000656492485
+2024-05-24 19:29:21,996 - google_api - DEBUG - Gsearch result debug: No.152 | https://podcasts.apple.com/us/podcast/is-there-a-science-to-happiness/id1501029683?i=1000656248071
+2024-05-24 19:29:22,003 - google_api - DEBUG - Gsearch result debug: No.153 | https://podcasts.apple.com/us/podcast/michael-saunders-talks-uk-fiscal-policies/id1690236827?i=1000656523919
+2024-05-24 19:29:22,004 - google_api - DEBUG - Gsearch result debug: No.154 | https://podcasts.apple.com/us/podcast/was-the-401-k-a-mistake/id1200361736?i=1000656125708
+2024-05-24 19:29:22,004 - google_api - DEBUG - Gsearch result debug: No.155 | https://podcasts.apple.com/us/podcast/come-and-see-a-home-centered-podcast-supported/id1503608133
+2024-05-24 19:29:22,006 - google_api - DEBUG - Gsearch result debug: No.156 | https://podcasts.apple.com/us/podcast/chip-shots-breaking-nvidias-ai-grip/id151230264?i=1000656496639
+2024-05-24 19:29:22,012 - google_api - DEBUG - Gsearch result debug: No.157 | https://podcasts.apple.com/us/podcast/ryan-guzman-of-9-1-1/id1693322370?i=1000656238213
+2024-05-24 19:29:22,013 - google_api - DEBUG - Gsearch result debug: No.158 | https://podcasts.apple.com/us/podcast/tiktok-click-shock-05-23-24/id1252608081?i=1000656535109
+2024-05-24 19:29:22,013 - google_api - DEBUG - Gsearch result debug: No.159 | https://podcasts.apple.com/us/podcast/trauma-specialist-offers-tips-for-recovery/id426698661?i=1000656553725
+2024-05-24 19:30:23,361 - google_api - DEBUG - Gsearch result debug: No.160 | https://podcasts.apple.com/us/podcast/locked-and-probably-loaded-with-dj-and-kelly/id1736022598
+2024-05-24 19:30:23,362 - google_api - DEBUG - Gsearch result debug: No.161 | https://podcasts.apple.com/us/podcast/full-show-thursday-may-23rd-2024/id1252608081?i=1000656536923
+2024-05-24 19:30:23,364 - google_api - DEBUG - Gsearch result debug: No.162 | https://podcasts.apple.com/us/podcast/episode-726-two-brands-one-stone/id1535809341?i=1000655987498
+2024-05-24 19:30:23,364 - google_api - DEBUG - Gsearch result debug: No.163 | https://podcasts.apple.com/us/podcast/ive-never-said-this-before-with-tommy-didario/id1693322370
+2024-05-24 19:30:23,370 - google_api - DEBUG - Gsearch result debug: No.164 | https://podcasts.apple.com/us/podcast/assassination-attempt-on-trump-woke-right-backlash/id1585243541?i=1000656432458
+2024-05-24 19:30:23,371 - google_api - DEBUG - Gsearch result debug: No.165 | https://podcasts.apple.com/us/podcast/the-bible-in-a-year-with-fr-mike-schmitz/id1539568321
+2024-05-24 19:30:23,371 - google_api - DEBUG - Gsearch result debug: No.166 | https://podcasts.apple.com/us/podcast/day-140-davids-prayer-of-thanksgiving-2024/id1539568321?i=1000656038806
+2024-05-24 19:30:23,372 - google_api - DEBUG - Gsearch result debug: No.167 | https://podcasts.apple.com/us/podcast/mark-levin-audio-rewind-5-23-24/id209377688?i=1000656577919
+2024-05-24 19:30:23,373 - google_api - DEBUG - Gsearch result debug: No.168 | https://podcasts.apple.com/us/podcast/the-catechism-in-a-year-with-fr-mike-schmitz/id1648949780
+2024-05-24 19:30:23,380 - google_api - DEBUG - Gsearch result debug: No.169 | https://podcasts.apple.com/us/podcast/day-145-solomon-builds-the-temple-2024/id1539568321?i=1000656607156
+2024-05-24 19:31:24,820 - google_api - DEBUG - Gsearch result debug: No.170 | https://podcasts.apple.com/us/podcast/episode-727-last-to-leave-the-party/id1535809341?i=1000656365905
+2024-05-24 19:31:24,820 - google_api - DEBUG - Gsearch result debug: No.171 | https://podcasts.apple.com/us/podcast/shocker-elites-favor-limiting-voting-to-college-graduates/id1313611947?i=1000656605898
+2024-05-24 19:31:24,822 - google_api - DEBUG - Gsearch result debug: No.172 | https://podcasts.apple.com/us/podcast/espns-jonathan-givony-and-lottery-prospect-matas-buzelis/id1470466331?i=1000655893226
+2024-05-24 19:31:24,829 - google_api - DEBUG - Gsearch result debug: No.173 | https://podcasts.apple.com/us/podcast/what-we-saw-during-browns-otas-on-wednesday/id1334701895?i=1000656454074
+2024-05-24 19:31:24,830 - google_api - DEBUG - Gsearch result debug: No.174 | https://podcasts.apple.com/us/podcast/24-rzu%C4%87-mi%C4%99so-chocia%C5%BC-na-tydzie%C5%84-sandra-marciniak/id1725956538?i=1000656352163
+2024-05-24 19:31:24,830 - google_api - DEBUG - Gsearch result debug: No.175 | https://podcasts.apple.com/us/podcast/shane-beamer-joins-the-show-to-talk-recruiting/id1164707324?i=1000655561146
+2024-05-24 19:31:24,831 - google_api - DEBUG - Gsearch result debug: No.176 | https://podcasts.apple.com/us/podcast/criticism-for-those-questioning-guardians-lead-in-division/id633446284?i=1000656558302
+2024-05-24 19:31:24,831 - google_api - DEBUG - Gsearch result debug: No.177 | https://podcasts.apple.com/us/podcast/why-hamas-is-to-blame-for-gaza-famine/id1313611947?i=1000656479725
+2024-05-24 19:31:24,831 - google_api - DEBUG - Gsearch result debug: No.178 | https://podcasts.apple.com/us/podcast/nightcap-hour-2-daks-contract-situation-kelly-rowland/id1531023690?i=1000656602932
+2024-05-24 19:31:24,832 - google_api - DEBUG - Gsearch result debug: No.179 | https://podcasts.apple.com/us/podcast/wizz-air-ceo-jozsef-varadi-talks-engine-issues/id1690236827?i=1000656524010
+2024-05-24 19:32:26,269 - google_api - DEBUG - Gsearch result debug: No.180 | https://podcasts.apple.com/us/podcast/nikki-glaser-more-than-just-a-roast-master/id1444559244?i=1000656236810
+2024-05-24 19:32:26,270 - google_api - DEBUG - Gsearch result debug: No.181 | https://podcasts.apple.com/us/podcast/hour-3-how-much-power-donovan-mitchell-should-have/id633446284?i=1000656558312
+2024-05-24 19:32:26,272 - google_api - DEBUG - Gsearch result debug: No.182 | https://podcasts.apple.com/us/podcast/new-order-the-global-financial-order-is-under-threat/id151230264?i=1000656534632
+2024-05-24 19:32:26,279 - google_api - DEBUG - Gsearch result debug: No.183 | https://podcasts.apple.com/us/podcast/shock-collar-question-of-the-day-05-23-24/id1252608081?i=1000656515951
+2024-05-24 19:32:26,279 - google_api - DEBUG - Gsearch result debug: No.184 | https://podcasts.apple.com/us/podcast/rp-clips-checkin-on-the-pulse-of-the-panthers/id1641739647?i=1000655897763
+2024-05-24 19:32:26,280 - google_api - DEBUG - Gsearch result debug: No.185 | https://podcasts.apple.com/us/podcast/celtics-game-1-victory-over-pacers-national-media-thoughts/id401030539?i=1000656556143
+2024-05-24 19:32:26,281 - google_api - DEBUG - Gsearch result debug: No.186 | https://podcasts.apple.com/us/podcast/ferrari-ceo-benedetto-vigna-talks-china-eu-ev-trade/id1690236827?i=1000656523979
+2024-05-24 19:32:26,281 - google_api - DEBUG - Gsearch result debug: No.187 | https://podcasts.apple.com/us/podcast/what-to-watch-for-when-scouting-defensive-linemen-with/id1657680564?i=1000656495222
+2024-05-24 19:32:26,282 - google_api - DEBUG - Gsearch result debug: No.188 | https://podcasts.apple.com/us/podcast/hour-5-cavs-offseason-moves-to-come-if-cleveland-is/id633446284?i=1000656569418
+2024-05-24 19:32:26,282 - google_api - DEBUG - Gsearch result debug: No.189 | https://podcasts.apple.com/us/podcast/1-stress-doctor-5-tools-to-protect-your-brain-from/id1646101002?i=1000656467802
+2024-05-24 19:33:27,627 - google_api - DEBUG - Gsearch result debug: No.190 | https://podcasts.apple.com/us/podcast/hour-2-chandler-parsons-sounds-off-on-cavs-firing-bickerstaff/id633446284?i=1000656555612
+2024-05-24 19:33:27,628 - google_api - DEBUG - Gsearch result debug: No.191 | https://podcasts.apple.com/us/podcast/club-520-jeff-teague-reacts-to-luka-doncic-and-kyrie/id1531023690?i=1000656579089
+2024-05-24 19:33:27,629 - google_api - DEBUG - Gsearch result debug: No.192 | https://podcasts.apple.com/us/podcast/trump-storms-the-bronx-maga-rally-heard-round-the-world/id1585243541?i=1000656560748
+2024-05-24 19:33:27,636 - google_api - DEBUG - Gsearch result debug: No.193 | https://podcasts.apple.com/us/podcast/sound-off-jaylen-brown-explodes-for-40-points-as-celtics/id1562019473?i=1000656593685
+2024-05-24 19:33:27,637 - google_api - DEBUG - Gsearch result debug: No.194 | https://podcasts.apple.com/us/podcast/how-one-school-has-changed-70-years-since-brown-v-board/id426698661?i=1000655954956
+2024-05-24 19:33:27,638 - google_api - DEBUG - Gsearch result debug: No.195 | https://podcasts.apple.com/us/podcast/nightcap-hour-1-celtics-take-game-2-inside-the-nba-in-limbo/id1531023690?i=1000656604025
+2024-05-24 19:33:27,638 - google_api - DEBUG - Gsearch result debug: No.196 | https://podcasts.apple.com/us/podcast/whoreible-decisions/id1224239045
+2024-05-24 19:33:27,639 - google_api - DEBUG - Gsearch result debug: No.197 | https://podcasts.apple.com/us/podcast/savage-lovecast/id201376301
+2024-05-24 19:34:29,127 - google_api - INFO - Gsearch Succeed.
+2024-05-24 19:34:29,938 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/catholic-saints/id1597828386
+2024-05-24 19:34:29,987 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/science-friday/id73329284
+2024-05-24 19:34:30,037 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/who-weekly/id1076377547
+2024-05-24 19:34:30,088 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/love-letters/id1354140820
+2024-05-24 19:34:30,138 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/bloomberg-businessweek/id393107187
+2024-05-24 19:34:30,196 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/america-dissected/id1480634141
+2024-05-24 19:34:30,246 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/science-weekly/id136697669
+2024-05-24 19:34:30,296 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/rattled-shook/id1696131929
+2024-05-24 19:34:30,346 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-besties/id505516789
+2024-05-24 19:34:30,404 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-heist/id1530138961
+2024-05-24 19:34:30,463 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/politico-tech/id1500970749
+2024-05-24 19:34:30,538 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/intelligence-matters/id1286906615
+2024-05-24 19:34:30,613 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-cut/id1437189814
+2024-05-24 19:34:30,663 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/radio-atlantic/id1258635512
+2024-05-24 19:34:30,721 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/aspen-podcasts/id1545378552
+2024-05-24 19:34:30,780 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/targeting-ai/id1697365682
+2024-05-24 19:34:30,838 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/heaving-bosoms/id1294702451
+2024-05-24 19:34:30,888 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/slate-debates/id500673866
+2024-05-24 19:34:30,938 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/trade-talks/id1270804213
+2024-05-24 19:34:31,021 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/thinking-allowed/id261548752
+2024-05-24 19:34:31,071 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/prophecy-watchers/id1162811009
+2024-05-24 19:34:31,121 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/arts-ideas/id140685432
+2024-05-24 19:34:31,171 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/how-to/id1469631127
+2024-05-24 19:34:31,221 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/squawk-pod/id1480890290
+2024-05-24 19:34:31,296 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/inside-bipolar/id1613398128
+2024-05-24 19:34:31,346 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/talking-sopranos/id1500453500
+2024-05-24 19:34:31,396 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-bookmonger/id959714077
+2024-05-24 19:34:31,446 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/clauses-controversies/id1528208049
+2024-05-24 19:34:31,504 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/money-girl/id209859739
+2024-05-24 19:34:31,563 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/curious-city/id568409161
+2024-05-24 19:34:31,612 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/sinica-podcast/id1121407665
+2024-05-24 19:34:31,663 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/lgbtq-a/id1151561226
+2024-05-24 19:34:31,713 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/skip-intro/id1468510314
+2024-05-24 19:34:31,771 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/20-20/id987967575
+2024-05-24 19:34:31,821 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/gender-reveal/id1330522019
+2024-05-24 19:34:31,879 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/savvy-psychologist/id803978236
+2024-05-24 19:34:31,929 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/bay-curious/id1172473406
+2024-05-24 19:34:31,979 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/sincerely-x/id1238801741
+2024-05-24 19:34:32,029 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/civics-101/id1195657423
+2024-05-24 19:34:32,079 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/she-md/id1731012409
+2024-05-24 19:34:32,129 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/spittin-chiclets/id1112425552
+2024-05-24 19:34:32,179 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/crime-salad/id1457141569
+2024-05-24 19:34:32,229 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/horror-story/id1549480640
+2024-05-24 19:34:32,287 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/rachel-uncensored/id1579184015
+2024-05-24 19:34:32,354 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/dumb-blonde/id1465273008
+2024-05-24 19:34:32,403 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/radio-advisory/id1506666599
+2024-05-24 19:34:32,454 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/ghost-story/id1708635466
+2024-05-24 19:34:32,504 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/life-changing/id1561150286
+2024-05-24 19:34:32,553 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/talking-tech/id658291823
+2024-05-24 19:34:32,612 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/peoples-things/id1582768008
+2024-05-24 19:34:32,661 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/osterholm-update/id1504360345
+2024-05-24 19:34:32,711 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/boomer-gio/id386001601
+2024-05-24 19:34:32,762 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/digital-folklore/id1657374458
+2024-05-24 19:34:32,812 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/career-contessa/id1434354911
+2024-05-24 19:34:32,862 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/ear-hustle/id1240841298
+2024-05-24 19:34:32,912 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/sports-wars/id1458930048
+2024-05-24 19:34:32,962 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/toothbrush-stories/id1524574790
+2024-05-24 19:34:33,020 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/morning-joe/id974299441
+2024-05-24 19:34:33,070 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/gone-medieval/id1564113746
+2024-05-24 19:34:33,120 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/doable-discipleship/id1240966935
+2024-05-24 19:34:33,178 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/womans-hour/id130950322
+2024-05-24 19:34:33,237 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/greenbiz-350/id1056734780
+2024-05-24 19:34:33,287 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/freakonomics-radio/id354668519
+2024-05-24 19:34:33,337 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/art-sense/id1574394526
+2024-05-24 19:34:33,395 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-exchange/id496189056
+2024-05-24 19:34:33,453 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-opportunist/id1551162705
+2024-05-24 19:34:33,503 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/meditative-story/id1472106563
+2024-05-24 19:34:33,554 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/timcast-irl/id1503517959
+2024-05-24 19:34:33,603 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-backbench/id1344871955
+2024-05-24 19:34:33,653 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/last-seen/id1413228088
+2024-05-24 19:34:33,712 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/ted-business/id470622782
+2024-05-24 19:34:33,762 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/philosophize-this/id659155419
+2024-05-24 19:34:33,812 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/carolina-insider/id1153767411
+2024-05-24 19:34:33,861 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/haunted-road/id1573764804
+2024-05-24 19:34:33,928 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/light-truth/id955100693
+2024-05-24 19:34:33,970 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/inquiring-minds/id711675943
+2024-05-24 19:34:34,022 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/hotel-matze/id1168045239
+2024-05-24 19:34:34,078 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/fivethirtyeight-politics/id1077418457
+2024-05-24 19:34:34,128 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/revisionist-history/id1119389968
+2024-05-24 19:34:34,187 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/alphabet-boys/id1668980612
+2024-05-24 19:34:34,253 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-editors/id1150237453
+2024-05-24 19:34:34,312 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/day-x/id1564995058
+2024-05-24 19:34:34,362 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-clearing/id1471432747
+2024-05-24 19:34:34,406 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/unter-pfarrerst%C3%B6chtern/id1489988353
+2024-05-24 19:34:34,454 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/trace-evidence/id1239217007
+2024-05-24 19:34:34,504 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/media-buzzmeter/id1408801308
+2024-05-24 19:34:34,566 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/i-spy/id1482310665
+2024-05-24 19:34:34,636 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/critical-role/id1453805439
+2024-05-24 19:34:34,694 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/bloomberg-law/id277975394
+2024-05-24 19:34:34,752 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/american-scandal/id1435516849
+2024-05-24 19:34:34,802 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/lost-notes/id1368608676
+2024-05-24 19:34:34,853 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/darknet-diaries/id1296350485
+2024-05-24 19:34:34,903 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/climate-one/id296762605
+2024-05-24 19:34:34,969 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-sporkful/id350709629
+2024-05-24 19:34:35,011 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/island-crime/id1513479877
+2024-05-24 19:34:35,086 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/rotten-mango/id1517954480
+2024-05-24 19:34:35,145 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-bulletin/id1653893811
+2024-05-24 19:34:35,195 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/tower-4/id1533736348
+2024-05-24 19:34:35,245 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/security-spoken/id1211754233
+2024-05-24 19:34:35,474 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/radio-diaries/id207505466
+2024-05-24 19:34:35,546 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/pbd-podcast/id1526697745
+2024-05-24 19:34:35,669 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/economist-podcasts/id151230264
+2024-05-24 19:34:35,719 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/felger-massarotti/id401030539
+2024-05-24 19:34:35,777 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast//id?i=1000656611215
+2024-05-24 19:34:35,836 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/mark-levin-podcast/id209377688
+2024-05-24 19:34:35,886 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/a-modern-shaman/id1673839010
+2024-05-24 19:34:35,936 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/courtney-watches-movies/id1641654929
+2024-05-24 19:34:35,986 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-bulwark-podcast/id1447684472
+2024-05-24 19:34:35,988 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast//id?i=1000656506975 USER_ID:
+2024-05-24 19:34:35,991 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast//id?i=1000656530120 USER_ID:
+2024-05-24 19:34:36,044 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-lowe-post/id986595124
+2024-05-24 19:34:36,095 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-apple-seed/id1432798663
+2024-05-24 19:34:36,144 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/unlocked-with-savannah-chrisley/id1649201369
+2024-05-24 19:34:36,194 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/disney-magic-of-storytelling/id1472428389
+2024-05-24 19:34:36,245 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-ezra-klein-show/id1548604447
+2024-05-24 19:34:36,302 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-mel-robbins-podcast/id1646101002
+2024-05-24 19:34:36,353 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-megyn-kelly-show/id1532976305
+2024-05-24 19:34:36,353 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/body-talk/id1734318382?i=1000655532076 USER_ID:
+2024-05-24 19:34:36,402 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/adapted-to-screen-podcast/id1610661136
+2024-05-24 19:34:36,461 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-charlie-kirk-show/id1460600818
+2024-05-24 19:34:36,511 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-rob-carson-show/id1559799362
+2024-05-24 19:34:36,561 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-tucker-carlson-show/id1719657632
+2024-05-24 19:34:36,611 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/100-best-albums-radio/id1743037216
+2024-05-24 19:34:36,670 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/hot-off-the-wire/id1622218223
+2024-05-24 19:34:36,728 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-joe-budden-podcast/id1535809341
+2024-05-24 19:34:36,786 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-bill-simmons-podcast/id1043699613
+2024-05-24 19:34:36,844 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/we-can-do-hard-things/id1564530722
+2024-05-24 19:34:36,845 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/playbook-deep-dive/id1111319839?i=1000655899306 USER_ID:
+2024-05-24 19:34:36,846 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/colts-official-podcast/id1177715432?i=1000656435087 USER_ID:
+2024-05-24 19:34:36,854 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/trap-or-dive/id1448415816?i=1000656337223 USER_ID:
+2024-05-24 19:34:36,918 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/making-space-with-hoda-kotb/id1585499926
+2024-05-24 19:34:36,919 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/2152-terrence-howard/id360084272?i=1000656009786 USER_ID:
+2024-05-24 19:34:36,968 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/prison-breaking-with-sarah-paul/id1727440761
+2024-05-24 19:34:37,019 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-money-with-katie-show/id1589146097
+2024-05-24 19:34:37,020 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/maximizing-the-mass/id1730124087?i=1000656363943 USER_ID:
+2024-05-24 19:34:37,021 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/2153-dave-smith/id360084272?i=1000656296911 USER_ID:
+2024-05-24 19:34:37,077 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/conan-obrien-needs-a-friend/id1438054347
+2024-05-24 19:34:37,127 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/human-events-daily-with-jack-posobiec/id1585243541
+2024-05-24 19:34:37,128 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/the-eagle-eye-podcast/id1330870823?i=1000656471631 USER_ID:
+2024-05-24 19:34:37,177 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/fast-politics-with-molly-jong-fast/id1645614328
+2024-05-24 19:34:37,178 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/phone-tap-ronaldos-son/id1252608081?i=1000656528646 USER_ID:
+2024-05-24 19:34:37,180 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/drive-time-with-travis-wingfield/id1500281964?i=1000656425424 USER_ID:
+2024-05-24 19:34:37,180 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/masked-speaker-beauty-fill-boot/id1252608081?i=1000656525389 USER_ID:
+2024-05-24 19:34:37,187 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/trump-promises-a-unified-reich/id1192761536?i=1000656441740 USER_ID:
+2024-05-24 19:34:37,188 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/forgive-forget-update-eric-and-alyssa/id1252608081?i=1000656528511 USER_ID:
+2024-05-24 19:34:37,188 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/win-brookes-bucks-05-23-24/id1252608081?i=1000656536793 USER_ID:
+2024-05-24 19:34:37,236 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/scripture-central/id1067020550
+2024-05-24 19:34:37,237 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/41-is-the-mic-chiefs-podcast/id1415792089?i=1000656555210 USER_ID:
+2024-05-24 19:34:37,238 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/day-144-davids-last-words-2024/id1539568321?i=1000656481738 USER_ID:
+2024-05-24 19:34:37,239 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/forgive-and-forget-update-eric-alyssa/id1252608081?i=1000656528511 USER_ID:
+2024-05-24 19:34:37,246 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/the-worlds-court-vs-israels-leaders/id1200361736?i=1000656492485 USER_ID:
+2024-05-24 19:34:37,246 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/is-there-a-science-to-happiness/id1501029683?i=1000656248071 USER_ID:
+2024-05-24 19:34:37,247 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/michael-saunders-talks-uk-fiscal-policies/id1690236827?i=1000656523919 USER_ID:
+2024-05-24 19:34:37,248 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/was-the-401-k-a-mistake/id1200361736?i=1000656125708 USER_ID:
+2024-05-24 19:34:37,303 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/come-and-see-a-home-centered-podcast-supported/id1503608133
+2024-05-24 19:34:37,304 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/chip-shots-breaking-nvidias-ai-grip/id151230264?i=1000656496639 USER_ID:
+2024-05-24 19:34:37,305 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/ryan-guzman-of-9-1-1/id1693322370?i=1000656238213 USER_ID:
+2024-05-24 19:34:37,306 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/tiktok-click-shock-05-23-24/id1252608081?i=1000656535109 USER_ID:
+2024-05-24 19:34:37,313 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/trauma-specialist-offers-tips-for-recovery/id426698661?i=1000656553725 USER_ID:
+2024-05-24 19:34:37,360 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/locked-and-probably-loaded-with-dj-and-kelly/id1736022598
+2024-05-24 19:34:37,361 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/full-show-thursday-may-23rd-2024/id1252608081?i=1000656536923 USER_ID:
+2024-05-24 19:34:37,363 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/episode-726-two-brands-one-stone/id1535809341?i=1000655987498 USER_ID:
+2024-05-24 19:34:37,419 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/ive-never-said-this-before-with-tommy-didario/id1693322370
+2024-05-24 19:34:37,420 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/assassination-attempt-on-trump-woke-right-backlash/id1585243541?i=1000656432458 USER_ID:
+2024-05-24 19:34:37,478 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-bible-in-a-year-with-fr-mike-schmitz/id1539568321
+2024-05-24 19:34:37,478 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/day-140-davids-prayer-of-thanksgiving-2024/id1539568321?i=1000656038806 USER_ID:
+2024-05-24 19:34:37,480 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/mark-levin-audio-rewind-5-23-24/id209377688?i=1000656577919 USER_ID:
+2024-05-24 19:34:37,544 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/the-catechism-in-a-year-with-fr-mike-schmitz/id1648949780
+2024-05-24 19:34:37,545 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/day-145-solomon-builds-the-temple-2024/id1539568321?i=1000656607156 USER_ID:
+2024-05-24 19:34:37,547 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/episode-727-last-to-leave-the-party/id1535809341?i=1000656365905 USER_ID:
+2024-05-24 19:34:37,547 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/shocker-elites-favor-limiting-voting-to-college-graduates/id1313611947?i=1000656605898 USER_ID:
+2024-05-24 19:34:37,554 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/espns-jonathan-givony-and-lottery-prospect-matas-buzelis/id1470466331?i=1000655893226 USER_ID:
+2024-05-24 19:34:37,555 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/what-we-saw-during-browns-otas-on-wednesday/id1334701895?i=1000656454074 USER_ID:
+2024-05-24 19:34:37,555 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/24-rzu%C4%87-mi%C4%99so-chocia%C5%BC-na-tydzie%C5%84-sandra-marciniak/id1725956538?i=1000656352163 USER_ID:
+2024-05-24 19:34:37,556 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/shane-beamer-joins-the-show-to-talk-recruiting/id1164707324?i=1000655561146 USER_ID:
+2024-05-24 19:34:37,556 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/criticism-for-those-questioning-guardians-lead-in-division/id633446284?i=1000656558302 USER_ID:
+2024-05-24 19:34:37,557 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/why-hamas-is-to-blame-for-gaza-famine/id1313611947?i=1000656479725 USER_ID:
+2024-05-24 19:34:37,558 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/nightcap-hour-2-daks-contract-situation-kelly-rowland/id1531023690?i=1000656602932 USER_ID:
+2024-05-24 19:34:37,558 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/wizz-air-ceo-jozsef-varadi-talks-engine-issues/id1690236827?i=1000656524010 USER_ID:
+2024-05-24 19:34:37,559 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/nikki-glaser-more-than-just-a-roast-master/id1444559244?i=1000656236810 USER_ID:
+2024-05-24 19:34:37,559 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/hour-3-how-much-power-donovan-mitchell-should-have/id633446284?i=1000656558312 USER_ID:
+2024-05-24 19:34:37,560 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/new-order-the-global-financial-order-is-under-threat/id151230264?i=1000656534632 USER_ID:
+2024-05-24 19:34:37,560 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/shock-collar-question-of-the-day-05-23-24/id1252608081?i=1000656515951 USER_ID:
+2024-05-24 19:34:37,561 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/rp-clips-checkin-on-the-pulse-of-the-panthers/id1641739647?i=1000655897763 USER_ID:
+2024-05-24 19:34:37,561 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/celtics-game-1-victory-over-pacers-national-media-thoughts/id401030539?i=1000656556143 USER_ID:
+2024-05-24 19:34:37,562 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/ferrari-ceo-benedetto-vigna-talks-china-eu-ev-trade/id1690236827?i=1000656523979 USER_ID:
+2024-05-24 19:34:37,562 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/what-to-watch-for-when-scouting-defensive-linemen-with/id1657680564?i=1000656495222 USER_ID:
+2024-05-24 19:34:37,563 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/hour-5-cavs-offseason-moves-to-come-if-cleveland-is/id633446284?i=1000656569418 USER_ID:
+2024-05-24 19:34:37,564 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/1-stress-doctor-5-tools-to-protect-your-brain-from/id1646101002?i=1000656467802 USER_ID:
+2024-05-24 19:34:37,568 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/hour-2-chandler-parsons-sounds-off-on-cavs-firing-bickerstaff/id633446284?i=1000656555612 USER_ID:
+2024-05-24 19:34:37,569 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/club-520-jeff-teague-reacts-to-luka-doncic-and-kyrie/id1531023690?i=1000656579089 USER_ID:
+2024-05-24 19:34:37,576 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/trump-storms-the-bronx-maga-rally-heard-round-the-world/id1585243541?i=1000656560748 USER_ID:
+2024-05-24 19:34:37,577 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/sound-off-jaylen-brown-explodes-for-40-points-as-celtics/id1562019473?i=1000656593685 USER_ID:
+2024-05-24 19:34:37,577 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/how-one-school-has-changed-70-years-since-brown-v-board/id426698661?i=1000655954956 USER_ID:
+2024-05-24 19:34:37,578 - google_api - WARNING - SaveDb record existed, skip saving. ID:304 URL:https://podcasts.apple.com/us/podcast/nightcap-hour-1-celtics-take-game-2-inside-the-nba-in-limbo/id1531023690?i=1000656604025 USER_ID:
+2024-05-24 19:34:37,627 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/whoreible-decisions/id1224239045
+2024-05-24 19:34:37,677 - google_api - DEBUG - SaveDb Insert Succeed, url:https://podcasts.apple.com/us/podcast/savage-lovecast/id201376301
+2024-05-24 19:34:37,680 - main - INFO - [MAIN Google END]

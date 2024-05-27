@@ -1,0 +1,5 @@
+2024-05-24 18:35:35,242 - main - INFO - [MAIN Google START]
+2024-05-24 18:36:38,027 - google_api - WARNING - SaveDb record existed, skip saving. ID:1 URL:https://podcasts.apple.com/us/podcast/trashfuture/id1261944206 USER_ID:1261944206
+2024-05-24 18:36:38,029 - google_api - WARNING - SaveDb record existed, skip saving. ID:2 URL:https://podcasts.apple.com/us/podcast/jesuitical/id1210902931 USER_ID:1210902931
+2024-05-24 18:36:38,032 - google_api - WARNING - SaveDb record existed, skip saving. ID:3 URL:https://podcasts.apple.com/us/podcast/currents/id1167164482 USER_ID:1167164482
+2024-05-24 18:36:43,530 - main - INFO - [MAIN Google END]
