@@ -6,11 +6,17 @@ from utils import user_agent
 from utils.utime import get_now_time_string_short, random_sleep
 from utils.logger import init_logger
 from utils.file import download_url_resource_local
+from utils.tool import load_cfg
+from utils.lark import alarm_lark_text
 
 logger = init_logger("apple_podcast_api")
+cfg = load_cfg("config.json")
 
 def ApplePodcastsHandler(url:str, params:dict):
-    ''' 获取&存储 Apple's Podcast 音频数据 '''
+    ''' 获取&存储 Apple's Podcast 音频数据 
+    @Params url:https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes; 
+    @Params params:{"l"="en-US";"offset"="20"};
+    '''
     logger.debug(f"ApplePodcastsHandler params, url:{url}, params:{params}")
     if url == "":
         logger.error("ApplePodcastsHandler params invalid, empty url")
@@ -121,22 +127,39 @@ class ApplePod:
     def DownloadAudio(self)->bool:
         ''' 下载音频文件到本地 '''
         # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
-        save_dir = os.path.join(".", "download", get_now_time_string_short())
-        try:
-            for data in self.resp["data"]:
-                random_sleep(rand_st=20, rand_range=10)
+        succ_count = 0
+        fail_count = 0
+        # save_dir = os.path.join(".", "download", get_now_time_string_short())
+        # save_dir = os.path.join(".", "download")
+        save_dir = cfg["common"]["download_path"]
+        for data in self.resp["data"]:
+            try:
                 url = data["attributes"]["assetUrl"]
                 pid = "Podcast_%s_%s"%(self.user_id, data["id"])
                 sub_path = f"Podcast_{self.user_id}"
                 # file_name = os.path.basename(url)
                 file_name = pid + ".mp3"
                 save_path = os.path.join(save_dir, sub_path, file_name)
+                if os.path.exists(save_path):
+                    print(f"[Warn] 该路径下{save_path}文件存在，下载跳过")
+                    continue
                 succ = download_url_resource_local(url, save_path)
                 if not succ:
+                    fail_count += 1
                     logger.error(f"DownloadAudio handler failed, url:{url}")
-                    continue
-        except Exception as e:
-            logger.error(f"DownloadAudio failed, error:{e}")
-            return False
+                else:
+                    succ_count += 1
+                random_sleep(rand_st=20, rand_range=10)
+            except Exception as e:
+                fail_count += 1
+                logger.error(f"DownloadAudio failed, error:{e}")
+                random_sleep(rand_st=20, rand_range=10)
+                continue
+                # return False
         else:
-            return True
+            alarm_lark_text(cfg["lark_config"]["webhook"], f"Apple Podcast DownloadAudio Log \
+                \n\tuser_id: {self.user_id} \
+                \n\tlink: {self.url} \
+                \n\tsucc_count: {succ_count} \
+                \n\tfail_count: {fail_count}")
+        return

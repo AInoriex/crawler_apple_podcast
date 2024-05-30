@@ -7,7 +7,6 @@ from utils.tool import load_cfg
 
 cfg = load_cfg("config.json")
 
-
 def get_file_size(filePath):
     ''' 获取文件大小(MB) '''
     fsize = os.path.getsize(filePath)
@@ -51,7 +50,7 @@ def download_url_resource_local(url:str, local_path:str)->bool:
         return False
     if os.path.exists(local_path):
         print(f"[Warn] 该路径下{local_path}文件存在，下载跳过")
-        return False
+        return True
 
     headers={}
     proxies={}
@@ -66,7 +65,7 @@ def download_url_resource_local(url:str, local_path:str)->bool:
         print(f"download_url_resource_local unknown error:{e}")
         return False
     else:
-        print(f"download_url_resource_local download succeed.")
+        print(f"download_url_resource_local download succeed. file:{local_path}")
         return True
 
 if __name__ == "__main__":
