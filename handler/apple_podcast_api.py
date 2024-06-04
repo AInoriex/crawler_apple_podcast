@@ -154,7 +154,8 @@ class ApplePod:
                 else:
                     succ_count += 1
                 # 上传cos
-                _cloud_path = upload_file(from_path=save_path , to_path=cfg["cos_conf"]["save_path"]) 
+                cloud_path = os.path.join(cfg["cos_conf"]["save_path"], sub_path, file_name)
+                _cloud_link = upload_file(from_path=save_path , to_path=cloud_path) 
                 # 移除本地文件
                 os.remove(save_path)
                 random_sleep(rand_st=20, rand_range=10)
