@@ -51,7 +51,8 @@ def ApplePodcastsHandler(url:str, params:dict):
     applePod = ApplePod(url, params, resp)
     next_url = applePod.GetNextUrl()
     res_list = applePod.ParseApiData()
-    _ = applePod.DownloadAudio()
+    if len(res_list) > 0:
+        _ = applePod.DownloadAudio()
 
     if not next_url.startswith("http"):
         next_url = "https://amp-api.podcasts.apple.com" + next_url
@@ -88,11 +89,14 @@ class ApplePod:
         res_list = []
         len_data = len(self.resp["data"])
         logger.info(f"ParseApiData 共获取到{len_data}条数据")
-        # for data in self.resp["data"]:
-        for data in self.resp["data"]:
-            res_list.append(self.ParseApiSingleData(data=data))
-        logger.debug(f"ParseApiData Result List: {res_list}")
-        return res_list
+        try:
+            for data in self.resp["data"]:
+                res_list.append(self.ParseApiSingleData(data=data))
+            logger.debug(f"ParseApiData Result List: {res_list}")
+        except Exception as e:
+            logger.error(f"ParseApiData failed, error:{e}")
+        finally:
+            return res_list
 
 
     def ParseApiSingleData(self, data:dict)->dict:

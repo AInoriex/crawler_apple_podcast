@@ -84,21 +84,23 @@ def single_apple_podcast(search_url:str):
 		# 数据抓取
 		next_url, res_list = apple_podcast_api.ApplePodcastsHandler(url=search_url, params=parse_qs(parsed_url.query))
 		logger.info(f"[Single Podcast] ApplePodcastsHandler, next_url:{next_url}, res_list:{res_list}")
-		
-		# 爬取结果后处理
 		search_url = next_url
-		if len(output_result_list) <= 0:
-			output_result_list = res_list
+		if len(res_list) <= 0:
+			logger.warn(f"[Single Podcast] get empty result list, please check the ApplePodcastsHandler")
 		else:
-			output_result_list += res_list
-		if len(output_result_list) >= OUTPUT_COUNT:
-			logger.info(f"[Single Podcast] save json cache to local file, now_count:{len(output_result_list)}, output_count:{OUTPUT_COUNT}")
-			save_succ = save_json_to_file(output_result_list)
-			if not save_succ:
-				logger.error("[Single Podcast] save json cache file FAILED")
-				pprint(output_result_list)
-				return
-			output_result_list = []
+			# 爬取结果存储
+			if len(output_result_list) <= 0:
+				output_result_list = res_list
+			else:
+				output_result_list += res_list
+			if len(output_result_list) >= OUTPUT_COUNT:
+				logger.info(f"[Single Podcast] save json cache to local file, now_count:{len(output_result_list)}, output_count:{OUTPUT_COUNT}")
+				save_succ = save_json_to_file(output_result_list)
+				if not save_succ:
+					logger.error("[Single Podcast] save json cache file FAILED")
+					pprint(output_result_list)
+					return
+				output_result_list = []
 		
 		# BREAK
 		if next_url == "":
