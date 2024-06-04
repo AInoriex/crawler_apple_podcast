@@ -55,7 +55,7 @@ def download_url_resource_local(url:str, local_path:str)->bool:
     headers={}
     proxies={}
     try:
-        resp = requests.get(url, headers=headers,proxies=proxies,timeout=(5,20),verify=True)
+        resp = requests.get(url, headers=headers,proxies=proxies,timeout=(5,20),verify=False)
         if not resp.status_code == 200:
             print(f"download_url_resource_local get url failed. url:{url}")
             return False
