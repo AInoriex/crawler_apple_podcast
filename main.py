@@ -35,29 +35,33 @@ def main_apple_podcast():
 	logger.info("[MAIN Podcast START]")
 	# google_search_list = [] #Google搜索链接数
 	# Gsearch(search_word="site:https://podcasts.apple.com/us/podcast/", start=0, search_total=100, pause=100)
-	# GetApplePodcastUserId()
 
+	# get urls from database
+
+	# parse and format google search's url into api's url
+	# GetApplePodcastUserId()
 	search_url_list = [
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes",
 		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1210902931/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1167164482/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/151485663/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1195206601/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1608043151/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1168154281/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1205352558/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1220985045/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/918896288/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1167164482/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/151485663/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1195206601/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1608043151/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1168154281/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1205352558/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1220985045/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/918896288/episodes",
 	]
 	# search_url = "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes"
+
 	for url in search_url_list:
 		try:
 			single_apple_podcast(url)
 		except Exception as e:
-			logger(f"[MAIN Podcast ERROR] {e}")
+			logger.error(f"[MAIN Podcast ERROR] {e}")
 			continue
 		else:
-			logger(f"[MAIN Podcast SUCC] {url}")
+			logger.error(f"[MAIN Podcast SUCC] {url}")
 
 	logger.info("[MAIN Podcast END]")
 	

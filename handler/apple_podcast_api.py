@@ -2,6 +2,7 @@ import os
 import json
 import random
 import requests
+from urllib.parse import urlencode
 from utils import user_agent
 from utils.utime import get_now_time_string_short, random_sleep
 from utils.logger import init_logger
@@ -46,7 +47,7 @@ def ApplePodcastsHandler(url:str, params:dict):
     assert response.status_code == 200
     resp = response.json()
 
-    applePod = ApplePod(url, resp)
+    applePod = ApplePod(url, params, resp)
     next_url = applePod.GetNextUrl()
     res_list = applePod.ParseApiData()
     _ = applePod.DownloadAudio()
@@ -59,9 +60,11 @@ def ApplePodcastsHandler(url:str, params:dict):
 
 class ApplePod:
     ''' apple podcast类'''
-    def __init__(self, url:str, resp:dict):
+    def __init__(self, url:str, params:dict, resp:dict):
         self.url = url
         self.user_id = self.GetUserId()
+        self.params = params
+        self.full_url = url+"?"+urlencode(params)
         self.resp = resp
 
     def GetNextUrl(self)->str:
@@ -129,6 +132,7 @@ class ApplePod:
         # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
         succ_count = 0
         fail_count = 0
+        fail_list = []
         # save_dir = os.path.join(".", "download", get_now_time_string_short())
         # save_dir = os.path.join(".", "download")
         save_dir = cfg["common"]["download_path"]
@@ -143,15 +147,22 @@ class ApplePod:
                 if os.path.exists(save_path):
                     print(f"[Warn] 该路径下{save_path}文件存在，下载跳过")
                     continue
+                # 文件下载本地
                 succ = download_url_resource_local(url, save_path)
                 if not succ:
                     fail_count += 1
+                    fail_list.append(url)
                     logger.error(f"DownloadAudio handler failed, url:{url}")
                 else:
                     succ_count += 1
+                # 上传cos
+                
+                # 移除本地文件
+                os.remove(save_path)
                 random_sleep(rand_st=20, rand_range=10)
             except Exception as e:
                 fail_count += 1
+                fail_list.append(url)
                 logger.error(f"DownloadAudio failed, error:{e}")
                 random_sleep(rand_st=20, rand_range=10)
                 continue
@@ -159,7 +170,8 @@ class ApplePod:
         else:
             alarm_lark_text(cfg["lark_config"]["webhook"], f"Apple Podcast DownloadAudio Log \
                 \n\tuser_id: {self.user_id} \
-                \n\tlink: {self.url} \
+                \n\tlink: {self.full_url} \
                 \n\tsucc_count: {succ_count} \
-                \n\tfail_count: {fail_count}")
+                \n\tfail_count: {fail_count} \
+                \n\tfail_list: {fail_list}")
         return
