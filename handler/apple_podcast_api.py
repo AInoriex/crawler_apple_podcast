@@ -9,6 +9,7 @@ from utils.logger import init_logger
 from utils.file import download_url_resource_local
 from utils.tool import load_cfg
 from utils.lark import alarm_lark_text
+from utils.cos import upload_file
 
 logger = init_logger("apple_podcast_api")
 cfg = load_cfg("config.json")
@@ -129,12 +130,9 @@ class ApplePod:
 
     def DownloadAudio(self)->bool:
         ''' 下载音频文件到本地 '''
-        # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
         succ_count = 0
         fail_count = 0
         fail_list = []
-        # save_dir = os.path.join(".", "download", get_now_time_string_short())
-        # save_dir = os.path.join(".", "download")
         save_dir = cfg["common"]["download_path"]
         for data in self.resp["data"]:
             try:
@@ -143,7 +141,7 @@ class ApplePod:
                 sub_path = f"Podcast_{self.user_id}"
                 # file_name = os.path.basename(url)
                 file_name = pid + ".mp3"
-                save_path = os.path.join(save_dir, sub_path, file_name)
+                save_path = os.path.join(save_dir, sub_path, file_name) # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
                 if os.path.exists(save_path):
                     print(f"[Warn] 该路径下{save_path}文件存在，下载跳过")
                     continue
@@ -156,7 +154,7 @@ class ApplePod:
                 else:
                     succ_count += 1
                 # 上传cos
-
+                _cloud_path = upload_file(from_path=save_path , to_path=cfg["cos_conf"]["save_path"]) 
                 # 移除本地文件
                 os.remove(save_path)
                 random_sleep(rand_st=20, rand_range=10)

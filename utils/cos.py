@@ -32,24 +32,25 @@ logger.info(
 
 # 高级上传接口（推荐）
 def upload_file(from_path:str, to_path:str)->str:
-    '''cos上传接口:根据文件大小自动选择简单上传或分块上传,分块上传具备断点续传功能'''
+    '''cos上传接口:根据文件大小自动选择简单上传或分块上传,分块上传具备断点续传功能
+    @Params from_path 本地文件路径(exp. ./download/test.mp4)
+    @Params to_path 云端存储路径(exp. ./result/test.mp4)
+    '''
     if not os.path.exists(from_path):
         logger.error(f"cos upload_file error, not such file {from_path}")
         raise FileNotFoundError
-        # return ""
-    # base = os.path.basename(from_path)
-    # base = os.path.basename(to_path) #{vid}.m4a
-    # to_path = os.path.join(cfg["cos_conf"]["save_path"], base)
-    response = client.upload_file(
-        Bucket=cfg["cos_conf"]["bucket"],
-        # LocalFilePath='local.txt',
-        LocalFilePath=from_path,
-        # Key='/QUWAN_DATA/xyh/local.txt',
-        Key=to_path,
-        PartSize=1,
-        MAXThread=10,
-        EnableMD5=False
-    )
-    cos_link = cfg["cos_conf"]["url_base"] + to_path
-    logger.info(f"cos upload_file done, cos_link:{cos_link} local_file_path:{from_path} to_path:{to_path} file_id:{response['ETag']}")
-    return cos_link
+    try:
+        response = client.upload_file(
+            Bucket=cfg["cos_conf"]["bucket"],
+            LocalFilePath=from_path,
+            Key=to_path,
+            PartSize=1,
+            MAXThread=10,
+            EnableMD5=False
+        )
+        cos_link = cfg["cos_conf"]["url_base"] + to_path
+        logger.info(f"cos upload_file done, cos_link:{cos_link} local_file_path:{from_path} to_path:{to_path} file_id:{response['ETag']}")
+        return cos_link
+    except Exception as e:
+        logger.error(f"cos upload_file failed, error:{e}")
+        raise e
