@@ -40,7 +40,7 @@ def ApplePodcastsHandler(url:str, params:dict):
     }
 
     logger.debug(f"ApplePodcastsHandler Request: {url} | {params} | {headers}")
-    response = requests.get(url, headers=headers, params=params, verify=True)
+    response = requests.get(url, headers=headers, params=params, verify=False)
     # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
     # if response.status_code != 200:
     #     logger.error(f"ApplePodcastsHandler request failed, response:{response.status_code} | {response.content}")
@@ -154,7 +154,7 @@ class ApplePod:
                 else:
                     succ_count += 1
                 # 上传cos
-                cloud_path = os.path.join(cfg["cos_conf"]["save_path"], sub_path, file_name)
+                cloud_path = "%s/%s/%s"%(cfg["cos_conf"]["save_path"], sub_path, file_name)
                 _cloud_link = upload_file(from_path=save_path , to_path=cloud_path) 
                 # 移除本地文件
                 os.remove(save_path)
