@@ -156,7 +156,7 @@ class ApplePod:
                 else:
                     succ_count += 1
                 # 上传cos
-                
+
                 # 移除本地文件
                 os.remove(save_path)
                 random_sleep(rand_st=20, rand_range=10)
@@ -168,7 +168,7 @@ class ApplePod:
                 continue
                 # return False
         else:
-            alarm_lark_text(cfg["lark_config"]["webhook"], f"Apple Podcast DownloadAudio Log \
+            alarm_lark_text(cfg["lark_conf"]["webhook"], f"Apple Podcast DownloadAudio Log \
                 \n\tuser_id: {self.user_id} \
                 \n\tlink: {self.full_url} \
                 \n\tsucc_count: {succ_count} \
