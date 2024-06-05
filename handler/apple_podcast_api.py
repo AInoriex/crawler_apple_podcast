@@ -23,7 +23,6 @@ def ApplePodcastsHandler(url:str, params:dict):
     if url == "":
         logger.error("ApplePodcastsHandler params invalid, empty url")
         return
-    # url = "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes"
     # url = "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes?l=en-US&offset=20"
     if len(params) <= 0 : #第一次请求
         params = {
@@ -36,28 +35,32 @@ def ApplePodcastsHandler(url:str, params:dict):
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "close",
         "Origin": "https://podcasts.apple.com",
-        "Authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkNSRjVITkJHUFEifQ.eyJpc3MiOiI4Q1UyNk1LTFM0IiwiaWF0IjoxNzEzMzY5MDc0LCJleHAiOjE3MjA2MjY2NzQsInJvb3RfaHR0cHNfb3JpZ2luIjpbImFwcGxlLmNvbSJdfQ.n3Qn-2LZW7iy-X79yHU7f41K05iTBuN3ycm_Bqp_nqHpaMyLKCG-zpiuBkVExYMj7YtJShSIxaFLJTvFB6vATA"
+        "Authorization": cfg["apple_procast_conf"]["Authorization"]
     }
+    next_url = ""
+    res_list = []
+    try:
+        # logger.debug(f"ApplePodcastsHandler Request: {url} | {params} | {headers}")
+        response = requests.get(url, headers=headers, params=params, verify=False)
+        # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
+        # if response.status_code != 200:
+        #     logger.error(f"ApplePodcastsHandler request failed, response:{response.status_code} | {response.content}")
+        #     return "", []
+        assert response.status_code == 200
+        resp = response.json()
 
-    logger.debug(f"ApplePodcastsHandler Request: {url} | {params} | {headers}")
-    response = requests.get(url, headers=headers, params=params, verify=False)
-    # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
-    # if response.status_code != 200:
-    #     logger.error(f"ApplePodcastsHandler request failed, response:{response.status_code} | {response.content}")
-    #     return "", []
-    assert response.status_code == 200
-    resp = response.json()
-
-    applePod = ApplePod(url, params, resp)
-    next_url = applePod.GetNextUrl()
-    res_list = applePod.ParseApiData()
-    if len(res_list) > 0:
-        _ = applePod.DownloadAudio()
-
-    if not next_url.startswith("http"):
-        next_url = "https://amp-api.podcasts.apple.com" + next_url
-    logger.debug(f"ApplePodcastsHandler Result, next_url:{next_url}, res_list:{res_list}")
-    return next_url, res_list
+        applePod = ApplePod(url, params, resp)
+        next_url = applePod.GetNextUrl()
+        res_list = applePod.ParseApiData()
+        if len(res_list) > 0:
+            applePod.DownloadAudio()
+        if not next_url.startswith("http"):
+            next_url = "https://amp-api.podcasts.apple.com" + next_url
+    except Exception as e:
+        logger.error(f"ApplePodcastsHandler Failed, error:{e}")
+    finally:
+        logger.debug(f"ApplePodcastsHandler Result, next_url:{next_url}, res_list:{res_list}")
+        return next_url, res_list
 
 
 class ApplePod:
@@ -81,7 +84,7 @@ class ApplePod:
         return self.resp["next"]
 
     def ParseApiData(self)->list:
-        ''' 解析响应体data字段 '''
+        ''' 解析响应体data字段,获取目标数据 '''
         # logger.debug(f"GetNextUrl Param, {self.resp}")
         if "data" not in self.resp.keys():
             logger.error("ParseApiData failed, no such `data` key in response.")
@@ -100,7 +103,7 @@ class ApplePod:
 
 
     def ParseApiSingleData(self, data:dict)->dict:
-        ''' 解析单个data数据'''
+        ''' 解析单个data数据 '''
         ''' example json
         {
             "id": "Podcast_1261944206_1000391903336",

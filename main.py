@@ -61,7 +61,7 @@ def main_apple_podcast():
 			logger.error(f"[MAIN Podcast ERROR] {e}")
 			continue
 		else:
-			logger.error(f"[MAIN Podcast SUCC] {url}")
+			logger.info(f"[MAIN Podcast SUCC] {url}")
 
 	logger.info("[MAIN Podcast END]")
 	
@@ -123,8 +123,9 @@ def single_apple_podcast(search_url:str):
 	logger.info("[Single Podcast END]")
 	return
 
+
 def main():
-	print("Nothing in main")
+	print("Only the option `google` or `podcast` can launch program.")
 	return
 
 
@@ -136,3 +137,5 @@ if __name__ == "__main__":
 		main_apple_podcast()
 	else:
 		main()
+	print("== Program Exit ==")
+	input()
