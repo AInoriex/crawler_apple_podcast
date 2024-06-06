@@ -79,12 +79,10 @@ class ApplePodReport:
         ''' 设置拓展字段 '''
         self.extra_params[key] = val
 
-    def get_public_ip(self):
-        self.public_ip = get_public_ip()
-
     def submit_report(self):
         ''' 飞书汇报信息 '''
         self.report_time = get_now_time_string()
+        self.public_ip = get_public_ip()
         succ = alarm_lark_text(cfg["lark_conf"]["webhook"], f"[ApplePodReport] 当前播客信息采集通知\
             \n\t [用户信息] ID:{self._user_id} \
             \n\t [IP信息] local_ip: {self.local_ip} public_ip: {self.public_ip} \
@@ -104,7 +102,7 @@ def ApplePodcastsHandler(url:str):
     # logger.debug(f"ApplePodcastsHandler params, url:{url}")
     if url == "":
         logger.warning("ApplePodcastsHandler params invalid, empty url")
-        return
+        return ""
     # first request
     if "?" not in url: 
         params = {
@@ -122,8 +120,7 @@ def ApplePodcastsHandler(url:str):
         "Authorization": cfg["apple_procast_conf"]["Authorization"]
     }
     next_url = ""
-    res_list = []
-    pod_report.set_extra_params("url", url)
+    pod_report.set_extra_params("current_url", url)
     try:
         # logger.debug(f"ApplePodcastsHandler Request: {url} | {headers}")
         response = get(url=url, headers=headers, verify=False)
@@ -152,8 +149,8 @@ def ApplePodcastsHandler(url:str):
         logger.error(f"ApplePodcastsHandler Failed, error:{err}")
         raise e
     finally:
-        logger.debug(f"ApplePodcastsHandler Result, next_url:{next_url}, res_list:{res_list}")
-        return next_url, res_list
+        logger.debug(f"ApplePodcastsHandler Result, next_url:{next_url}")
+        return next_url
 
 class ApplePodCrawler:
     ''' apple podcast采集'''
