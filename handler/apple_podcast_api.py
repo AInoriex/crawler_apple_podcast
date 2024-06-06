@@ -40,7 +40,7 @@ def ApplePodcastsHandler(url:str):
     next_url = ""
     res_list = []
     try:
-        # logger.debug(f"ApplePodcastsHandler Request: {url} | {params} | {headers}")
+        # logger.debug(f"ApplePodcastsHandler Request: {url} | {headers}")
         response = requests.get(url=url, headers=headers, verify=False)
         # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
         # if response.status_code != 200:
@@ -49,7 +49,7 @@ def ApplePodcastsHandler(url:str):
         assert response.status_code == 200
         resp = response.json()
 
-        applePod = ApplePod(url, params, resp)
+        applePod = ApplePod(url, resp)
         next_url = applePod.GetNextUrl()
         res_list = applePod.ParseApiData()
         if len(res_list) > 0:

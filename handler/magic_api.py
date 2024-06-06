@@ -57,25 +57,25 @@ class CrawlerSearchInfo:
         ''' 随机获取一条podcast记录 '''
         url = "https://magicmir.52ttyuyin.com/crawler_api/podcast_get_download_list?sign=%d"%get_time_stamp()
         try:
-            print(f"GetRandomPodcast req, url:{url}")
+            # print(f"GetRandomPodcast req, url:{url}")
             resp = get(url=url)
             print(f"GetRandomPodcast resp, status_code:{resp.status_code}, content:{resp.content}")
             assert resp.status_code == 200
             resp_json = resp.json()
-            print("GetRandomPodcast resp detail, status_code:%d, content:%s"%(resp_json["code"], resp_json["msg"]))
+            # print("GetRandomPodcast resp detail, status_code:%d, content:%s"%(resp_json["code"], resp_json["msg"]))
             if len(resp_json["data"]["result"]) <= 0:
                 print("GetRandomPodcast nothing to get.")
                 return
             self.GetPodcast(data=resp_json["data"]["result"][0])
         
         except AssertionError:
-            print("GetRandomPodcast assert error, url request failed")
-            raise MagicApiException("url request failed")
+            print(f"GetRandomPodcast assert error, request {url} failed")
+            raise MagicApiException(f"request {url} failed")
         except Exception as e:
             print(f"GetRandomPodcast unknown error:{e}")
             raise e
-        else:
-            print("GetRandomPodcast succeed")
+        # else:
+        #     print("GetRandomPodcast succeed")
         finally:
             return
 

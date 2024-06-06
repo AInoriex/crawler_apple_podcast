@@ -16,7 +16,7 @@ def get_local_ip()->str:
 def get_public_ip()->str:
     try:
         response = requests.get('https://httpbin.org/ip', timeout=5)
-        print(response.status_code, response.content)
+        # print(response.status_code, response.content)
         if response.status_code == 200:
             resp = response.json()
             return resp['origin']
