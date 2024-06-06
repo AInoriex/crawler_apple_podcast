@@ -7,6 +7,7 @@ from utils.file import save_json_to_file
 from utils.tool import load_cfg
 from utils.lark import alarm_lark_text
 from utils.ip import get_local_ip, get_public_ip
+from pprint import pprint
 
 logger = init_logger("main")
 cfg = load_cfg("config.json")
@@ -76,15 +77,18 @@ def main_apple_podcast():
 		finally:
 			pod.status = pod.CRAWLSTATUSOK
 			pod.UpdatePodcastStatus()
+			# alarm to Lark Bot
+			local_ip = get_local_ip()
+			public_ip = get_public_ip()
+			now_time_str = get_now_time_string()
 			alarm_lark_text(cfg["lark_conf"]["webhook"], f"crawl user_id:{pod.crawler_id}s' podcasts done. \
 				\n\ttarget_url: {target_url} \
 				\n\trecord_id: {pod.id} \
 				\n\trecord_status: {pod.status} \
-				\n\tLocal_IP:%s \
-                \n\tPublic_IP:%s \
-				\n\tTime:%s")%(get_local_ip(), get_public_ip(), get_now_time_string())
-			random_sleep(rand_st=5, rand_range=5)
-			continue
+				\n\tLocal_IP:{local_ip} \
+                \n\tPublic_IP:{public_ip} \
+				\n\tTime:{now_time_str}")
+			random_sleep(rand_st=5, rand_range=5)		
 	logger.info("[MAIN Podcast END]")
 	
 
