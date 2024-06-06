@@ -27,6 +27,6 @@ def alarm_lark_text(webhook:str, text:str)->bool:
     return True
 
 if __name__ == "__main__":
-    webhook = "https://open.feishu.cn/open-apis/bot/v2/hook/34755f1e-5fc7-46c9-9fee-177317a581ee"
+    webhook = "https://open.feishu.cn/open-apis/bot/v2/hook/xxx-xxxx"
     text = "【%s】 \n告警信息:%s \n机器IP:%s \n详情:%s \n告警时间:%s"%("Crawler_Name", "测试通知", "127.0.0.1", "测试，忽略😶♻🏝💨💦🙏👀✨💬", "2024/05/27 17:36")
     alarm_lark_text(webhook=webhook, text=text)

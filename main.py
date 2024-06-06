@@ -1,13 +1,15 @@
-from handler.google_api import Gsearch, ParseApplePodcastUserId, SaveUrlToDb, SaveUrlsToDb
-from handler import apple_podcast_api
+from handler.google_api import Gsearch, SaveUrlsToDb, ParseApplePodcastUserId
+from handler.apple_podcast_api import ApplePodcastsHandler
+from handler.magic_api import CrawlerSearchInfo
 from utils.utime import random_sleep
 from utils.logger import init_logger
 from utils.file import save_json_to_file
 from utils.tool import load_cfg
-from urllib.parse import urlparse, parse_qs
+from utils.lark import alarm_lark_text
 from pprint import pprint
 
 logger = init_logger("main")
+cfg = load_cfg("config.json")
 
 def main_google_search():
 	logger.info("[MAIN Google START]")
@@ -20,7 +22,7 @@ def main_google_search():
 	search_url_list = Gsearch(search_word=search_word, start=200, search_total=search_total, pause=60)
 	# print(search_url_list)
 
-	# user_id_list = [GetApplePodcastUserId(url) for url in search_url_list]
+	# user_id_list = [ParseApplePodcastUserId(url) for url in search_url_list]
 	# print(user_id_list)
 
 	# for url in search_url_list:
@@ -33,42 +35,58 @@ def main_google_search():
 
 def main_apple_podcast():
 	logger.info("[MAIN Podcast START]")
-	# google_search_list = [] #Google搜索链接数
-	# Gsearch(search_word="site:https://podcasts.apple.com/us/podcast/", start=0, search_total=100, pause=100)
-
-	# get urls from database
-
-	# parse and format google search's url into api's url
-	# GetApplePodcastUserId()
-	search_url_list = [
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1210902931/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1167164482/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/151485663/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1195206601/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1608043151/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1168154281/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1205352558/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1220985045/episodes",
-		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/918896288/episodes",
-	]
-	# search_url = "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes"
-
-	for url in search_url_list:
-		try:
-			single_apple_podcast(url)
-		except Exception as e:
-			logger.error(f"[MAIN Podcast ERROR] {e}")
+	while 1:
+		# get urls from database
+		pod = CrawlerSearchInfo()
+		pod.GetRandomPodcast()
+		if pod.id <= 0:
+			logger.warn(f"GetRandomPodcast None todo url to crawl, retry after 5mins. POD.id:{pod.id}")
+			random_sleep(rand_st=60*5, rand_range=5)
 			continue
-		else:
-			logger.info(f"[MAIN Podcast SUCC] {url}")
 
+		# parse apple podcast user id
+		query_user_id = pod.crawler_id
+		if pod.crawler_id == "":
+			query_user_id = ParseApplePodcastUserId()
+		if query_user_id == "":
+			logger.warn(f"GetRandomPodcast parse podcast user_id failed, please check the db record. POD.id:{pod.id}")
+			random_sleep(rand_st=5, rand_range=5)
+			continue
+
+		try:
+		# start crawler
+			target_url = f"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/{query_user_id}/episodes"
+			logger.info(f"Ready to crawl the url {target_url}. Get From Id.{pod.id}")
+			single_apple_podcast(target_url)
+
+		except KeyboardInterrupt:
+			logger.error(f"[MAIN Podcast KeyboardInterrupt] Block the crawler.")
+			pod.status = pod.CRAWLSTATUSFAIL
+			pod.UpdatePodcastStatus()
+			break
+
+		except Exception as e:
+			logger.error(f"[MAIN Podcast ERROR] {e.args}")
+			# pod.status = pod.CRAWLSTATUSFAIL
+			# pod.UpdatePodcastStatus()
+			
+		else:
+			logger.info(f"[MAIN Podcast SUCC] crawl {target_url} done.")
+
+		finally:
+			pod.status = pod.CRAWLSTATUSOK
+			pod.UpdatePodcastStatus()
+			alarm_lark_text(cfg["lark_conf"]["webhook"], f"crawl user_id:{pod.crawler_id}s' podcasts done. \
+				\n\ttarget_url: {target_url} \
+				\n\trecord_id: {pod.id} \
+				\n\trecord_status: {pod.status}")
+			random_sleep(rand_st=5, rand_range=5)
+			continue
 	logger.info("[MAIN Podcast END]")
 	
 
 def single_apple_podcast(search_url:str):
 	logger.info("[Single Podcast START]")
-	cfg = load_cfg("config.json")
 	OUTPUT_COUNT = cfg["common"]["output_count"] 
 	count = 0 #已爬取数量
 	output_result_list = [] #JSON结果汇总
@@ -77,12 +95,9 @@ def single_apple_podcast(search_url:str):
 		# 爬取前变量初始化
 		count += 1
 		res_list = []
-		# # 解析url.params
-		parsed_url = urlparse(search_url)
-		search_url = search_url.split("?")[0]
 
 		# 数据抓取
-		next_url, res_list = apple_podcast_api.ApplePodcastsHandler(url=search_url, params=parse_qs(parsed_url.query))
+		next_url, res_list = ApplePodcastsHandler(url=search_url)
 		logger.info(f"[Single Podcast] ApplePodcastsHandler, next_url:{next_url}, res_list:{res_list}")
 		search_url = next_url
 		if len(res_list) <= 0:
@@ -104,11 +119,8 @@ def single_apple_podcast(search_url:str):
 		
 		# BREAK
 		if next_url == "":
-			logger.warn("[Single Podcast] EMPTY next_url, break the apple_podcast handler")
+			logger.warn(f"[Single Podcast] EMPTY next_url, break the apple_podcast handler. count:{count}")
 			break
-		# if count > 3:
-		# 	logger.debug("[Single Podcast] debug break")
-		# 	break
 
 		# SLEEP
 		random_sleep(rand_st=10, rand_range=5)

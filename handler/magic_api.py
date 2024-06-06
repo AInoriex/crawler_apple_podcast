@@ -5,6 +5,12 @@ from uuid import uuid4
 
 class CrawlerSearchInfo:
     ''' 检索信息记录表 '''
+    CRAWLSTATUSINIT = int(0) # 状态初始化
+    CRAWLSTATUSTODO = int(1) # 状态待处理
+    CRAWLSTATUSING  = int(2) # 状态处理中
+    CRAWLSTATUSOK   = int(3) # 状态处理成功
+    CRAWLSTATUSFAIL = int(4) # 状态处理失败
+
     def __init__(self):
         self._id = 0
         self._request_id = ""
@@ -57,6 +63,9 @@ class CrawlerSearchInfo:
             assert resp.status_code == 200
             resp_json = resp.json()
             print("GetRandomPodcast resp detail, status_code:%d, content:%s"%(resp_json["code"], resp_json["msg"]))
+            if len(resp_json["data"]["result"]) <= 0:
+                print("GetRandomPodcast nothing to get.")
+                return
             self.GetPodcast(data=resp_json["data"]["result"][0])
         
         except AssertionError:

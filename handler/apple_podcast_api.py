@@ -14,21 +14,21 @@ from utils.cos import upload_file
 logger = init_logger("apple_podcast_api")
 cfg = load_cfg("config.json")
 
-def ApplePodcastsHandler(url:str, params:dict):
+def ApplePodcastsHandler(url:str):
     ''' 获取&存储 Apple's Podcast 音频数据 
-    @Params url:https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes; 
-    @Params params:{"l"="en-US";"offset"="20"};
+    @Params url:https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes?l=en-US&offse=20; 
     '''
-    logger.debug(f"ApplePodcastsHandler params, url:{url}, params:{params}")
+    # logger.debug(f"ApplePodcastsHandler params, url:{url}")
     if url == "":
         logger.error("ApplePodcastsHandler params invalid, empty url")
         return
-    # url = "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes?l=en-US&offset=20"
-    if len(params) <= 0 : #第一次请求
+    # first request
+    if "?" not in url: 
         params = {
             "l": "en-US", 
             "offset": "10"
         }
+        url = url + "?" + urlencode(params)
     headers = {
         "User-Agent": user_agent.agents[random.randint(0, len(user_agent.agents)-1)],
         "Accept": "*/*",
@@ -41,7 +41,7 @@ def ApplePodcastsHandler(url:str, params:dict):
     res_list = []
     try:
         # logger.debug(f"ApplePodcastsHandler Request: {url} | {params} | {headers}")
-        response = requests.get(url, headers=headers, params=params, verify=False)
+        response = requests.get(url=url, headers=headers, verify=False)
         # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
         # if response.status_code != 200:
         #     logger.error(f"ApplePodcastsHandler request failed, response:{response.status_code} | {response.content}")
@@ -65,11 +65,9 @@ def ApplePodcastsHandler(url:str, params:dict):
 
 class ApplePod:
     ''' apple podcast类'''
-    def __init__(self, url:str, params:dict, resp:dict):
+    def __init__(self, url:str, resp:dict):
         self.url = url
         self.user_id = self.GetUserId()
-        self.params = params
-        self.full_url = url+"?"+urlencode(params)
         self.resp = resp
 
     def GetNextUrl(self)->str:
@@ -158,6 +156,7 @@ class ApplePod:
                     fail_count += 1
                     fail_list.append(url)
                     logger.error(f"DownloadAudio handler failed, url:{url}")
+                    continue
                 else:
                     succ_count += 1
                 # 上传cos
@@ -176,7 +175,7 @@ class ApplePod:
         else:
             alarm_lark_text(cfg["lark_conf"]["webhook"], f"Apple Podcast DownloadAudio Log \
                 \n\tuser_id: {self.user_id} \
-                \n\tlink: {self.full_url} \
+                \n\tlink: {self.url} \
                 \n\tsucc_count: {succ_count} \
                 \n\tfail_count: {fail_count} \
                 \n\tfail_list: {fail_list}")
