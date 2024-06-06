@@ -1,12 +1,12 @@
 from handler.google_api import Gsearch, SaveUrlsToDb, ParseApplePodcastUserId
 from handler.apple_podcast_api import ApplePodcastsHandler
 from handler.magic_api import CrawlerSearchInfo
-from utils.utime import random_sleep
+from utils.utime import random_sleep, get_now_time_string
 from utils.logger import init_logger
 from utils.file import save_json_to_file
 from utils.tool import load_cfg
 from utils.lark import alarm_lark_text
-from pprint import pprint
+from utils.ip import get_local_ip, get_public_ip
 
 logger = init_logger("main")
 cfg = load_cfg("config.json")
@@ -79,7 +79,10 @@ def main_apple_podcast():
 			alarm_lark_text(cfg["lark_conf"]["webhook"], f"crawl user_id:{pod.crawler_id}s' podcasts done. \
 				\n\ttarget_url: {target_url} \
 				\n\trecord_id: {pod.id} \
-				\n\trecord_status: {pod.status}")
+				\n\trecord_status: {pod.status} \
+				\n\tLocal_IP:%s \
+                \n\tPublic_IP:%s \
+				\n\tTime:%s")%(get_local_ip(), get_public_ip(), get_now_time_string())
 			random_sleep(rand_st=5, rand_range=5)
 			continue
 	logger.info("[MAIN Podcast END]")
