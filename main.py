@@ -115,7 +115,7 @@ def report_to_lark(pod:CrawlerSearchInfo, start_url:str, exception_string=""):
 	title = ""
 	if pod.status == CrawlerSearchInfo.CRAWLSTATUSFAIL:
 		title = f"[ERROR] Apple播客 user_id:{pod.crawler_id} 采集失败. \n\t错误信息: {exception_string}"
-	elif pod.status == CrawlerSearchInfo.CRAWLSTATUSSUCC:
+	elif pod.status == CrawlerSearchInfo.CRAWLSTATUSOK:
 		title = f"[INFO] Apple播客 user_id:{pod.crawler_id} 采集成功."
 	else:
 		title = f"[DEBUG] Apple播客 user_id:{pod.crawler_id} 采集未知状态：{pod.status}."
