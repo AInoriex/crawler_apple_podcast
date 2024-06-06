@@ -4,6 +4,7 @@ import time
 import json
 import requests
 from utils.tool import load_cfg
+from traceback import format_exception # Python 3.10+
 
 cfg = load_cfg("config.json")
 
@@ -12,19 +13,35 @@ def get_file_size(filePath):
     fsize = os.path.getsize(filePath)
     return fsize/float(1024*1024)
 
-def save_json_to_file(data_dict:dict)->bool:
+def save_json_to_file(data_dict:dict, save_path="")->bool:
     ''' 保存json文件到本地 '''
-    output_path = cfg["common"]["output_path"]
-    os.makedirs(output_path, exist_ok=True)
-    log_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
+    if save_path == "":
+        output_path = cfg["common"]["output_path"]
+        os.makedirs(output_path, exist_ok=True)
+        log_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
+        save_path = f"{output_path}/{log_time}.json"
     try:
-        with open(f"{output_path}/{log_time}.json", "w", encoding="utf8") as f:
+        with open(save_path, "w", encoding="utf8") as f:
             json.dump(data_dict, f, indent=4, ensure_ascii=False)
     except Exception as e:
+        err = "".join(format_exception(e)).strip()
         print("[ERROR] save_json_to_file failed", e)
         return False
     else:
         return True
+
+def get_json_from_file(path:str):
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "r", encoding="utf8") as f:
+            result = json.load(f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        err = "".join(format_exception(e)).strip()
+        print("[ERROR] get_json_from_file failed", err)
+        return None
+    else:
+        return result
 
 # def save_any_to_file()->bool:
 #     ''' 保存任意数据到本地 '''

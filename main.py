@@ -3,11 +3,10 @@ from handler.apple_podcast_api import ApplePodcastsHandler
 from handler.magic_api import CrawlerSearchInfo
 from utils.utime import random_sleep, get_now_time_string
 from utils.logger import init_logger
-from utils.file import save_json_to_file
 from utils.tool import load_cfg
 from utils.lark import alarm_lark_text
 from utils.ip import get_local_ip, get_public_ip
-from pprint import pprint
+from traceback import format_exception # Python 3.10+
 
 logger = init_logger("main")
 cfg = load_cfg("config.json")
@@ -36,8 +35,11 @@ def main_google_search():
 
 def main_apple_podcast():
 	logger.info("[MAIN Podcast START]")
+	#采集失败计数, 连续三次退出处理
+	crawl_fail_count = 0 
+	crawl_fail_limit = 3
 	while 1:
-		# get urls from database
+		# 从数据库获取待采集用户id
 		pod = CrawlerSearchInfo()
 		pod.GetRandomPodcast()
 		if pod.id <= 0:
@@ -45,7 +47,7 @@ def main_apple_podcast():
 			random_sleep(rand_st=60*5, rand_range=5)
 			continue
 
-		# parse apple podcast user id
+		# 解析链接的用户id生成请求数据抓取API
 		query_user_id = pod.crawler_id
 		if pod.crawler_id == "":
 			query_user_id = ParseApplePodcastUserId()
@@ -54,99 +56,77 @@ def main_apple_podcast():
 			random_sleep(rand_st=5, rand_range=5)
 			continue
 
+		start_url = f"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/{query_user_id}/episodes"
+		logger.info(f"Ready to crawl the url {start_url}. Get From Id.{pod.id}")
+		count = 0
+		search_url = start_url
+		# 单个用户数据采集
 		try:
-		# start crawler
-			target_url = f"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/{query_user_id}/episodes"
-			logger.info(f"Ready to crawl the url {target_url}. Get From Id.{pod.id}")
-			single_apple_podcast(target_url)
+			while 1:
+				next_url = ApplePodcastsHandler(url=search_url)
+				logger.info(f"[ApplePodcastsHandler] get next_url:{next_url}")
+				search_url = next_url
+				if search_url == "":
+					logger.warning(f"[ApplePodcastsHandler] get EMPTY next_url, break the apple_podcast handler. count:{count}".format(count=count+1))
+					break	
 
 		except KeyboardInterrupt:
-			logger.error(f"[MAIN Podcast KeyboardInterrupt] Block the crawler.")
+			crawl_fail_count += 1
+			logger.error(f"[MAIN Podcast Keyboard Interrupt] Block the crawler.")
 			pod.status = pod.CRAWLSTATUSFAIL
 			pod.UpdatePodcastStatus()
+			report_to_lark(pod, start_url, exception_string=err)
 			break
 
 		except Exception as e:
-			logger.error(f"[MAIN Podcast ERROR] {e.args}")
-			# pod.status = pod.CRAWLSTATUSFAIL
-			# pod.UpdatePodcastStatus()
-			
+			crawl_fail_count += 1
+			err = "".join(format_exception(e)).strip()
+			logger.error(f"[MAIN Podcast ERROR] {err}")
+			pod.status = pod.CRAWLSTATUSFAIL
+			pod.UpdatePodcastStatus()
+			report_to_lark(pod, start_url, exception_string=err)
+			if crawl_fail_count >= crawl_fail_limit:
+				logger.error(f"[MAIN Podcast FailToMuch Interrupt] Break the crawler.")
+				alarm_lark_text(webhook=cfg["lark_conf"]["webhook"],
+					text="[ATTENTIONS] 播客采集进程中止！失败次数过多，中断采集. 机器IP:"+get_local_ip())
+				break
 		else:
-			logger.info(f"[MAIN Podcast SUCC] crawl {target_url} done.")
-
-		finally:
+			crawl_fail_count = 0
+			logger.info(f"[MAIN Podcast SUCC] crawl {start_url} done.")
 			pod.status = pod.CRAWLSTATUSOK
 			pod.UpdatePodcastStatus()
-			# alarm to Lark Bot
-			local_ip = get_local_ip()
-			public_ip = get_public_ip()
-			now_time_str = get_now_time_string()
-			alarm_lark_text(cfg["lark_conf"]["webhook"], f"crawl user_id:{pod.crawler_id}s' podcasts done. \
-				\n\ttarget_url: {target_url} \
-				\n\trecord_id: {pod.id} \
-				\n\trecord_status: {pod.status} \
-				\n\tLocal_IP:{local_ip} \
-                \n\tPublic_IP:{public_ip} \
-				\n\tTime:{now_time_str}")
+			report_to_lark(pod, start_url)
+
+		finally:
 			random_sleep(rand_st=5, rand_range=5)		
 	logger.info("[MAIN Podcast END]")
-	
-
-def single_apple_podcast(search_url:str):
-	logger.info("[Single Podcast START]")
-	OUTPUT_COUNT = cfg["common"]["output_count"] 
-	count = 0 #已爬取数量
-	output_result_list = [] #JSON结果汇总
-
-	while 1:
-		# 爬取前变量初始化
-		count += 1
-		res_list = []
-
-		# 数据抓取
-		next_url, res_list = ApplePodcastsHandler(url=search_url)
-		logger.info(f"[Single Podcast] ApplePodcastsHandler, next_url:{next_url}, res_list:{res_list}")
-		search_url = next_url
-		if len(res_list) <= 0:
-			logger.warn(f"[Single Podcast] get empty result list, please check the ApplePodcastsHandler")
-		else:
-			# 爬取结果存储
-			if len(output_result_list) <= 0:
-				output_result_list = res_list
-			else:
-				output_result_list += res_list
-			if len(output_result_list) >= OUTPUT_COUNT:
-				logger.info(f"[Single Podcast] save json cache to local file, now_count:{len(output_result_list)}, output_count:{OUTPUT_COUNT}")
-				save_succ = save_json_to_file(output_result_list)
-				if not save_succ:
-					logger.error("[Single Podcast] save json cache file FAILED")
-					pprint(output_result_list)
-					return
-				output_result_list = []
-		
-		# BREAK
-		if next_url == "":
-			logger.warn(f"[Single Podcast] EMPTY next_url, break the apple_podcast handler. count:{count}")
-			break
-
-		# SLEEP
-		random_sleep(rand_st=10, rand_range=5)
-
-	# save result before exit
-	logger.info(f"[Single Podcast] json cache save to local file, now_count:{len(output_result_list)}, output_count:{OUTPUT_COUNT}")
-	save_succ = save_json_to_file(output_result_list)
-	if not save_succ:
-		logger.error("[Single Podcast] save final json file FAILED")
-		pprint(output_result_list)
-
-	logger.info("[Single Podcast END]")
-	return
 
 
 def main():
 	print("Only the option `google` or `podcast` can launch program.")
 	return
 
+
+def report_to_lark(pod:CrawlerSearchInfo, start_url:str, exception_string=""):
+	''' 飞书机器人通知 '''
+	local_ip = get_local_ip()
+	public_ip = get_public_ip()
+	now_time_str = get_now_time_string()
+	title = ""
+	if pod.status == CrawlerSearchInfo.CRAWLSTATUSFAIL:
+		title = f"[ERROR] Apple播客 user_id:{pod.crawler_id} 采集失败. \n\t错误信息: {exception_string}"
+	elif pod.status == CrawlerSearchInfo.CRAWLSTATUSSUCC:
+		title = f"[INFO] Apple播客 user_id:{pod.crawler_id} 采集成功."
+	else:
+		title = f"[DEBUG] Apple播客 user_id:{pod.crawler_id} 采集未知状态：{pod.status}."
+	alarm_lark_text(webhook=cfg["lark_conf"]["webhook"], 
+		text=f"{title} \
+		\n\t用户主页: {pod.result_url} \
+		\n\t数据库记录id: {pod.id} \
+		\n\t起始Url: {start_url} \
+		\n\tLocal_IP:{local_ip} \
+		\n\tPublic_IP:{public_ip} \
+		\n\tTime:{now_time_str}")
 
 if __name__ == "__main__":
 	import sys

@@ -13,3 +13,11 @@ class MagicApiException(Exception):
  
     def __str__(self):
         return f"MagicApiException: {self.message}"
+
+class ApplePodcastException(Exception):
+    ''' ApplePodcast采集异常 '''
+    def __init__(self, message):
+        self.message = message
+ 
+    def __str__(self):
+        return f"ApplePodcastException: {self.message}"
