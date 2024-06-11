@@ -269,7 +269,7 @@ class ApplePodCrawler:
                 succ_count += 1
                 pod_report._succ_count += 1
             finally:
-                random_sleep(rand_st=20, rand_range=10)
+                random_sleep(rand_st=10, rand_range=5)
         else:
             # alarm_lark_text(cfg["lark_conf"]["webhook"], f"Apple Podcast DownloadAudio Log \
             #     \n\tuser_id: {self.user_id} \
@@ -286,7 +286,7 @@ class ApplePodCrawler:
         if res_list == None:
             res_list = []
         res_list += add_list
-        save_succ = save_json_to_file(add_list, save_path=save_path)
+        save_succ = save_json_to_file(res_list, save_path=save_path)
         if not save_succ:
             logger.error("SaveJson save_json_to_file failed")
             logger.info("SaveJson data {output_json_list}")
