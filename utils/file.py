@@ -35,7 +35,7 @@ def get_json_from_file(path:str):
         return None
     try:
         with open(path, "r", encoding="utf8") as f:
-            result = json.load(f, indent=4, ensure_ascii=False)
+            result = json.load(fp=f)
     except Exception as e:
         err = "".join(format_exception(e)).strip()
         print("[ERROR] get_json_from_file failed", err)
@@ -86,7 +86,9 @@ def download_url_resource_local(url:str, local_path:str)->bool:
         return True
 
 if __name__ == "__main__":
-    url = "https://mcdn.podbean.com/mf/web/3qznfg92me6zs3m4/04-18-Molly-promo-final.mp3"
-    save_path = os.path.join(".", "download", "test", "04-18-Molly-promo-final.mp3")
-    succ = download_url_resource_local(url=url, local_path=save_path)
-    print(f"flag:{succ}")
+    # url = "https://mcdn.podbean.com/mf/web/3qznfg92me6zs3m4/04-18-Molly-promo-final.mp3"
+    # save_path = os.path.join(".", "download", "test", "04-18-Molly-promo-final.mp3")
+    # succ = download_url_resource_local(url=url, local_path=save_path)
+    # print(f"flag:{succ}")
+    result = get_json_from_file(path="F:\\github_repo\\AInoriex-crawler_apple_podcast\\output\\apple_podcast\\Podcast_1622218223.json")
+    print(result)
