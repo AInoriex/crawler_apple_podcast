@@ -83,6 +83,8 @@ class ApplePodReport:
 
     def submit_report(self):
         ''' 飞书汇报信息 '''
+        if self._user_id == "":
+            return
         self.report_time = get_now_time_string()
         self.public_ip = get_public_ip()
         succ = alarm_lark_text(cfg["lark_conf"]["webhook"], f"[DEBUG] ApplePodReport采集通知\
