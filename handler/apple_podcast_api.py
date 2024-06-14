@@ -105,15 +105,15 @@ def ApplePodcastsHandler(url:str):
     if url == "":
         logger.warning("ApplePodcastsHandler params invalid, empty url")
         return ""
-    fail_count = 0
 
-    # first request init
+    # new user first request init
     if "?" not in url: 
         params = {
             "l": "en-US", 
             "offset": "10"
         }
         url = url + "?" + urlencode(params)
+        pod_report.submit_report()
         pod_report.reset()
     pod_report.set_extra_params("current_url", url)
 
@@ -144,7 +144,6 @@ def ApplePodcastsHandler(url:str):
                 applePod.GetNextData()
                 if applePod.index < 0 or applePod.now_data == {}:
                     logger.warn(f"ApplePodCrawler's data process done. user_id:{applePod.user_id}")
-                    pod_report.submit_report()
                     break
                 applePod.ParseApiSingleData()
                 applePod.DownloadSingleAudio()
@@ -164,8 +163,9 @@ def ApplePodcastsHandler(url:str):
                 pod_report.add_fail_list(applePod.src_link)
                 continue
             else:
-                pod_report._succ_count += 1
+                pod_report.succ_count += 1
             finally:
+                pod_report.total_count += 1
                 random_sleep(rand_st=5, rand_range=5)
 
         if not url.startswith("http"):
@@ -186,7 +186,7 @@ def ApplePodcastsHandler(url:str):
         )
         raise e
     else:
-        logger.debug(f"ApplePodcastsHandler Result, next_url:{url}")
+        logger.debug(f"ApplePodcastsHandler Done, next_url:{url}")
         return url
 
 class ApplePodCrawler:
@@ -350,7 +350,6 @@ class ApplePodCrawler:
         except Exception as e:
             self._index = -1
             self._now_data = {}
-            raise e
         finally:
             self._vid = 0 # 视频id
             self._link = "" # 详情页链接

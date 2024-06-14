@@ -67,6 +67,7 @@ class PipelineVideo:
         type_podcast = int(4) #数据类型：播客
         status_upload = int(4) #状态：已上传云端
         now_time_string = self.get_now_time_string()
+        info = str(info).strip().replace("'","''") #解决数据中存在单引号的问题
         try:
             query_result = self.Select(condition=f"vid = '{vid}'")
             query = ""
