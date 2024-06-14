@@ -133,11 +133,9 @@ def ApplePodcastsHandler(url:str):
         resp = response.json()
 
         applePod = ApplePodCrawler(url, resp)
-        if "next" not in applePod.resp.keys():
-            raise ApplePodcastException("key `next` not in response's keys")
+        # 解析下载data数据
         if "data" not in applePod.resp.keys():
             raise ApplePodcastException("key `data` not in response's keys")
-        url = applePod.GetNextUrl()
         applePod._len_data = len(applePod.resp["data"])
         while 1:
             try:
@@ -152,13 +150,13 @@ def ApplePodcastsHandler(url:str):
             except Exception as e:
                 err = "".join(format_exception(e)).strip()
                 logger.error(f"ApplePodCrawler Failed, error:{err} user_id:{applePod.user_id}")
-                alarm_lark_text(
-                    webhook = cfg["lark_conf"]["webhook"], 
-                    text = f"[ERROR] 播客下载失败 user_id:{applePod.user_id} \
-                        \n\terror:{err} \
-                        \n\tindex:{applePod.index} \
-                        \n\tnow_data:{applePod.now_data}"
-                )
+                # alarm_lark_text(
+                #     webhook = cfg["lark_conf"]["webhook"], 
+                #     text = f"[ERROR] 播客下载失败 user_id:{applePod.user_id} \
+                #         \n\terror:{err} \
+                #         \n\tindex:{applePod.index} \
+                #         \n\tnow_data:{applePod.now_data}"
+                # )
                 pod_report.fail_count += 1
                 pod_report.add_fail_list(applePod.src_link)
                 continue
@@ -168,8 +166,14 @@ def ApplePodcastsHandler(url:str):
                 pod_report.total_count += 1
                 random_sleep(rand_st=5, rand_range=5)
 
-        if not url.startswith("http"):
-            url = "https://amp-api.podcasts.apple.com" + url
+        # 获取下页data链接
+        if "next" not in applePod.resp.keys():
+            logger.warn("获取不到下一条链接，采集结束")
+            url = ""
+        else:
+            url = applePod.GetNextUrl()
+            if not url.startswith("http"):
+                url = "https://amp-api.podcasts.apple.com" + url
 
     except AssertionError:
         logger.error(f"ApplePodcastsHandler assert error, request {url} failed")

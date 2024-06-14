@@ -58,7 +58,6 @@ def main_apple_podcast():
 
 		start_url = f"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/{query_user_id}/episodes"
 		logger.info(f"Ready to crawl the url {start_url}. Get From Id.{pod.id}")
-		count = 0
 		current_url = start_url
 		# 单个用户数据采集
 		try:
@@ -67,15 +66,14 @@ def main_apple_podcast():
 				logger.info(f"[ApplePodcastsHandler] get next_url:{next_url}")
 				current_url = next_url
 				if current_url == "":
-					logger.warning(f"[ApplePodcastsHandler] get EMPTY next_url, break the apple_podcast handler. count:{count}".format(count=count+1))
 					break	
 
 		except KeyboardInterrupt:
 			crawl_fail_count += 1
-			logger.error(f"[MAIN Podcast Keyboard Interrupt] Block the crawler.")
+			logger.error(f"[MAIN Podcast ERROR] Keyboard Interrupt.")
 			pod.status = pod.CRAWLSTATUSFAIL
 			pod.UpdatePodcastStatus()
-			report_to_lark(pod, start_url, exception_string=err)
+			# report_to_lark(pod, start_url, exception_string=err)
 			break
 
 		except Exception as e:
