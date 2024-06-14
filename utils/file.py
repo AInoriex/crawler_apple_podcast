@@ -5,6 +5,7 @@ import json
 import requests
 from utils.tool import load_cfg
 from traceback import format_exception # Python 3.10+
+from tqdm import tqdm
 
 cfg = load_cfg("config.json")
 
@@ -72,12 +73,16 @@ def download_url_resource_local(url:str, local_path:str)->bool:
     headers={}
     proxies={}
     try:
-        resp = requests.get(url, headers=headers,proxies=proxies,timeout=(5,20),verify=False)
+        resp = requests.get(url, headers=headers,proxies=proxies,timeout=(5,20),verify=False, stream=True)
         if not resp.status_code == 200:
             print(f"download_url_resource_local get url failed. url:{url}")
             return False
-        with open(local_path ,mode="wb") as f:
-            f.write(resp.content)
+        # with open(local_path ,mode="wb") as f:
+        #     f.write(resp.content)
+        total_size = int(resp.headers.get('content-length', 0))  # 获取文件的总大小
+        with open(local_path, mode="wb") as f:
+            for data in tqdm(resp.iter_content(chunk_size=8192), total=total_size, unit='B', unit_scale=True, unit_divisor=1024):
+                f.write(data)
     except Exception as e:
         print(f"download_url_resource_local unknown error:{e}")
         return False
