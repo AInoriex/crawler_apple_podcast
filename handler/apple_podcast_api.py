@@ -124,6 +124,7 @@ def ApplePodcastsHandler(url:str):
         host=cfg["db_conf"]["host"], 
         port=cfg["db_conf"]["port"], 
         database=cfg["db_conf"]["database"],
+        table=cfg["db_conf"]["table"]
     )
 
     try:

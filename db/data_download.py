@@ -4,7 +4,7 @@ from json import dumps, loads
 
 class PipelineVideo:
     ''' 数据结果记录表 '''
-    def __init__(self, user, password, host, database, port=3306):
+    def __init__(self, user, password, host, database, port=3306, table="pipeline_video"):
         self.cnx = mysql.connector.connect(user=user, 
                                           password=password,
                                           host=host,
@@ -14,7 +14,7 @@ class PipelineVideo:
             buffered=False,      # 查询结果立即被获取并存入内存 内存↓效率↑
             dictionary=True     # select返回结构为字典：k字段-v数值
         )
-        self.table = "pipeline_video"
+        self.table = table
         # print("PipelineVideo database __init__")
 
     # 注意，在Python中，应确保在不再需要数据库连接时及时关闭它，因此我们在析构函数中关闭它
