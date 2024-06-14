@@ -114,11 +114,11 @@ def report_to_lark(pod:CrawlerSearchInfo, start_url:str, exception_string=""):
 	now_time_str = get_now_time_string()
 	title = ""
 	if pod.status == CrawlerSearchInfo.CRAWLSTATUSFAIL:
-		title = f"[ERROR] Apple播客 user_id:{pod.crawler_id} 采集失败. \n\t错误信息: {exception_string}"
+		title = f"[ERROR] 📬Apple播客 user_id:{pod.crawler_id} 采集失败. \n\t错误信息: {exception_string}"
 	elif pod.status == CrawlerSearchInfo.CRAWLSTATUSOK:
-		title = f"[INFO] Apple播客 user_id:{pod.crawler_id} 采集成功."
+		title = f"[INFO] 📬Apple播客 user_id:{pod.crawler_id} 采集成功."
 	else:
-		title = f"[DEBUG] Apple播客 user_id:{pod.crawler_id} 采集未知状态：{pod.status}."
+		title = f"[WARN] 📬Apple播客 user_id:{pod.crawler_id} 采集未知状态：{pod.status}."
 	alarm_lark_text(webhook=cfg["lark_conf"]["webhook"], 
 		text=f"{title} \
 		\n\t用户主页: {pod.result_url} \
@@ -129,12 +129,13 @@ def report_to_lark(pod:CrawlerSearchInfo, start_url:str, exception_string=""):
 		\n\tTime:{now_time_str}")
 
 if __name__ == "__main__":
-	import sys
-	if sys.argv[1] == "google":
-		main_google_search()
-	elif sys.argv[1] == "podcast":
-		main_apple_podcast()
-	else:
-		main()
+	# import sys
+	# if sys.argv[1] == "google":
+	# 	main_google_search()
+	# elif sys.argv[1] == "podcast":
+	# 	main_apple_podcast()
+	# else:
+	# 	main()
+	main_apple_podcast()
 	print("== Program Exit ==")
 	input()

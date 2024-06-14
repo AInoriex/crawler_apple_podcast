@@ -79,9 +79,12 @@ def download_url_resource_local(url:str, local_path:str)->bool:
             return False
         # with open(local_path ,mode="wb") as f:
         #     f.write(resp.content)
-        total_size = int(resp.headers.get('content-length', 0))  # 获取文件的总大小
+        total_bytes = resp.headers.get('content-length', 0) # 获取文件的总大小
+        total_size = int(total_bytes)/1024
+        print("[DEBUG] 当前下载文件大小 %.2f MB"%(total_size))
+        total_size = int(total_bytes)*100/1024
         with open(local_path, mode="wb") as f:
-            for data in tqdm(resp.iter_content(chunk_size=8192), total=total_size, unit='B', unit_scale=True, unit_divisor=1024):
+            for data in tqdm(resp.iter_content(chunk_size=1024*10), total=total_size, unit='KB', unit_scale=True, desc="Download File", unit_divisor=1024):
                 f.write(data)
     except Exception as e:
         print(f"download_url_resource_local unknown error:{e}")

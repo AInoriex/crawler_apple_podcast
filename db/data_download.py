@@ -1,6 +1,9 @@
 import mysql.connector
 from time import localtime, strftime
 from json import dumps, loads
+from utils.tool import load_cfg
+
+cfg = load_cfg("config.json")
 
 class PipelineVideo:
     ''' 数据结果记录表 '''
@@ -88,6 +91,15 @@ class PipelineVideo:
         except mysql.connector.Error as err:
             print("PipelineVideo Update Error: ", err)
             raise err
+
+DB = PipelineVideo(
+    user=cfg["db_conf"]["user"], 
+    password=cfg["db_conf"]["password"], 
+    host=cfg["db_conf"]["host"], 
+    port=cfg["db_conf"]["port"], 
+    database=cfg["db_conf"]["database"],
+    table=cfg["db_conf"]["table"]
+)
 
 if __name__ == "__main__":
     # pipeline_video = PipelineVideo(user='root', password='123456', host='127.0.0.1', database='crawler') # localhost
