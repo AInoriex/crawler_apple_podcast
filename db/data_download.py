@@ -4,10 +4,11 @@ from json import dumps, loads
 
 class PipelineVideo:
     ''' 数据结果记录表 '''
-    def __init__(self, user, password, host, database):
+    def __init__(self, user, password, host, database, port=3306):
         self.cnx = mysql.connector.connect(user=user, 
                                           password=password,
                                           host=host,
+                                          port=port,
                                           database=database)   
         self.cursor = self.cnx.cursor(
             buffered=False,      # 查询结果立即被获取并存入内存 内存↓效率↑

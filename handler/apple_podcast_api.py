@@ -118,7 +118,13 @@ def ApplePodcastsHandler(url:str):
     pod_report.set_extra_params("current_url", url)
 
     # db init
-    db = PipelineVideo(user=cfg["db_conf"]["user"], password=cfg["db_conf"]["password"], host=cfg["db_conf"]["host"], database=cfg["db_conf"]["database"])
+    db = PipelineVideo(
+        user=cfg["db_conf"]["user"], 
+        password=cfg["db_conf"]["password"], 
+        host=cfg["db_conf"]["host"], 
+        port=cfg["db_conf"]["port"], 
+        database=cfg["db_conf"]["database"],
+    )
 
     try:
         # logger.debug(f"ApplePodcastsHandler Request: {url} | {headers}")
