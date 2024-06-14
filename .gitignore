@@ -14,3 +14,4 @@ venv.bak/
 
 # Project
 logs/
+output/

@@ -4,6 +4,7 @@ from os import path, remove
 from random import randint
 from traceback import format_exception # Python 3.10+
 from urllib.parse import urlencode
+from json import dumps
 from utils import user_agent
 from utils.utime import get_now_time_string, random_sleep
 from utils.logger import init_logger
@@ -13,13 +14,14 @@ from utils.lark import alarm_lark_text
 from utils.cos import upload_file
 from utils.ip import get_local_ip, get_public_ip
 from utils.exception import ApplePodcastException
+from db.data_download import PipelineVideo
 
 logger = init_logger("apple_podcast_api")
 cfg = load_cfg("config.json")
 disable_warnings(category=exceptions.InsecureRequestWarning)
 
 class ApplePodReport:
-    ''' 采集结果报告 '''
+    ''' 苹果播客采集结果报告 '''
     def __init__(self):
         self._user_id = ""
         self.local_ip = get_local_ip()
@@ -103,7 +105,9 @@ def ApplePodcastsHandler(url:str):
     if url == "":
         logger.warning("ApplePodcastsHandler params invalid, empty url")
         return ""
-    # first request
+    fail_count = 0
+
+    # first request init
     if "?" not in url: 
         params = {
             "l": "en-US", 
@@ -111,18 +115,21 @@ def ApplePodcastsHandler(url:str):
         }
         url = url + "?" + urlencode(params)
         pod_report.reset()
-    headers = {
-        "User-Agent": user_agent.agents[randint(0, len(user_agent.agents)-1)],
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "close",
-        "Origin": "https://podcasts.apple.com",
-        "Authorization": cfg["apple_procast_conf"]["Authorization"]
-    }
-    next_url = ""
     pod_report.set_extra_params("current_url", url)
+
+    # db init
+    db = PipelineVideo(user=cfg["db_conf"]["user"], password=cfg["db_conf"]["password"], host=cfg["db_conf"]["host"], database=cfg["db_conf"]["database"])
+
     try:
         # logger.debug(f"ApplePodcastsHandler Request: {url} | {headers}")
+        headers = {
+            "User-Agent": user_agent.agents[randint(0, len(user_agent.agents)-1)],
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "close",
+            "Origin": "https://podcasts.apple.com",
+            "Authorization": cfg["apple_procast_conf"]["Authorization"]
+        }
         response = get(url=url, headers=headers, verify=False)
         # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
         assert response.status_code == 200
@@ -133,33 +140,98 @@ def ApplePodcastsHandler(url:str):
             raise ApplePodcastException("key `next` not in response's keys")
         if "data" not in applePod.resp.keys():
             raise ApplePodcastException("key `data` not in response's keys")
-        next_url = applePod.GetNextUrl()
-        applePod.DownloadAudio()
-        applePod.SaveJson()
+        url = applePod.GetNextUrl()
+        applePod._len_data = len(applePod.resp["data"])
+        while 1:
+            try:
+                applePod.GetNextData()
+                if applePod.index < 0 or applePod.now_data == {}:
+                    logger.warn(f"ApplePodCrawler's data process done. user_id:{applePod.user_id}")
+                    pod_report.submit_report()
+                    break
+                applePod.ParseApiSingleData()
+                applePod.DownloadSingleAudio()
+                applePod.CreateRecordToGkdDatabase(pipeline_video_class=db)
+                applePod.SaveJson()
+            except Exception as e:
+                err = "".join(format_exception(e)).strip()
+                logger.error(f"ApplePodCrawler Failed, error:{err} user_id:{applePod.user_id}")
+                alarm_lark_text(
+                    webhook = cfg["lark_conf"]["webhook"], 
+                    text = f"[ERROR] 播客下载失败 user_id:{applePod.user_id} \
+                        \n\terror:{err} \
+                        \n\tindex:{applePod.index} \
+                        \n\tnow_data:{applePod.now_data}"
+                )
+                fail_count += 1
+                if fail_count > 3:
+                    raise e
+                continue
+            finally:
+                random_sleep(rand_st=5, rand_range=5)
 
-        if not next_url.startswith("http"):
-            next_url = "https://amp-api.podcasts.apple.com" + next_url
+        if not url.startswith("http"):
+            url = "https://amp-api.podcasts.apple.com" + url
 
-        pod_report.submit_report()
     except AssertionError:
         logger.error(f"ApplePodcastsHandler assert error, request {url} failed")
         raise ApplePodcastException(f"request {url} failed")
     except Exception as e:
         err = "".join(format_exception(e)).strip()
         logger.error(f"ApplePodcastsHandler Failed, error:{err}")
+        alarm_lark_text(
+            webhook = cfg["lark_conf"]["webhook"], 
+            text = f"[ERROR] 播客未知错误 user_id:{applePod.user_id} \
+                \n\terror:{err} \
+                \n\tindex:{applePod.index} \
+                \n\tnow_data:{applePod.now_data}"
+        )
         raise e
+    else:
+        logger.debug(f"ApplePodcastsHandler Result, next_url:{url}")
+        return url
     finally:
-        logger.debug(f"ApplePodcastsHandler Result, next_url:{next_url}")
-        return next_url
+        db.CloseConnection()
 
 class ApplePodCrawler:
-    ''' apple podcast采集'''
+    ''' 苹果播客爬虫 '''
     def __init__(self, url:str, resp:dict):
         self.url = url
-        self.user_id = self.GetUserId()
         self.resp = resp
-        pod_report._user_id = self.user_id
 
+        self._user_id = self.GetUserId() # 用户id
+        self._len_data = 0 # resp.data长度
+        self._now_data = {} # 当前处理的data
+        self._index = -1 # 当前处理data索引
+
+        self._vid = 0 # 视频id
+        self._link = "" # 详情页链接
+        self._src_link = "" # 下载链接
+        self._cloud_link = "" # 云端链接
+        self._duration = 0 # MP3时长(秒)
+        self._info_dict = {}
+
+        pod_report._user_id = self._user_id
+        pass
+
+    @property
+    def user_id(self):   
+        return self._user_id
+    @property
+    def len_data(self):   
+        return self._len_data
+    @property
+    def now_data(self):   
+        return self._now_data
+
+    @property
+    def index(self):   
+        return self._index
+    @index.setter 
+    def index(self, v): 
+        self._index = v
+    
+    
     def GetNextUrl(self)->str:
         ''' 获取下一页链接 '''
         # logger.debug(f"GetNextUrl Param, {self.resp}")
@@ -171,28 +243,27 @@ class ApplePodCrawler:
             return ""
         return self.resp["next"]
 
-    def ParseApiData(self)->list:
-        ''' 解析响应体data字段,获取目标数据 '''
-        # logger.debug(f"GetNextUrl Param, {self.resp}")
-        if "data" not in self.resp.keys():
-            logger.error("ParseApiData failed, no such `data` key in response.")
-            return []
-        res_list = []
-        len_data = len(self.resp["data"])
-        logger.info(f"ParseApiData 共获取到{len_data}条数据")
-        pod_report._total_count += len_data
-        try:
-            for data in self.resp["data"]:
-                res_list.append(self.ParseApiSingleData(data=data))
-            logger.debug(f"ParseApiData Result List: {res_list}")
-        except Exception as e:
-            err = "".join(format_exception(e)).strip()
-            logger.error(f"ParseApiData failed, error:{err}")
-        finally:
-            return res_list
+    # def ParseApiData(self)->list:
+    #     ''' 解析响应体data字段,获取目标列表数据 '''
+    #     # logger.debug(f"GetNextUrl Param, {self.resp}")
+    #     if "data" not in self.resp.keys():
+    #         logger.error("ParseApiData failed, no such `data` key in response.")
+    #         return []
+    #     res_list = []
+    #     len_data = len(self.resp["data"])
+    #     logger.info(f"ParseApiData 共获取到{len_data}条数据")
+    #     pod_report._total_count += len_data
+    #     try:
+    #         for data in self.resp["data"]:
+    #             res_list.append(self.ParseApiSingleData(data=data))
+    #         logger.debug(f"ParseApiData Result List: {res_list}")
+    #     except Exception as e:
+    #         err = "".join(format_exception(e)).strip()
+    #         logger.error(f"ParseApiData failed, error:{err}")
+    #     finally:
+    #         return res_list
 
-
-    def ParseApiSingleData(self, data:dict)->dict:
+    def ParseApiSingleData(self)->dict:
         ''' 解析单个data数据 '''
         ''' example json
         {
@@ -206,18 +277,22 @@ class ApplePodCrawler:
             "view_count": "null",
             "assetUrl": "https://mcdn.podbean.com/mf/web/dqdqn9/Episode_Toddler_Edits_again_-_03_09_2017_21_15.mp3"
         }'''
-        # logger.debug(f"ParseApiSingleData Param, {data}")
+        # logger.debug(f"ParseApiSingleData Param, user_id:{self._user_id}, now_data:{self._now_data}")
         info_dict = {
-            "id": "Podcast_%s_%s"%(self.user_id, data["id"]),
-            "title": data["attributes"]["name"],
-            "full_url": data["attributes"]["url"],
-            "author":data["attributes"]["artistName"],
-            "duration": data["attributes"]["durationInMilliseconds"],
-            "categories": data["attributes"]["genreNames"],
-            "asset_url": data["attributes"]["assetUrl"]
+            "id": "Podcast_%s_%s"%(self._user_id, self._now_data["id"]),
+            "title": self._now_data["attributes"]["name"],
+            "full_url": self._now_data["attributes"]["url"],
+            "author":self._now_data["attributes"]["artistName"],
+            "duration": self._now_data["attributes"]["durationInMilliseconds"] / 1000,
+            "categories": self._now_data["attributes"]["genreNames"],
+            "asset_url": self._now_data["attributes"]["assetUrl"]
         }
+        self._vid = info_dict["id"] # 视频id
+        self._link = info_dict["full_url"] # 详情页链接
+        self._src_link = info_dict["asset_url"] # 下载链接
+        self._duration = info_dict["duration"] # MP3时长(秒)
+        self._info_dict = info_dict
         logger.debug(f"ParseApiSingleData: {info_dict}")
-        return info_dict
 
     def GetUserId(self)->str:
         ''' 获取用户id '''
@@ -225,68 +300,137 @@ class ApplePodCrawler:
         res = sub_str.rsplit("/episodes")[0]
         return res
 
-    def DownloadAudio(self)->bool:
-        ''' 下载音频文件到本地 '''
-        succ_count = 0
-        fail_count = 0
-        fail_list = []
-        save_dir = cfg["common"]["download_path"]
-        for data in self.resp["data"]:
-            try:
-                url = data["attributes"]["assetUrl"]
-                pid = "Podcast_%s_%s"%(self.user_id, data["id"])
-                sub_path = f"Podcast_{self.user_id}"
-                # file_name = os.path.basename(url)
-                file_name = pid + ".mp3"
-                save_path = path.join(save_dir, sub_path, file_name) # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
-                if path.exists(save_path):
-                    print(f"[Warn] 该路径下{save_path}文件存在，下载跳过")
-                    continue
-                # 文件下载本地
-                succ = download_url_resource_local(url, save_path)
-                if not succ:
-                    fail_count += 1
-                    fail_list.append(url)
-                    pod_report._fail_count += 1
-                    pod_report.add_fail_list(url)
-                    logger.error(f"DownloadAudio handler failed, url:{url}")
-                    continue
-                # 上传cos
-                cloud_path = "%s/%s/%s"%(cfg["cos_conf"]["save_path"], sub_path, file_name)
-                _cloud_link = upload_file(from_path=save_path , to_path=cloud_path)
-                # 移除本地文件
-                remove(save_path)
-                # TODO 数据库录入文件存储路径和文件信息
-            except Exception as e:
-                fail_count += 1
-                fail_list.append(url)
-                pod_report._fail_count += 1
-                pod_report.add_fail_list(url)
-                err = "".join(format_exception(e)).strip()
-                logger.error(f"DownloadAudio failed, error:{err}")
-                continue
-            else:
-                succ_count += 1
-                pod_report._succ_count += 1
-            finally:
-                random_sleep(rand_st=10, rand_range=5)
+    # def DownloadAudio(self)->bool:
+    #     ''' 下载音频文件&上传cos '''
+    #     # succ_count = 0
+    #     # fail_count = 0
+    #     # fail_list = []
+    #     save_dir = cfg["common"]["download_path"]
+    #     for data in self.resp["data"]:
+    #         try:
+    #             url = data["attributes"]["assetUrl"]
+    #             pid = "Podcast_%s_%s"%(self._user_id, data["id"])
+    #             sub_path = f"Podcast_{self._user_id}"
+    #             # file_name = os.path.basename(url)
+    #             file_name = pid + ".mp3"
+    #             save_path = path.join(save_dir, sub_path, file_name) # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
+    #             if path.exists(save_path):
+    #                 print(f"[Warn] 该路径下{save_path}文件存在，下载跳过")
+    #                 continue
+    #             # 文件下载本地
+    #             succ = download_url_resource_local(url, save_path)
+    #             if not succ:
+    #                 # fail_count += 1
+    #                 # fail_list.append(url)
+    #                 pod_report._fail_count += 1
+    #                 pod_report.add_fail_list(url)
+    #                 logger.error(f"DownloadAudio handler failed, url:{url}")
+    #                 continue
+    #             # 上传cos
+    #             cloud_path = "%s/%s/%s"%(cfg["cos_conf"]["save_path"], sub_path, file_name)
+    #             _cloud_link = upload_file(from_path=save_path , to_path=cloud_path)
+    #             # 移除本地文件
+    #             remove(save_path)
+    #             # TODO 数据库录入文件存储路径和文件信息
+    #         except Exception as e:
+    #             # fail_count += 1
+    #             # fail_list.append(url)
+    #             pod_report._fail_count += 1
+    #             pod_report.add_fail_list(url)
+    #             err = "".join(format_exception(e)).strip()
+    #             logger.error(f"DownloadAudio failed, error:{err}")
+    #             continue
+    #         else:
+    #             # succ_count += 1
+    #             pod_report._succ_count += 1
+    #         finally:
+    #             random_sleep(rand_st=10, rand_range=5)
+    #     else:
+    #         # alarm_lark_text(cfg["lark_conf"]["webhook"], f"Apple Podcast DownloadAudio Log \
+    #         #     \n\tuser_id: {self.user_id} \
+    #         #     \n\tlink: {self.url} \
+    #         #     \n\tsucc_count: {succ_count} \
+    #         #     \n\tfail_count: {fail_count} \
+    #         #     \n\tfail_list: {fail_list}")
+    #         return
+
+    def DownloadSingleAudio(self):
+        ''' 下载&上传单个MP3 '''
+        try:
+            save_dir = cfg["common"]["download_path"] # 存储路径: {配置文件路径}/Podcast_203844864/Podcast_203844864_1000655529212.mp3
+            pid = self._vid
+            url = self._src_link
+            sub_path = f"Podcast_{self._user_id}"
+            file_name = pid + ".mp3"
+            save_path = path.join(save_dir, sub_path, file_name) 
+            if path.exists(save_path):
+                print(f"[Warn] 该路径下{save_path}文件存在，下载跳过")
+                return
+            # 文件下载本地
+            succ = download_url_resource_local(url, save_path)
+            if not succ:
+                raise ApplePodcastException("download mp3 not succ, download_url_resource_local failed")
+            # 上传cos
+            cloud_path = "%s/%s/%s"%(cfg["cos_conf"]["save_path"], sub_path, file_name)
+            _cloud_link = upload_file(from_path=save_path , to_path=cloud_path)
+            if _cloud_link == "":
+                raise ApplePodcastException("cloud link is null, upload_file failed")
+            self._cloud_link = _cloud_link
+            # 移除本地文件
+            remove(save_path)
+        except Exception as e:
+            pod_report._fail_count += 1
+            pod_report.add_fail_list(url)
+            err = "".join(format_exception(e)).strip()
+            logger.error(f"DownloadSingleAudio unexpected error:{err}")
         else:
-            # alarm_lark_text(cfg["lark_conf"]["webhook"], f"Apple Podcast DownloadAudio Log \
-            #     \n\tuser_id: {self.user_id} \
-            #     \n\tlink: {self.url} \
-            #     \n\tsucc_count: {succ_count} \
-            #     \n\tfail_count: {fail_count} \
-            #     \n\tfail_list: {fail_list}")
-            return
+            pod_report._succ_count += 1
+        finally:
+            pass
 
     def SaveJson(self)->bool:
-        add_list = self.ParseApiData()
-        save_path = path.join(cfg["common"]["output_path"], "Podcast_"+self.user_id+".json")
+        ''' 解析结果json存储到本地文件 '''
+        add_json = self._info_dict
+        if add_json == {}:
+            logger.warn(f"SaveJson self._info_dict is empty, index:{self._index}")
+            return False
+        save_path = path.join(cfg["common"]["output_path"], "Podcast_"+self._user_id+".json")
         res_list = get_json_from_file(save_path)
         if res_list == None:
             res_list = []
-        res_list += add_list
+        res_list.append(add_json)
         save_succ = save_json_to_file(res_list, save_path=save_path)
         if not save_succ:
-            logger.error("SaveJson save_json_to_file failed")
-            logger.info("SaveJson data {output_json_list}")
+            logger.error(f"SaveJson save_json_to_file failed, {res_list}")
+        return save_succ
+        
+    def CreateRecordToGkdDatabase(self, pipeline_video_class:PipelineVideo)->bool:
+        ''' 港科大数据库新增播客数据记录 '''
+        pipeline_video_class.CreatePodcastRecord(
+            vid=self._vid,
+            cloud_path=self._cloud_link,
+            duration=self._duration,
+            link=self._link,
+            info=dumps(self._info_dict)
+        )
+
+    def GetNextData(self):
+        ''' 获取下一个data数据 '''
+        try:
+            self._index += 1
+            if self._index >= self._len_data:
+                self._index = -1
+                self._now_data = {}
+            else:
+                self._now_data = self.resp["data"][self._index]
+        except Exception as e:
+            self._index = -1
+            self._now_data = {}
+            raise e
+        finally:
+            self._vid = 0 # 视频id
+            self._link = "" # 详情页链接
+            self._src_link = "" # 下载链接
+            self._duration = 0 # MP3时长(秒)
+            self._cloud_link = "" # 云端链接
+            self._info_dict = {} # 存储结构体
