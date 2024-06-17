@@ -50,7 +50,7 @@ def main_apple_podcast():
 		# 解析链接的用户id生成请求数据抓取API
 		query_user_id = pod.crawler_id
 		if pod.crawler_id == "":
-			query_user_id = ParseApplePodcastUserId()
+			query_user_id = ParseApplePodcastUserId(pod.result_url)
 		if query_user_id == "":
 			logger.warn(f"GetRandomPodcast parse podcast user_id failed, please check the db record. POD.id:{pod.id}")
 			random_sleep(rand_st=5, rand_range=5)

@@ -139,6 +139,7 @@ def ApplePodcastsHandler(url:str):
         if "data" not in applePod.resp.keys():
             raise ApplePodcastException("key `data` not in response's keys")
         applePod._len_data = len(applePod.resp["data"])
+        pod_report.set_extra_params("len_of_data", applePod._len_data)
         while 1:
             try:
                 applePod.GetNextData()
@@ -166,7 +167,8 @@ def ApplePodcastsHandler(url:str):
                 pod_report.succ_count += 1
             finally:
                 pod_report.total_count += 1
-                random_sleep(rand_st=5, rand_range=5)
+                # pod_report.submit_report()
+                random_sleep(rand_st=10, rand_range=5)
 
         # 获取下页data链接
         if "next" not in applePod.resp.keys():
@@ -179,6 +181,8 @@ def ApplePodcastsHandler(url:str):
 
     except AssertionError:
         logger.error(f"ApplePodcastsHandler assert error, request {url} failed")
+        pod_report.set_extra_params("resp.status_code", response.status_code)
+        pod_report.set_extra_params("resp.content", response.content)
         raise ApplePodcastException(f"request {url} failed")
     except Exception as e:
         err = "".join(format_exception(e)).strip()
@@ -262,7 +266,7 @@ class ApplePodCrawler:
             "view_count": "null",
             "assetUrl": "https://mcdn.podbean.com/mf/web/dqdqn9/Episode_Toddler_Edits_again_-_03_09_2017_21_15.mp3"
         }'''
-        # logger.debug(f"ParseApiSingleData Param, user_id:{self._user_id}, now_data:{self._now_data}")
+        logger.debug(f"ParseApiSingleData Param, user_id:{self._user_id}, now_data:{self._now_data}")
         if "durationInMilliseconds" not in self._now_data["attributes"].keys():
             self._now_data["attributes"]["durationInMilliseconds"] = 0
         info_dict = {
