@@ -65,7 +65,7 @@ class PipelineVideo:
         ''' 创建播客下载上传成功记录 '''
         position_quwan = int(3) #存储位置：quwan
         type_podcast = int(4) #数据类型：播客
-        status_upload = int(4) #状态：已上传云端
+        status_upload = int(2) #状态：已上传云端
         now_time_string = self.get_now_time_string()
         info = str(info).strip().replace("'","''") #解决数据中存在单引号的问题
         try:
