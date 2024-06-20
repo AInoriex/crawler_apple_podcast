@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
+from time import sleep
 
 def request_get_with_retry(url:str, headers=None, proxies={}, verify=True, timeout=10, stream=False, retry=3)->requests.Response:
     ''' 发送GET请求附带重试次数 
@@ -12,6 +13,7 @@ def request_get_with_retry(url:str, headers=None, proxies={}, verify=True, timeo
     except Exception as e:
         print(f"retry_request_get failed, retry_count:{retry}", e)
         if retry > 0:
+            sleep(1)
             request_get_with_retry(url, 
                 headers=headers, proxies=proxies,
                 verify=not(verify), stream=stream,

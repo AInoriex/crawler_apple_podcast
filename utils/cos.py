@@ -12,6 +12,7 @@ from utils.logger import init_logger
 from qcloud_cos import CosConfig
 from qcloud_cos import CosS3Client
 import os
+from time import sleep
 
 cfg = load_cfg("config.json")
 logger = init_logger("cos_sdk")
@@ -78,6 +79,7 @@ def upload_file_with_retry(from_path:str, to_path:str, retry=3)->str:
     except Exception as e:
         logger.error(f"upload_file_with_retry upload_file failed, retry_count:{retry}, error:{e}")
         if retry > 0:
+            sleep(1)
             upload_file_with_retry(from_path=from_path, to_path=to_path, retry=retry-1)
         else:
             raise e
