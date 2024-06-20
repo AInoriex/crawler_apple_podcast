@@ -168,7 +168,7 @@ def ApplePodcastsHandler(url:str):
             finally:
                 pod_report.total_count += 1
                 # pod_report.submit_report()
-                random_sleep(rand_st=10, rand_range=5)
+                random_sleep(rand_st=10, rand_range=10)
 
         # 获取下页data链接
         if "next" not in applePod.resp.keys():
@@ -340,7 +340,7 @@ class ApplePodCrawler:
 
     def CreateRecordToGkdDatabase(self)->bool:
         ''' 港科大数据库新增播客数据记录 '''
-        PipelineVideo.CreatePodcastRecord(
+        PipelineVideo.CreatePodcastRecord (
             vid=self._vid,
             cloud_path=self._cloud_link,
             duration=self._duration,
