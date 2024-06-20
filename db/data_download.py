@@ -144,6 +144,7 @@ class PipelineVideoV2:
         try:
             connection = self.get_connection()
             cursor = connection.cursor()
+            cursor.execute(query)
             rows = cursor.fetchall()
             print("PipelineVideoV2 Select:", rows)
             # for row in rows:
