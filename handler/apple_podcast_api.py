@@ -364,6 +364,7 @@ class ApplePodCrawler:
                 self._now_data = {}
             else:
                 self._now_data = self.resp["data"][self._index]
+                print(f"[进度] URL:{self.url} | Now:{self._index}/{self._len_datas}")
         except Exception as e:
             self._index = -1
             self._now_data = {}
