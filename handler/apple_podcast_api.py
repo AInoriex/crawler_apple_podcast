@@ -4,7 +4,7 @@ from os import path, remove
 from random import randint
 from traceback import format_exception # Python 3.10+
 from urllib.parse import urlencode
-from json import dumps
+from json import dumps,loads
 from utils import user_agent
 from utils.utime import get_now_time_string, random_sleep
 from utils.logger import init_logger
@@ -14,6 +14,7 @@ from utils.lark import alarm_lark_text
 from utils.cos import upload_file
 from utils.ip import get_local_ip, get_public_ip
 from utils.exception import ApplePodcastException
+from utils.request import retry_request_get
 from db.data_download import DB as PipelineVideo
 
 logger = init_logger("apple_podcast_api")
@@ -120,6 +121,7 @@ def ApplePodcastsHandler(url:str):
     pod_report.set_extra_params("current_url", url)
 
     try:
+        # 请求接口获取当前页JSON数据
         # logger.debug(f"ApplePodcastsHandler Request: {url} | {headers}")
         headers = {
             "User-Agent": user_agent.agents[randint(0, len(user_agent.agents)-1)],
@@ -129,10 +131,15 @@ def ApplePodcastsHandler(url:str):
             "Origin": "https://podcasts.apple.com",
             "Authorization": cfg["apple_procast_conf"]["Authorization"]
         }
-        response = get(url=url, headers=headers, verify=False)
+        # response = get(url=url, headers=headers, verify=False)
+        # assert response.status_code == 200
+        response = retry_request_get(url=url, headers=headers, verify=False, retry=3)
         # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
-        assert response.status_code == 200
-        resp = response.json()
+
+        # 接口响应默认utf-8编码, JSON序列化
+        # resp = response.json()
+        data = response.content.decode('utf-8', 'ignore')  # 忽略非法字符
+        resp = loads(data)
 
         applePod = ApplePodCrawler(url, resp)
         # 解析下载data数据
