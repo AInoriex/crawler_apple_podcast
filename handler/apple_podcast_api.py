@@ -235,17 +235,17 @@ class ApplePodCrawler:
     def len_data(self):   
         return self._len_data
     @property
-    def now_data(self):   
+    def now_data(self)->dict:   
         return self._now_data
     @property
     def src_link(self):   
         return self._src_link
 
     @property
-    def index(self):   
+    def index(self)->int:   
         return self._index
     @index.setter 
-    def index(self, v): 
+    def index(self, v:int): 
         self._index = v
     
     
@@ -362,13 +362,13 @@ class ApplePodCrawler:
         try:
             self._index += 1
             if self._index >= self._len_data:
-                self._index = -1
+                self._index = int(-1)
                 self._now_data = {}
             else:
                 self._now_data = self.resp["data"][self._index]
-                print(f"[进度] URL:{self.url} | Now:{self._index}/{self._len_datas}")
+                print(f"[进度] URL:{self.url} | Now:{self._index}/{self._len_data}")
         except Exception as e:
-            self._index = -1
+            self._index = int(-1)
             self._now_data = {}
         finally:
             self._vid = 0 # 视频id
