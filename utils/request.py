@@ -11,9 +11,9 @@ def request_get_with_retry(url:str, headers=None, proxies={}, verify=True, timeo
         response = requests.get(url=url, headers=headers, proxies=proxies, verify=verify, stream=stream,timeout=timeout)
         assert response.status_code == 200
     except Exception as e:
-        print(f"retry_request_get failed, retry_count:{retry}", e)
+        print(f"retry_request_get failed, url:{url}, retry_count:{retry}", e)
         if retry > 0:
-            sleep(1)
+            sleep(5)
             request_get_with_retry(url, 
                 headers=headers, proxies=proxies,
                 verify=not(verify), stream=stream,
