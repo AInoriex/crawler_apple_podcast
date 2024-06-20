@@ -2,9 +2,10 @@
 import os
 import time
 import json
-import requests
+# import requests
 from utils.tool import load_cfg
 from traceback import format_exception # Python 3.10+
+from utils.request import retry_request_get
 from tqdm import tqdm
 
 cfg = load_cfg("config.json")
@@ -70,10 +71,9 @@ def download_url_resource_local(url:str, local_path:str)->bool:
         print(f"[Warn] 该路径下{local_path}文件存在，下载跳过")
         return True
 
-    headers={}
-    proxies={}
     try:
-        resp = requests.get(url, headers=headers,proxies=proxies,timeout=(5,20),verify=False, stream=True)
+        # resp = requests.get(url, headers=headers,proxies=proxies,timeout=(5,20),verify=False, stream=True)
+        resp = retry_request_get(url, timeout=(5,20), verify=False, stream=True, retry=5)
         if not resp.status_code == 200:
             print(f"download_url_resource_local get url failed. url:{url}")
             return False

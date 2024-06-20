@@ -1,4 +1,4 @@
-from requests import get
+# from requests import get
 from urllib3 import disable_warnings, exceptions
 from os import path, remove
 from random import randint
