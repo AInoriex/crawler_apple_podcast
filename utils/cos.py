@@ -76,7 +76,7 @@ def upload_file_with_retry(from_path:str, to_path:str, retry=3)->str:
         cos_link = cfg["cos_conf"]["url_base"] + to_path
         logger.info(f"upload_file_with_retry upload_file done, cos_link:{cos_link} local_file_path:{from_path} to_path:{to_path} file_id:{response['ETag']}")
     except Exception as e:
-        logger.error(f"upload_file_with_retry upload_file failed, retry_count:{retry}", e)
+        logger.error(f"upload_file_with_retry upload_file failed, retry_count:{retry}, error:{e}")
         if retry > 0:
             upload_file_with_retry(from_path=from_path, to_path=to_path, retry=retry-1)
         else:
