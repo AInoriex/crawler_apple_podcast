@@ -54,3 +54,32 @@ def upload_file(from_path:str, to_path:str)->str:
     except Exception as e:
         logger.error(f"cos upload_file failed, error:{e}")
         raise e
+
+# 高级上传接口（+重试逻辑）
+def upload_file_with_retry(from_path:str, to_path:str, retry=3)->str:
+    '''cos上传接口:根据文件大小自动选择简单上传或分块上传,分块上传具备断点续传功能
+    @Params from_path 本地文件路径(exp. ./download/test.mp4)
+    @Params to_path 云端存储路径(exp. ./result/test.mp4)
+    '''
+    if not os.path.exists(from_path):
+        logger.error(f"upload_file_with_retry NO such file {from_path}")
+        raise FileNotFoundError
+    try:
+        response = client.upload_file(
+            Bucket=cfg["cos_conf"]["bucket"],
+            LocalFilePath=from_path,
+            Key=to_path,
+            PartSize=10,
+            MAXThread=10,
+            EnableMD5=False,
+        )
+        cos_link = cfg["cos_conf"]["url_base"] + to_path
+        logger.info(f"upload_file_with_retry upload_file done, cos_link:{cos_link} local_file_path:{from_path} to_path:{to_path} file_id:{response['ETag']}")
+    except Exception as e:
+        logger.error(f"upload_file_with_retry upload_file failed, retry_count:{retry}", e)
+        if retry > 0:
+            upload_file_with_retry(from_path=from_path, to_path=to_path, retry=retry-1)
+        else:
+            raise e
+    else:
+        return cos_link

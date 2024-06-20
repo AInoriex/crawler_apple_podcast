@@ -5,7 +5,7 @@ import json
 # import requests
 from utils.tool import load_cfg
 from traceback import format_exception # Python 3.10+
-from utils.request import retry_request_get
+from utils.request import request_get_with_retry
 from tqdm import tqdm
 
 cfg = load_cfg("config.json")
@@ -73,7 +73,7 @@ def download_url_resource_local(url:str, local_path:str)->bool:
 
     try:
         # resp = requests.get(url, headers=headers,proxies=proxies,timeout=(5,20),verify=False, stream=True)
-        resp = retry_request_get(url, timeout=(5,20), verify=False, stream=True, retry=5)
+        resp = request_get_with_retry(url, timeout=(5,20), verify=False, stream=True, retry=5)
         if not resp.status_code == 200:
             print(f"download_url_resource_local get url failed. url:{url}")
             return False

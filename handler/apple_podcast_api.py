@@ -11,10 +11,10 @@ from utils.logger import init_logger
 from utils.file import download_url_resource_local, save_json_to_file, get_json_from_file
 from utils.tool import load_cfg
 from utils.lark import alarm_lark_text
-from utils.cos import upload_file
+from utils.cos import upload_file, upload_file_with_retry
 from utils.ip import get_local_ip, get_public_ip
 from utils.exception import ApplePodcastException
-from utils.request import retry_request_get
+from utils.request import request_get_with_retry
 from db.data_download import DB as PipelineVideo
 
 logger = init_logger("apple_podcast_api")
@@ -133,7 +133,7 @@ def ApplePodcastsHandler(url:str):
         }
         # response = get(url=url, headers=headers, verify=False)
         # assert response.status_code == 200
-        response = retry_request_get(url=url, headers=headers, verify=False, retry=3)
+        response = request_get_with_retry(url=url, headers=headers, verify=False, retry=3)
         # logger.debug(f"ApplePodcastsHandler Response: {response.status_code} | {response.content}")
 
         # 接口响应默认utf-8编码, JSON序列化
@@ -147,11 +147,12 @@ def ApplePodcastsHandler(url:str):
             raise ApplePodcastException("key `data` not in response's keys")
         applePod._len_data = len(applePod.resp["data"])
         pod_report.set_extra_params("len_of_data", applePod._len_data)
+        print(f"[DEBUG] 当前 {url} 获取到 {applePod._len_data} 条数据")
         while 1:
             try:
                 applePod.GetNextData()
                 if applePod.index < 0 or applePod.now_data == {}:
-                    logger.warn(f"ApplePodCrawler's data process done. user_id:{applePod.user_id}")
+                    logger.warn(f"ApplePodCrawler's data process done. user_id:{applePod.user_id}, index:{applePod.index}, now_data:{applePod.now_data}")
                     break
                 applePod.ParseApiSingleData()
                 applePod.DownloadSingleAudio()
@@ -316,7 +317,8 @@ class ApplePodCrawler:
                 raise ApplePodcastException("download mp3 not succ, download_url_resource_local failed")
             # 上传cos
             cloud_path = "%s/%s/%s"%(cfg["cos_conf"]["save_path"], sub_path, file_name)
-            _cloud_link = upload_file(from_path=save_path , to_path=cloud_path)
+            # _cloud_link = upload_file(from_path=save_path , to_path=cloud_path)
+            _cloud_link = upload_file_with_retry(from_path=save_path , to_path=cloud_path, retry=3)
             if _cloud_link == "":
                 raise ApplePodcastException("cloud link is null, upload_file failed")
             self._cloud_link = _cloud_link
