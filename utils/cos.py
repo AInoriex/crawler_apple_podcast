@@ -26,7 +26,7 @@ token = None               # 如果使用永久密钥不需要填入 token，如
 scheme = 'https'           # 指定使用 http/https 协议来访问 COS，默认为 https，可不填
 
 config = CosConfig(Region=region, SecretId=secret_id, SecretKey=secret_key, Token=token, Scheme=scheme)
-client = CosS3Client(config)
+client = CosS3Client(config, retry=3)
 logger.info(
     "cos init client succeed. %s", client.get_conf().get_host(Bucket=cfg["cos_conf"]["bucket"])
 )
