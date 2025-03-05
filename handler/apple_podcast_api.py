@@ -5,13 +5,12 @@ import requests
 from urllib.parse import urlencode
 from utils import user_agent
 from utils.utime import get_now_time_string_short, random_sleep
-from utils.logger import init_logger
+from utils.logger import logger
 from utils.file import download_url_resource_local
 from utils.tool import load_cfg
 from utils.lark import alarm_lark_text
 from utils.cos import upload_file
 
-logger = init_logger("apple_podcast_api")
 cfg = load_cfg("config.json")
 
 def ApplePodcastsHandler(url:str, params:dict):
