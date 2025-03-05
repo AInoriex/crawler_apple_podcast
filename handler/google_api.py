@@ -47,15 +47,15 @@ def SaveUrlToDb(batch_id:str, keyword:str, url:str)->bool:
         return False
     db = SearchInfo(user='root', password='123456', host='127.0.0.1', database='crawler')
     table = "web_search_info"
-    user_id = ParseApplePodcastUserId(url)
-    get_dict = db.Select(table=table, condition=f"result_url = '{url}' or apple_podcast_user_id = '{user_id}'")
+    episode_id = ParseApplePodcastUserId(url)
+    get_dict = db.Select(table=table, condition=f"result_url = '{url}' or apple_podcast_episode_id = '{episode_id}'")
     if len(get_dict) > 0:
-        logger.warn("SaveDb record existed, skip saving. ID:%s URL:%s USER_ID:%s"%(get_dict[0]['id'], url, user_id))
+        logger.warn("SaveDb record existed, skip saving. ID:%s URL:%s episode_id:%s"%(get_dict[0]['id'], url, episode_id))
         return True
 
     try:
         db.Insert(table=table, values=f"""
-            0, '{batch_id}', 'google', '{keyword}', '{url}', '{user_id}', 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()
+            0, '{batch_id}', 'google', '{keyword}', '{url}', '{episode_id}', 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()
         """)
     except Exception as e:
         logger.error(f"SaveDb Insert FAILED, error:{e}")
@@ -74,14 +74,14 @@ def SaveUrlsToDb(batch_id:str, keyword:str, url_list:list)->bool:
     table = "web_search_info"
 
     for url in url_list:
-        user_id = ParseApplePodcastUserId(url)
-        get_dict = db.Select(table=table, condition=f"result_url = '{url}' or apple_podcast_user_id = '{user_id}'")
+        episode_id = ParseApplePodcastUserId(url)
+        get_dict = db.Select(table=table, condition=f"result_url = '{url}' or apple_podcast_episode_id = '{episode_id}'")
         if len(get_dict) > 0:
-            logger.warn("SaveDb record existed, skip saving. ID:%s URL:%s USER_ID:%s"%(get_dict[0]['id'], url, user_id))
+            logger.warn("SaveDb record existed, skip saving. ID:%s URL:%s episode_id:%s"%(get_dict[0]['id'], url, episode_id))
             continue
         try:
             db.Insert(table=table, values=f"""
-                0, '{batch_id}', 'google', '{keyword}', '{url}', '{user_id}', 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()
+                0, '{batch_id}', 'google', '{keyword}', '{url}', '{episode_id}', 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()
             """)
         except Exception as e:
             logger.error(f"SaveDb Insert FAILED, url:{url} | error:{e}")
@@ -99,7 +99,7 @@ def GetApplePodCastUserIdFromDb()->list:
     db = SearchInfo(user='root', password='123456', host='127.0.0.1', database='crawler')
     table = "web_search_info"
 
-    query = db.Select(table=table, condition=f"apple_podcast_user_id != ''")
+    query = db.Select(table=table, condition=f"apple_podcast_episode_id != ''")
     
     return uid_list
 
@@ -109,9 +109,9 @@ def ParseApplePodcastUserId(url:str)->str:
     \n  exp: https://podcasts.apple.com/us/podcast/trashfuture/id1261944206 -> 1261944206
     '''
     tmp = url.rsplit("/id")
-    user_id = tmp[-1]
-    if user_id.isdigit():
-        return user_id
+    episode_id = tmp[-1]
+    if episode_id.isdigit():
+        return episode_id
     else:
         return ""
 

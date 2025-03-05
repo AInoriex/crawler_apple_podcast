@@ -49,10 +49,10 @@ def SaveDb(batch_id:str, keyword:str, url:str)->bool:
         # logger.warn("SaveDb record existed, skip saving. ID:%s URL:%s"%(get_dict[0]['id'], get_dict[0]['result_url']))
         return True
 
-    user_id = GetApplePodcastUserId(url)
+    episode_id = GetApplePodcastEpisodeId(url)
     try:
         db.Insert(table=table, values=f"""
-            0, '{batch_id}', 'google', '{keyword}', '{url}', '{user_id}', 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()
+            0, '{batch_id}', 'google', '{keyword}', '{url}', '{episode_id}', 1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()
         """)
     except Exception as e:
         # logger.error(f"SaveDb Insert FAILED, error:{e}")
@@ -62,14 +62,14 @@ def SaveDb(batch_id:str, keyword:str, url:str)->bool:
     finally:
         db.Close()
 
-def GetApplePodcastUserId(url:str)->str:
-    ''' 获取链接中Apple Podcast的用户id
+def GetApplePodcastEpisodeId(url:str)->str:
+    ''' 获取链接中Apple Podcast的Episode id
     \n  exp: https://podcasts.apple.com/us/podcast/oppenheimer/id1220985045 -> 1220985045
     '''
     tmp = url.rsplit("/id")
-    user_id = tmp[-1]
-    if user_id.isdigit():
-        return user_id
+    episode_id = tmp[-1]
+    if episode_id.isdigit():
+        return episode_id
     else:
         return ""
 
@@ -94,8 +94,8 @@ if __name__ == "__main__":
     search_url_list = Gsearch(search_word=search_word, start=0, search_total=3, pause=5)
     print(search_url_list)
 
-    user_id_list = [GetApplePodcastUserId(url) for url in search_url_list]
-    print(user_id_list)
+    episode_id_list = [GetApplePodcastEpisodeId(url) for url in search_url_list]
+    print(episode_id_list)
 
     for url in search_url_list:
         SaveDb(batch_id=test_batch_id, keyword=search_word, url=url)

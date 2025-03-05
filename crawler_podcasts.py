@@ -1,16 +1,17 @@
-from handler.apple_podcast_api  import ApplePodcastsHandler
-from utils.utime import random_sleep
+import os
+from pprint import pprint
+from handler.apple_podcast_episode  import ApplePodcastsHandler
+from utils.utime import random_sleep, get_now_time_string_short
 from utils.logger import logger
-from utils.file import save_json_to_file
+from utils.file import save_json_to_file, write_json_to_file
 from utils.tool import load_cfg
 from urllib.parse import urlparse, parse_qs
-from pprint import pprint
 
 def main_apple_podcast():
 	logger.info("[MAIN Podcast START]")
 	search_url_list = [
 		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes",
-		"https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1210902931/episodes",
+		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1210902931/episodes",
 		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1167164482/episodes",
 		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/151485663/episodes",
 		# "https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1195206601/episodes",
@@ -62,11 +63,7 @@ def single_apple_podcast(search_url:str):
 				output_result_list += res_list
 			if len(output_result_list) >= OUTPUT_COUNT:
 				logger.info(f"[Single Podcast] save json cache to local file, now_count:{len(output_result_list)}, output_count:{OUTPUT_COUNT}")
-				save_succ = save_json_to_file(output_result_list)
-				if not save_succ:
-					logger.error("[Single Podcast] save json cache file FAILED")
-					pprint(output_result_list)
-					return
+				write_json_to_file(output_result_list, filename=os.path.join(cfg["common"]["output_path"], "meta", f"{get_now_time_string_short()}.json"))
 				output_result_list = []
 		
 		# BREAK
@@ -82,10 +79,7 @@ def single_apple_podcast(search_url:str):
 
 	# save result before exit
 	logger.info(f"[Single Podcast] json cache save to local file, now_count:{len(output_result_list)}, output_count:{OUTPUT_COUNT}")
-	save_succ = save_json_to_file(output_result_list)
-	if not save_succ:
-		logger.error("[Single Podcast] save final json file FAILED")
-		pprint(output_result_list)
+	write_json_to_file(output_result_list, filename=os.path.join(cfg["common"]["output_path"], "meta", f"{get_now_time_string_short()}.json"))
 
 	logger.info("[Single Podcast END]")
 	return

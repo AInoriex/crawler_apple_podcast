@@ -12,8 +12,8 @@ def main_google_search():
 	search_url_list = Gsearch(search_word=search_word, start=200, search_total=search_total, pause=60)
 	# print(search_url_list)
 
-	# user_id_list = [GetApplePodcastUserId(url) for url in search_url_list]
-	# print(user_id_list)
+	# episode_id_list = [GetApplePodcastUserId(url) for url in search_url_list]
+	# print(episode_id_list)
 
 	# for url in search_url_list:
 	# 	SaveUrl(batch_id=batch_id, keyword=search_word, url=url)

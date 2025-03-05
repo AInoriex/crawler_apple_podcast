@@ -4,7 +4,7 @@ import random
 import requests
 from urllib.parse import urlencode
 from utils import user_agent
-from utils.utime import get_now_time_string_short, random_sleep
+from utils.utime import random_sleep
 from utils.logger import logger
 from utils.file import download_url_resource_local
 from utils.tool import load_cfg
@@ -14,7 +14,7 @@ from utils.cos import upload_file
 cfg = load_cfg("config.json")
 
 def ApplePodcastsHandler(url:str, params:dict):
-    ''' 获取&存储 Apple's Podcast 音频数据 
+    ''' 下载处理 Apple's Podcast 频道音频
     @Params url:https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes; 
     @Params params:{"l"="en-US";"offset"="20"};
     '''
@@ -48,7 +48,7 @@ def ApplePodcastsHandler(url:str, params:dict):
         assert response.status_code == 200
         resp = response.json()
 
-        applePod = ApplePod(url, params, resp)
+        applePod = ApplePodcastEpisodesPage(url, params, resp)
         next_url = applePod.GetNextUrl()
         res_list = applePod.ParseApiData()
         if len(res_list) > 0:
@@ -62,11 +62,11 @@ def ApplePodcastsHandler(url:str, params:dict):
         return next_url, res_list
 
 
-class ApplePod:
-    ''' apple podcast类'''
+class ApplePodcastEpisodesPage:
+    ''' 调用播客频道单页音频数据接口的响应对象 '''
     def __init__(self, url:str, params:dict, resp:dict):
         self.url = url
-        self.user_id = self.GetUserId()
+        self.episode_id = self.GetEpisodeId()
         self.params = params
         self.full_url = url+"?"+urlencode(params)
         self.resp = resp
@@ -100,7 +100,6 @@ class ApplePod:
         finally:
             return res_list
 
-
     def ParseApiSingleData(self, data:dict)->dict:
         ''' 解析单个data数据 '''
         ''' example json
@@ -117,7 +116,7 @@ class ApplePod:
         }'''
         # logger.debug(f"ParseApiSingleData Param, {data}")
         info_dict = {
-            "id": "Podcast_%s_%s"%(self.user_id, data["id"]),
+            "id": "Podcast_%s_%s"%(self.episode_id, data["id"]),
             "title": data["attributes"]["itunesTitle"],
             "full_url": data["attributes"]["url"],
             "author":data["attributes"]["artistName"],
@@ -128,8 +127,11 @@ class ApplePod:
         logger.debug(f"ParseApiSingleData: {info_dict}")
         return info_dict
 
-    def GetUserId(self)->str:
-        ''' 获取用户id '''
+    def GetEpisodeId(self)->str:
+        ''' 获取频道id
+        @Params url:https://amp-api.podcasts.apple.com/v1/catalog/us/podcasts/1261944206/episodes; 
+        @Returns 1261944206
+        '''
         sub_str = self.url.rsplit("podcasts/")[1]
         res = sub_str.rsplit("/episodes")[0]
         return res
@@ -143,8 +145,8 @@ class ApplePod:
         for data in self.resp["data"]:
             try:
                 url = data["attributes"]["assetUrl"]
-                pid = "Podcast_%s_%s"%(self.user_id, data["id"])
-                sub_path = f"Podcast_{self.user_id}"
+                pid = "Podcast_%s_%s"%(self.episode_id, data["id"])
+                sub_path = f"Podcast_{self.episode_id}"
                 # file_name = os.path.basename(url)
                 file_name = pid + ".mp3"
                 save_path = os.path.join(save_dir, sub_path, file_name) # 存储路径格式:/Podcast_203844864/Podcast_203844864_1000655529212.mp3
@@ -174,7 +176,7 @@ class ApplePod:
                 # return False
         else:
             alarm_lark_text(cfg["lark_conf"]["webhook"], f"Apple Podcast DownloadAudio Log \
-                \n\tuser_id: {self.user_id} \
+                \n\tepisode_id: {self.episode_id} \
                 \n\tlink: {self.full_url} \
                 \n\tsucc_count: {succ_count} \
                 \n\tfail_count: {fail_count} \
