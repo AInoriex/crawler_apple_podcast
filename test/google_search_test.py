@@ -1,15 +1,13 @@
 from googlesearch import search
-# from utils.utime import random_sleep
-# from utils.logger import init_logger
 from db.search_info import SearchInfo
+# from utils.utime import random_sleep
 
-# logger = init_logger("test_google_search")
 
 def Gsearch(search_word:str, start:int, search_total:int, pause:int)->list:
     ''' Google搜索API 
     @Param   search_word:搜索关键字, start:要检索的第一个结果, search_total:搜索结果数量, pause:请求间隔(秒)
     @Date   24.05.23
-    @Author xyh
+    @Author AInoriex
     '''
     print("Gsearch Start")
     # search_total = 20

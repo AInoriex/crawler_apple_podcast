@@ -1,7 +1,5 @@
 import mysql.connector
-from utils.logger import init_logger
-
-logger = init_logger("db_google_search")
+from utils.logger import logger
 
 class SearchInfo: 
     ''' 谷歌搜索记录表 '''

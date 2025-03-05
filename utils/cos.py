@@ -7,14 +7,13 @@
 @Date       2024.05.29
 '''
 
-from utils.tool import load_cfg
-from utils.logger import init_logger
+import os
 from qcloud_cos import CosConfig
 from qcloud_cos import CosS3Client
-import os
+from utils.tool import load_cfg
+from utils.logger import logger
 
 cfg = load_cfg("config.json")
-logger = init_logger("cos_sdk")
 
 # 1. 设置用户属性, 包括 secret_id, secret_key, region等。Appid 已在 CosConfig 中移除，请在参数 Bucket 中带上 Appid。Bucket 由 BucketName-Appid 组成    
 secret_id = cfg["cos_conf"]["secret_id"] # 用户的 SecretId，建议使用子账号密钥，授权遵循最小权限指引，降低使用风险。子账号密钥获取可参见 https://cloud.tencent.com/document/product/598/37140

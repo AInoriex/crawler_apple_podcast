@@ -11,6 +11,19 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.google-cookie
 
 # Project
 logs/
+output/
+outputs/
+download/
+downloads/
+
+# config
+*.yaml
+*.ini
+conf/
+config/
+config.json
+config_pre.json
