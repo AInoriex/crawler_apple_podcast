@@ -89,11 +89,11 @@ def heartbeat(interval, process_name):
     global BUSY_FLAG
     global SOURCE_URL
 
-    # ----- 测试数据 HARDCODE -----
-    print("自测跳过心跳上报")
-    logger.info("自测跳过心跳上报")
-    return
-    # ----- 测试数据 HARDCODE -----
+    # # ----- 测试数据 HARDCODE -----
+    # print("自测跳过心跳上报")
+    # logger.info("自测跳过心跳上报")
+    # return
+    # # ----- 测试数据 HARDCODE -----
 
     """子线程函数，用于定时回报心跳。"""
     while True:
@@ -143,14 +143,14 @@ def worker_process(worker_id, server_flag, start_time=str(get_current_timestamp(
         time.sleep(1)  # 控制任务调度的频率
         try:
             result = False
-            # source_url, task_data, status_code, _MSG = get_single_task(f"{server_flag}-{worker_id}-{start_time}")
+            source_url, task_data, status_code, _MSG = get_single_task(f"{server_flag}-{worker_id}-{start_time}")
             
-            # ----- 测试数据 HARDCODE -----
-            source_url= "https://podcasts.apple.com/us/podcast/2281-elon-musk/id360084272?i=1000696846801"
-            task_data = {"storage_location":"/multimodel.db/apple_podcast/"}
-            status_code = 200
-            _MSG = "ok"
-            # ----- 测试数据 HARDCODE -----
+            # # ----- 测试数据 HARDCODE -----
+            # source_url= "https://podcasts.apple.com/us/podcast/2281-elon-musk/id360084272?i=1000696846801"
+            # task_data = {"storage_location":"/multimodel.db/apple_podcast/"}
+            # status_code = 200
+            # _MSG = "ok"
+            # # ----- 测试数据 HARDCODE -----
 
             # 0 "没有资源下载的需求"
             # 200 f"接收到请求：{_data}"

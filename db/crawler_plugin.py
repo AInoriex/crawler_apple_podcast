@@ -55,14 +55,11 @@ def send_json_2_server(meta_dict:dict, process_name:str, status:str, status_code
 
     Returns:
         None
-
-    Raises:
-        Exception: If the report fails.
     """
-    # ----- 测试数据 HARDCODE -----
-    logger.info(f"自测跳过回调，meta_dict:{meta_dict}, process_name:{process_name}, status:{status}, status_code:{status_code}, error_msg:{error_msg}")
-    return
-    # ----- 测试数据 HARDCODE -----
+    # # ----- 测试数据 HARDCODE -----
+    # logger.info(f"自测跳过回调，meta_dict:{meta_dict}, process_name:{process_name}, status:{status}, status_code:{status_code}, error_msg:{error_msg}")
+    # return
+    # # ----- 测试数据 HARDCODE -----
 
     crwaler_platform_web_url = os.getenv("CRWALER_PLATFORM_WEB_URL", "")
     url = crwaler_platform_web_url + "/crawler-platform/report_download_result"
