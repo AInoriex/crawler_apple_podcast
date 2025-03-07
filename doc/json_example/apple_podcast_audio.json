@@ -1,0 +1,96 @@
+// HTML JSON
+{
+    "@context": "http://schema.org",
+    "@type": "PodcastEpisode",
+    "productionCompany": "TRASHFUTURE",
+    "datePublished": "2024-12-24",
+    "description": "Our last free episode of 2024 involves Riley, Milo, and November watching the Rock in a terrible Christmas film entitled RED ONE. It’s a film in which Christmas is saved by the surveillance state, jacked Santa trains in the gym to do room-clearing and be an operator, and so much more. This is our present to you: ...",
+    "duration": "PT1H8M15S",
+    "genre": [
+        "Comedy"
+    ],
+    "name": "In Search of Door-Kicker Santa: TF Watches RED ONE",
+    "offers": [
+        {
+            "@type": "Offer",
+            "category": "free",
+            "price": 0
+        }
+    ],
+    "potentialAction": {
+        "@type": "ListenAction",
+        "expectsAcceptanceOf": {
+            "@type": "Offer",
+            "category": "free"
+        },
+        "target": {
+            "@type": "EntryPoint",
+            "actionPlatform": "https://podcasts.apple.com/us/podcast/in-search-of-door-kicker-santa-tf-watches-red-one/id1261944206?i=1000681592565"
+        }
+    },
+    "url": "https://podcasts.apple.com/us/podcast/in-search-of-door-kicker-santa-tf-watches-red-one/id1261944206?i=1000681592565",
+    "episodeNumber": 854,
+    "partOfSeries": {
+        "@type": "CreativeWorkSeries",
+        "name": "TRASHFUTURE",
+        "url": "https://podcasts.apple.com/us/podcast/trashfuture/id1261944206",
+        "offers": [
+            {
+                "@type": "Offer",
+                "category": "free",
+                "price": 0
+            }
+        ]
+    },
+    "thumbnailUrl": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts114/v4/b0/7e/08/b07e0839-bfdd-3d93-7583-56c6253cd3c7/mza_1716515295763637767.png/1200x1200bf.webp"
+}
+
+
+// API JSON
+{
+    "id": "1000681592565",
+    "type": "podcast-episodes",
+    "href": "/v1/catalog/us/podcast-episodes/1000681592565?l=en-US",
+    "attributes": {
+        "offers": [
+            {
+                "kind": "get",
+                "type": "STDQ"
+            }
+        ],
+        "contentAdvisory": "",
+        "copyright": "Copyright 2017, 2024. All rights reserved.",
+        "artworkOrigin": "podcast",
+        "genreNames": [
+            "Comedy"
+        ],
+        "kind": "full",
+        "itunesTitle": "In Search of Door-Kicker Santa: TF Watches RED ONE",
+        "mediaKind": "audio",
+        "description": {
+            "standard": "Our last free episode of 2024 involves Riley, Milo, and November watching the Rock in a terrible Christmas film entitled RED ONE. It��s a film in which Christmas is saved by the surveillance state, jacked Santa trains in the gym to do room-clearing and be an operator, and so much more. This is our present to you: we have suffered....",
+            "short": ""
+        },
+        "artwork": {
+            "width": 2672,
+            "height": 2672,
+            "url": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts114/v4/b0/7e/08/b07e0839-bfdd-3d93-7583-56c6253cd3c7/mza_1716515295763637767.png/{w}x{h}bb.{f}",
+            "bgColor": "000000",
+            "textColor1": "ffffff",
+            "textColor2": "f60090",
+            "textColor3": "cbcbcb",
+            "textColor4": "c50073"
+        },
+        "episodeNumber": 854,
+        "url": "https://podcasts.apple.com/us/podcast/in-search-of-door-kicker-santa-tf-watches-red-one/id1261944206?i=1000681592565",
+        "releaseDateTime": "2024-12-24T20:48:44Z",
+        "websiteUrl": "https://trashfuturepodcast.podbean.com/e/in-search-of-door-kicker-santa-tf-watches-red-one/",
+        "durationInMilliseconds": 4095000,
+        "name": "In Search of Door-Kicker Santa: TF Watches RED ONE",
+        "guid": "trashfuturepodcast.podbean.com/38dd891e-bf95-3cbb-aba2-fd7eadcc2c70",
+        "contentRating": "explicit",
+        "artistName": "TRASHFUTURE",
+        "subscribable": True,
+        "assetUrl": "https://mcdn.podbean.com/mf/web/watq4fsgydah3zf4/12-24-TF-Red-One-final.mp3"
+    }
+}
