@@ -1,13 +1,7 @@
 '''
 @Author     AInoriex
-@Date       24.05.23
+@Date       25.03.06
 @Desc       用于解析并采集单音频页面的音频数据
-
-@Example_1  https://podcasts.apple.com/us/podcast/2281-elon-musk/id360084272?i=1000696846801
-@Audio_1    https://traffic.megaphone.fm/GLT1014494849.mp3?updated=1741043721
-
-@Example_2  https://podcasts.apple.com/us/podcast/the-persian-wars-xerxes-thermopylae-and-salamis/id1520403988?i=1000695929043
-@Audio_2    https://sphinx.acast.com/p/acast/s/the-ancients/e/67bdfb5e03ca0341bd8789be/media.mp3?tk=eyJ0ayI6ImRlZmF1bHQiLCJhZHMiOnRydWUsInNwb25zIjp0cnVlLCJzdGF0dXMiOiJwdWJsaWMifQ==&sig=-kB4pIdrQNqSWKnHx2bjeumXjTrJMPoDk3EI9iZuHdI
 '''
 
 import json
@@ -46,6 +40,11 @@ def apple_podcast_plugin_handler(url):
 
     # 如果所有函数都执行过且err_msg不为空，抛出异常
     raise Exception(f"apple_podcast_plugin_handler error, {err_msg}")
+
+'''
+@ExampleParam.url  https://podcasts.apple.com/us/podcast/2281-elon-musk/id360084272?i=1000696846801
+@ExampleParam.url  https://podcasts.apple.com/us/podcast/the-persian-wars-xerxes-thermopylae-and-salamis/id1520403988?i=1000695929043
+'''
 
 def apple_podcast_plugin_handler_web(url)->tuple[VideoMeta, str]:
     """
