@@ -20,8 +20,7 @@ SOURCE_URL = ""
 
 _hostname = os.getenv("HOSTNAME")
 _env_proxy = os.getenv("PROXY")
-crwaler_platform_web_url = os.getenv("CRWALER_PLTFORM_WEB_URL")
-
+crwaler_platform_web_url = os.getenv("CRWALER_PLATFORM_WEB_URL")
 
 # def get_single_task(process_name, source_type="youtube"):
 def get_single_task(process_name, source_type="apple_podcast"):
@@ -105,8 +104,8 @@ def heartbeat(interval, process_name):
 
         param = {
             "processName": process_name,
-            "crawlerType": "youtube",
-            "crawlerTypeDesc": "采集youtube网站视频",
+            "crawlerType": "apple_podcast",
+            "crawlerTypeDesc": "采集苹果播客网站视频",
             "crawlerStatus": "busy" if BUSY_FLAG else "idle",
             "sourceUrl": SOURCE_URL
         }
