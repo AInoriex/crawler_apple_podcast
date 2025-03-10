@@ -20,7 +20,7 @@ COPY . /app/
 RUN mkdir -p /app/conf
 
 # 安装Python依赖
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # 设置默认的配置文件
 COPY conf/config.ini /app/conf/
