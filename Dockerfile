@@ -16,7 +16,12 @@ RUN apt-get update && apt-get install -y \
 # 复制项目文件
 COPY . /app/
 
-# 创建必要的目录
+# 删除不必要的文件目录
+RUN rm /app/.env
+RUN rm -rf /app/conf
+
+# 创建必要的文件目录
+RUN touch /app/.env
 RUN mkdir -p /app/conf
 
 # 安装Python依赖
