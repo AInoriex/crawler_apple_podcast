@@ -93,8 +93,16 @@ def upload_file_v2(from_path:str, to_path:str, __retry:int=5)->str:
     :param to_path: 对象名，即上传后的文件名
     :return: 上传后的文件url
     """
+    if to_path.startswith("obs://"):
+        # 处理传入为完整`obs://xxx`路径情况
+        # input obs://{bucket}/path/to/xxx.mp3
+        # urlBase obs://{bucket}
+        # to_path path/to/xxx.mp3
+        urlBase = to_path.split("obs://", 1)[1].split("/", 1)[0]
+        to_path = to_path.split("obs://", 1)[1].split("/", 1)[1]
     if to_path.startswith("/"):
-            to_path = to_path.replace("/", "", 1)
+        # 处理路径以"/"起始导致obs上传创建`/`文件夹
+        to_path = to_path.replace("/", "", 1)
     try:
         obsClient = ObsClient(access_key_id=ak, secret_access_key=sk, server=server)
         objectKey = to_path
