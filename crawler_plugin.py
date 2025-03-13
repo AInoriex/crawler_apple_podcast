@@ -4,6 +4,7 @@ from utils.logger import logger
 from utils.obs import upload_file_v2
 from utils.request import download_resource
 from utils.file import get_file_size
+from utils.utime import get_now_day_string_short
 from handler.apple_podcast_audio import apple_podcast_plugin_handler
 # from handler.apple_podcast_audio import apple_podcast_plugin_handler_api, apple_podcast_plugin_handler_web
 from db.crawler_plugin import send_json_2_server, CrawlerPluginErrorCodeMap
@@ -33,7 +34,8 @@ def apple_podcast_crawler_plugin(url, other_data=None, worker_id="0", server_nam
             local_save_path = download_resource(download_url, local_save_path, proxies=None)
 
             # 上传obs
-            cloud_save_path = os.path.join(cloud_save_folder, filename) # 云端文件路径
+            # cloud_save_path = os.path.join(cloud_save_folder, filename) # 云端文件路径
+            cloud_save_path = os.path.join(cloud_save_folder, get_now_day_string_short(), filename) # 云端文件路径新增一级存储目录 cloud_save_folder/{日期}/filename
             cloud_url = upload_file_v2(from_path=local_save_path, to_path=cloud_save_path)
             
             # 更新meta信息
