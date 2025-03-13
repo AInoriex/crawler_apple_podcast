@@ -86,20 +86,15 @@ def upload_file(from_path:str, to_path:str)->str:
     finally:
         obsClient.close()
 
-def upload_file_v2(from_path:str, to_path:str, __retry:int=5)->str:
+def upload_file_v2(from_path:str, to_path:str, urlBase:str="", __retry:int=5)->str:
     """
     上传文件到OBS（适用于大于5G大文件上传）
     :param from_path: 文件/文件夹的完整路径
     :param to_path: 对象名，即上传后的文件名
     :return: 上传后的文件url
     """
-    if to_path.startswith("obs://"):
-        # 处理传入为完整`obs://xxx`路径情况
-        # input obs://{bucket}/path/to/xxx.mp3
-        # urlBase obs://{bucket}
-        # to_path path/to/xxx.mp3
-        urlBase = to_path.split("obs://", 1)[1].split("/", 1)[0]
-        to_path = to_path.split("obs://", 1)[1].split("/", 1)[1]
+    if urlBase == "":
+        urlBase = os.getenv("OBS_URLBASE", "/")
     if to_path.startswith("/"):
         # 处理路径以"/"起始导致obs上传创建`/`文件夹
         to_path = to_path.replace("/", "", 1)
@@ -130,11 +125,12 @@ def upload_file_v2(from_path:str, to_path:str, __retry:int=5)->str:
         print('Obs > 上传失败' + traceback.format_exc())
         if __retry > 0:
             sleep(1)
-            return upload_file_v2(from_path=from_path, to_path=to_path, __retry=__retry-1)
+            return upload_file_v2(from_path=from_path, to_path=to_path, urlBase=urlBase, __retry=__retry-1)
         else:
             raise e
     else:
-        return urljoin(urlBase, to_path)
+        # return urljoin(urlBase, to_path)
+        return os.path.join(urlBase, to_path)
     finally:
         obsClient.close()
 
