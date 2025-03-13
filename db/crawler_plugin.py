@@ -182,7 +182,7 @@ class VideoMeta:
         self.file_size = file_size
         self.file_type = file_type
         self.compression_method = compression_method
-        self.duration = duration
+        self.duration = int(duration)
         self.categories = categories
         self.view_count = view_count
         self.comment_count = comment_count

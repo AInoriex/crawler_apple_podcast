@@ -60,6 +60,33 @@ def apple_podcast_plugin_handler_web(url)->tuple[VideoMeta, str]:
             raise KeyError("正则匹配mp3链接失败")
         return mp3_links[0]
 
+    def format_duration_string_to_int(duration_str):
+        """
+        将 ISO 8601 时间持续期字符串（如 PT1H8M15S）转换为总秒数。
+        
+        参数:
+            duration_str (str): ISO 8601 时间持续期字符串，例如 'PT1H8M15S'
+        
+        返回:
+            int: 总秒数
+        """
+        try:
+            # 定义正则表达式，匹配时间单位和对应的数值
+            pattern = r"P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?"
+            # 使用正则表达式解析字符串
+            match = re.match(pattern, duration_str)
+            if not match:
+                raise ValueError("无效的时间持续期格式")
+            # 提取各时间单位的数值，如果没有对应单位则为 0
+            days, hours, minutes, seconds = match.groups(default=0)
+            days, hours, minutes, seconds = int(days), int(hours), int(minutes), int(seconds)
+            # 计算总秒数
+            total_seconds = (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds
+            return total_seconds
+        except Exception as e:
+            logger.error(f"apple_podcast_plugin_handler_web format_duration_string_to_int failed, duration_str:{duration_str}, error:{e}")
+            return 0
+
     def extract_audio_meta(html_content, obj:VideoMeta):
         ''' 提取音频meta信息 '''
         elements = etree.HTML(html_content).xpath('//script[@id="schema:episode"]/text()')
@@ -75,7 +102,7 @@ def apple_podcast_plugin_handler_web(url)->tuple[VideoMeta, str]:
             obj.description = json_data.get('description', '')
             obj.source_url = json_data.get('url', '')
             obj.duration_string = json_data.get('duration', '')
-            obj.duration = 0
+            obj.duration = round(format_duration_string_to_int(obj.duration_string)) if obj.duration_string != "" else 0
             obj.categories = json_data.get('genre', [])
             obj.channel = json_data.get('productionCompany', '')
             obj.uploader = json_data.get('partOfSeries').get('name', '')
@@ -145,7 +172,7 @@ def apple_podcast_plugin_handler_api(url)->tuple[VideoMeta, str]:
             obj.description = attributes.get('description').get('standard', '')
             obj.source_url = attributes.get('url', '')
             obj.duration_string = str(attributes.get('durationInMilliseconds', ''))
-            obj.duration = attributes.get('durationInMilliseconds', '')/1000
+            obj.duration = round(int(obj.duration_string)/1000) if obj.duration_string != "" else 0
             obj.categories = attributes.get('genreNames', [])
             obj.channel = attributes.get('artistName', '')
             obj.uploader = attributes.get('artistName', '')
