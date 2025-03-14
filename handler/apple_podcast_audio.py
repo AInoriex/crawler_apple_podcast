@@ -46,7 +46,7 @@ def apple_podcast_plugin_handler(url):
 @ExampleParam.url  https://podcasts.apple.com/us/podcast/the-persian-wars-xerxes-thermopylae-and-salamis/id1520403988?i=1000695929043
 '''
 
-def apple_podcast_plugin_handler_web(url)->tuple[VideoMeta, str]:
+def apple_podcast_plugin_handler_web(url:str)->tuple[VideoMeta, str]:
     """
     基于html源码解析获取mp3信息
     """
@@ -100,7 +100,8 @@ def apple_podcast_plugin_handler_web(url)->tuple[VideoMeta, str]:
             # print(json_data)
             obj.title = json_data.get('name', '')
             obj.description = json_data.get('description', '')
-            obj.source_url = json_data.get('url', '')
+            # obj.source_url = json_data.get('url', '')
+            obj.source_url = url
             obj.duration_string = json_data.get('duration', '')
             obj.duration = round(format_duration_string_to_int(obj.duration_string)) if obj.duration_string != "" else 0
             obj.categories = json_data.get('genre', [])
@@ -130,7 +131,8 @@ def apple_podcast_plugin_handler_web(url)->tuple[VideoMeta, str]:
         response = requests.get(url)
         response.raise_for_status()  # 检查请求是否成功
         # print(response.text)
-        html_content = response.text
+        # html_content = response.text
+        html_content = response.content.decode('utf-8')
 
         # 提取音频链接
         v.download_url = extract_audio_link(html_content)
@@ -153,7 +155,7 @@ def apple_podcast_plugin_handler_web(url)->tuple[VideoMeta, str]:
         logger.error(f"{err_msg}, url:{url}, error:{e}")
         return None, err_msg
 
-def apple_podcast_plugin_handler_api(url)->tuple[VideoMeta, str]:
+def apple_podcast_plugin_handler_api(url:str)->tuple[VideoMeta, str]:
     """
     调播客后台API获取mp3信息
     """
@@ -170,7 +172,8 @@ def apple_podcast_plugin_handler_api(url)->tuple[VideoMeta, str]:
             attributes = json_data.get("attributes")
             obj.title = attributes.get('name', '')
             obj.description = attributes.get('description').get('standard', '')
-            obj.source_url = attributes.get('url', '')
+            # obj.source_url = attributes.get('url', '')
+            obj.source_url = url
             obj.duration_string = str(attributes.get('durationInMilliseconds', ''))
             obj.duration = round(int(obj.duration_string)/1000) if obj.duration_string != "" else 0
             obj.categories = attributes.get('genreNames', [])
@@ -197,7 +200,7 @@ def apple_podcast_plugin_handler_api(url)->tuple[VideoMeta, str]:
         )
 
         # 请求API
-        url = "https://amp-api.podcasts.apple.com/v1/catalog/us/podcast-episodes"
+        request_api = "https://amp-api.podcasts.apple.com/v1/catalog/us/podcast-episodes"
         headers = {
             "accept": "*/*",
             "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -219,8 +222,8 @@ def apple_podcast_plugin_handler_api(url)->tuple[VideoMeta, str]:
             # "ids": "1000696846801"
             "ids": audio_id
         }
-        logger.info(f"apple_podcast_plugin_handler_api request, url:{url}, headers:{headers}, params:{params}")
-        response = requests.get(url, headers=headers, params=params)
+        logger.info(f"apple_podcast_plugin_handler_api request, url:{request_api}, headers:{headers}, params:{params}")
+        response = requests.get(request_api, headers=headers, params=params)
         # print(response.text)
         if response.status_code != 200:
             raise requests.RequestException(f"request failed, {response.status_code}")
