@@ -62,7 +62,7 @@ def apple_podcast_crawler_plugin(url, other_data=None, worker_id="0", server_nam
             
             # 更新meta信息
             video_info.storage_location = cloud_url
-            video_info.file_size = get_file_size(local_save_path) * 1024 # MB*1024->Bytes
+            video_info.file_size = int(get_file_size(local_save_path)) * 1024 # MB*1024->Bytes
             video_info.is_success = 0
 
             # 删除临时文件

@@ -128,7 +128,7 @@ class VideoMeta:
             资源内容的解释描述
         source_url : str     
             视频来源url
-        file_size : str     
+        file_size : int     
             数据文件大小（单位：byte）
         file_type : str     
             数据文件的类型，如CSV、TEXT、DOC,JPG,MP3,MP4,AVI等
