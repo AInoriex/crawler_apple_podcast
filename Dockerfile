@@ -18,6 +18,7 @@ COPY . /app/
 
 # 删除不必要的文件目录
 RUN rm /app/.env
+RUN rm -rf /app/doc
 RUN rm -rf /app/conf
 
 # 创建必要的文件目录

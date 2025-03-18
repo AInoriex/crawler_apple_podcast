@@ -82,7 +82,7 @@ def send_json_2_server(meta_dict:dict, process_name:str, status:str, status_code
                 continue
             json_data = response.json()
             if json_data["code"] != 200:
-                logger.error(f"回传资源下载结果的失败，msg:{json_data['msg']}, 请重试")
+                logger.error(f"回传资源下载结果的失败，code:{json_data['code']}，msg:{json_data['msg']}, 请重试")
                 continue
         except Exception as e:
             logger.error(f"回传资源下载结果未知错误，{e}")

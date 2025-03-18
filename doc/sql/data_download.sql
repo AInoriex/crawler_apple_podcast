@@ -8,7 +8,7 @@ CREATE DATABASE `crawler` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci';
 CREATE TABLE `crawler_download_info` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT '自增唯一ID',
     `vid` varchar(255) NOT NULL COMMENT '资源ID',
-    `position` tinyint DEFAULT NULL COMMENT '1: cas, 2: cuhk, 3: quwan',
+    `position` tinyint DEFAULT NULL COMMENT '资源存储位置',
     `source_type` tinyint NOT NULL COMMENT '1: Bilibili, 2: 喜马拉雅, 3: YouTube',
     `source_link` text COMMENT '资源原始链接',
     `duration` int DEFAULT NULL COMMENT '原始长度(秒)',

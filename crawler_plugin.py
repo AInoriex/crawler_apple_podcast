@@ -5,7 +5,8 @@ from utils.logger import logger
 from utils.obs import upload_file_v2
 from utils.request import download_resource
 from utils.file import get_file_size
-from utils.utime import get_now_day_string_short
+from utils.utime import get_now_day_string_short, get_now_time_string
+from utils.lark import alarm_lark_text
 from handler.apple_podcast_audio import apple_podcast_plugin_handler
 # from handler.apple_podcast_audio import apple_podcast_plugin_handler_api, apple_podcast_plugin_handler_web
 from db.crawler_plugin import send_json_2_server, CrawlerPluginErrorCodeMap, VideoMeta
@@ -25,7 +26,7 @@ def extract_obs_url_info(obs_url:str):
     # return bucket_name, obs_save_path
     return obs_url.split("/", 1)[0], obs_url.split("/", 1)[1]
 
-def apple_podcast_crawler_plugin(url, other_data=None, worker_id="0", server_name="apple_podcast_worker_0"):
+def apple_podcast_crawler_plugin(url:str, other_data:dict=None, worker_id:str="0", server_name:str="apple_podcast_worker_0"):
     """
     Apple Podcast下载插件处理逻辑，流程为解析网页->下载资源->上传云端->聚合信息->回调数据中心
 
@@ -35,15 +36,22 @@ def apple_podcast_crawler_plugin(url, other_data=None, worker_id="0", server_nam
     :param server_name: 工作进程的名称
     :return: None
     """
+    if url == "":
+        raise Exception("apple_podcast_crawler_plugin 源链接为空")
+    if other_data == None or other_data == {}:
+        raise Exception("apple_podcast_crawler_plugin 元数据为空")
+    report_data = other_data
+    
     try:
         logger.info(f"[{server_name}进程] Process:{worker_id} | url:{url}, other_data:{other_data} | 开始苹果播客Apple Podcast下载任务 ...")
-        report_dict = {}
         storage_location = other_data.get("storage_location", "")
 
         # 解析音频信息
         video_info:VideoMeta = apple_podcast_plugin_handler(url)
         
         # 下载音频
+        if video_info.download_url == "":
+            raise Exception("解析音频为空，下载音频失败")
         with tempfile.TemporaryDirectory() as local_save_folder:
             download_url = video_info.download_url
             filename = f"{video_info.video_id}.mp3"
@@ -68,25 +76,23 @@ def apple_podcast_crawler_plugin(url, other_data=None, worker_id="0", server_nam
             # 删除临时文件
             os.remove(local_save_path)
 
+        # video_info无新的属性更新，导出meta信息回调服务器
+        report_data = video_info.dict()
+
         # 如果有旧meta信息则合并二者meta信息
-        report_dict = video_info.dict()
-        if other_data: 
-            try:
-                report_dict.update(other_data)
-                report_dict["storage_location"] = cloud_url
-            except Exception as e:
-                logger.error(f"[{server_name}进程] Process:{worker_id} | url:{url} | 更新meta信息失败，{e}，video_info:{video_info.dict()}, other_data:{other_data}")
-                # return False
+        try:
+            report_data.update(other_data)
+            # 原始数据优先，为空则用采集器数据
+            report_data["type"] = video_info.type if report_data.get("type", "") == "" else report_data["type"]
+            report_data["p_id"] = video_info.uploader_id if report_data.get("p_id", "") == "" else report_data["p_id"]
+            report_data["publisher"] = video_info.uploader if report_data.get("publisher", "") == "" else report_data["publisher"]
+        except Exception as e:
+            logger.error(f"[{server_name}进程] Process:{worker_id} | url:{url} | 更新meta信息失败，video_info:{video_info.dict()}, other_data:{other_data}，error:{e}")
+        report_data["storage_location"] = cloud_url
 
         # 回调上报meta信息
-        # video_info.report_server(
-        #     process_name=f'{server_name}-{worker_id}',
-        #     status="success",
-        #     status_code=200,
-        #     error_msg="",
-        # )
         send_json_2_server(
-            meta_dict=report_dict,
+            meta_dict=report_data,
             process_name=f'{server_name}-{worker_id}',
             status="success",
             status_code=CrawlerPluginErrorCodeMap["ErrorCodeSuccess"]["status_code"],
@@ -97,11 +103,12 @@ def apple_podcast_crawler_plugin(url, other_data=None, worker_id="0", server_nam
         return True
     except Exception as e:
         logger.error(f"[{server_name}进程] Process:{worker_id} | url:{url} | 任务失败，{e}")
+        alarm_lark_text(webhook="", text=f"[ApplePodcast Crawler Plugin] 采集失败 \n\t 进程:{server_name} \n\t Process:{worker_id} \n\t 采集URL:{url} \n\t 元数据:{report_data} \n\t 错误信息:{e} \n\t 告警时间:{get_now_time_string()}")
         send_json_2_server(
-            meta_dict=report_dict,
+            meta_dict=report_data if report_data else other_data,
             process_name=f'{server_name}-{worker_id}',
             status="fail",
             status_code=CrawlerPluginErrorCodeMap["ErrorCodeUnknownException"]["status_code"],
-            error_msg=CrawlerPluginErrorCodeMap["ErrorCodeUnknownException"]["error_msg"]+str(e),
+            error_msg=f"{CrawlerPluginErrorCodeMap['ErrorCodeUnknownException']['error_msg']}, {str(e)}",
         )
         return False
