@@ -20,6 +20,9 @@ COPY . /app/
 RUN rm /app/.env
 RUN rm -rf /app/doc
 RUN rm -rf /app/conf
+RUN rm -rf /app/logs
+RUN rm -rf /app/__pycache__
+RUN rm -rf /app/test
 
 # 创建必要的文件目录
 RUN touch /app/.env
