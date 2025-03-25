@@ -131,7 +131,7 @@ class VideoMeta:
         file_size : int     
             数据文件大小（单位：byte）
         file_type : str     
-            数据文件的类型，如CSV、TEXT、DOC,JPG,MP3,MP4,AVI等
+            数据文件的类型，如CSV,TEXT,DOC,JPG,MP3,MP4,AVI等
         compression_method : str     
             压缩方式 (Compression method ) 数据文件的压缩方式，如WinRAR、7-Zip、Keka等
         duration : int     

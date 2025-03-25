@@ -54,7 +54,8 @@ def apple_podcast_crawler_plugin(url:str, other_data:dict=None, worker_id:str="0
             raise Exception("解析音频为空，下载音频失败")
         with tempfile.TemporaryDirectory() as local_save_folder:
             download_url = video_info.download_url
-            filename = f"{video_info.video_id}.mp3"
+            file_type = "mp3"
+            filename = f"{video_info.video_id}.{file_type}"
             local_save_path = os.path.join(local_save_folder, filename) # 本地文件路径
             local_save_path = download_resource(download_url, local_save_path, proxies=None)
 
@@ -71,6 +72,7 @@ def apple_podcast_crawler_plugin(url:str, other_data:dict=None, worker_id:str="0
             # 更新meta信息
             video_info.storage_location = cloud_url
             video_info.file_size = int(get_file_size(local_save_path)) * 1024 # MB*1024->Bytes
+            video_info.file_type = file_type
             video_info.is_success = 0
 
             # 删除临时文件
