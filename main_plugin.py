@@ -91,7 +91,6 @@ def heartbeat(interval, process_name):
 
     # # ----- 测试数据 HARDCODE -----
     # print("自测跳过心跳上报")
-    # logger.info("自测跳过心跳上报")
     # return
     # # ----- 测试数据 HARDCODE -----
 
@@ -144,35 +143,6 @@ def worker_process(worker_id, server_flag, start_time=str(get_current_timestamp(
         try:
             result = False
             source_url, task_data, status_code, _MSG = get_single_task(f"{server_flag}-{worker_id}-{start_time}")
-            # # ----- 测试数据 HARDCODE -----
-            # status_code = 200
-            # _MSG = "ok"
-            # # Example Data
-            # # task_data = {
-            # #     'type': '',
-            # #     'owner': 'test_owner',
-            # #     'publisher': 'TBS RADIO',
-            # #     'p_id': '1532201544',
-            # #     'source': 'apple_podcast',
-            # #     'label': ['动漫'],
-            # #     'source_url': 'https://podcasts.apple.com/us/podcast/gedanken-zu-weihnachten-petra-sedlbauer/id1679897972?i=1000648197502&l=zh-Hans-CN',
-            # #     'encoding': '日语',
-            # #     "storage_location": "/multimodel.db/apple_podcast/",
-            # #     'security': '',
-            # #     'resolution': 0
-            # # }
-
-            # # Error 'ascii' codec can't encode characters in position 33-37: ordinal not in range(128) 
-            # # task_data = {'type': '', 'owner': '钟振科', 'publisher': 'منصة منطوق', 'p_id': '1564116462', 'source': 'apple_podcast', 'label': ['影视剧'], 'source_url': 'https://podcasts.apple.com/ma/podcast/%D9%83%D8%AA%D8%A7%D8%A8-%D8%B5%D9%88%D8%AA%D9%8A-%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A6%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D9%82%D8%A7%D8%B5%D8%B1%D8%A9-7-8-%D8%A7%D9%84%D9%81%D8%B5%D9%84-%D8%A7%D9%84%D8%B3%D8%A7%D8%AF%D8%B3/id1564116462?i=1000660740012', 'encoding': '阿拉伯语', 'storage_location': 'obs://obs-prod-hw-bj-bdt-multimodel/multimodel.db/apple_podcast_multilingual_video', 'metadata_location': 'cosn://cos-prod-tc-bj-bdt-delta-1302248489/multimodel.db/youtube_multilingual_video', 'security': '', 'resolution': 0}
-
-            # # Error apple_podcast_plugin_handler error, apple_podcast_plugin_handler_api请求失败, request failed, 401 
-            # # task_data = {'type': '', 'owner': '钟振科', 'publisher': 'thebookvoice.com', 'p_id': '1805998074', 'source': 'apple_podcast', 'label': ['广播剧'], 'source_url': 'https://podcasts.apple.com/ma/podcast/spanish-ukus-by-renato-g%C3%B3mez-herrera/id1805998074?i=1000701831828', 'encoding': '阿拉伯语', 'storage_location': 'obs://obs-prod-hw-bj-bdt-multimodel/multimodel.db/apple_podcast_multilingual_video', 'metadata_location': 'cosn://cos-prod-tc-bj-bdt-delta-1302248489/multimodel.db/youtube_multilingual_video', 'security': '', 'resolution': 0}
-            
-            # # Error apple_podcast_plugin_handler error, apple_podcast_plugin_handler_web匹配失败, 未能正确解析MP3信息 
-            # task_data = {'type': '', 'owner': '钟振科', 'publisher': 'thebookvoice.com', 'p_id': '1805998074', 'source': 'apple_podcast', 'label': ['广播剧'], 'source_url': 'https://podcasts.apple.com/ma/podcast/arabic-%D8%A7%D9%84%D8%AC%D8%B2%D8%A7%D8%B1-by-%D8%AD%D8%B3%D9%86-%D8%A7%D9%84%D8%AC%D9%86%D8%AF%D9%8A/id1805998074?i=1000701831646', 'encoding': '阿拉伯语', 'storage_location': 'obs://obs-prod-hw-bj-bdt-multimodel/multimodel.db/apple_podcast_multilingual_video', 'metadata_location': 'cosn://cos-prod-tc-bj-bdt-delta-1302248489/multimodel.db/youtube_multilingual_video', 'security': '', 'resolution': 0}
-
-            # source_url = task_data["source_url"]
-            # # ----- 测试数据 HARDCODE -----
 
             # 0 "没有资源下载的需求"
             # 200 f"接收到请求：{_data}"

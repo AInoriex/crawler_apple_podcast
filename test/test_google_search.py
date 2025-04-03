@@ -1,7 +1,5 @@
 from googlesearch import search
 from db.search_info import SearchInfo
-# from utils.utime import random_sleep
-
 
 def Gsearch(search_word:str, start:int, search_total:int, pause:int)->list:
     ''' Google搜索API 
@@ -72,20 +70,6 @@ def GetApplePodcastEpisodeId(url:str)->str:
         return episode_id
     else:
         return ""
-
-def func_test():
-    ''' 测试try except else finally结构'''
-    try:
-        print("DEBUG 1")
-    except:
-        print("DEBUG 2")
-        return
-    else:
-        print("DEBUG 3")
-        return
-    finally:
-        print("DEBUG 4")
-        return
 
 if __name__ == "__main__":
     test_batch_id = "TEST_BATCH_240524_01"
