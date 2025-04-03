@@ -1,6 +1,6 @@
 from fake_useragent import UserAgent
 from random import choice, randint
-import urllib.request as request
+from urllib import request, parse
 from time import sleep
 from utils.logger import logger
 
@@ -43,6 +43,7 @@ def download_resource(url:str, filename:str, proxies=None, retry:int=3):
     logger.info(f"download_resource > {url} -- {filename}, retry:{retry}")
     if url == "" or filename == "":
         raise ValueError(f"download_resource url or filename is empty, url:{url}, filename:{filename}")
+    encoded_url = parse.quote(url, safe=":/")  # 只保留URL中的协议和路径分隔符
     ua = get_random_ua()
     headers = [
         ('accept-language','zh-CN,zh;q=0.9,en-GB;q=0.8,en;q=0.7,en-US;q=0.6'),
@@ -70,7 +71,7 @@ def download_resource(url:str, filename:str, proxies=None, retry:int=3):
         opener.addheaders = headers
         # install the openen on the module-level
         request.install_opener(opener)
-        request.urlretrieve(url, filename, reporthook)
+        request.urlretrieve(encoded_url, filename, reporthook)
         logger.info(f"\ndownload_resource > 文件已下载到：{filename}")
         return filename
     except Exception as e:
