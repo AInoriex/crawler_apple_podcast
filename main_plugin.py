@@ -144,25 +144,34 @@ def worker_process(worker_id, server_flag, start_time=str(get_current_timestamp(
         try:
             result = False
             source_url, task_data, status_code, _MSG = get_single_task(f"{server_flag}-{worker_id}-{start_time}")
-            
             # # ----- 测试数据 HARDCODE -----
-            # source_url= "https://podcasts.apple.com/jp/podcast/%E7%89%B9%E9%9B%86-%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9%E5%BA%A7%E8%AB%87%E4%BC%9A-%E9%BA%BB%E6%9C%A8%E4%B9%85%E4%BB%81%E5%AD%90-%E3%83%80%E3%83%BC%E3%82%B9%E3%83%AC%E3%82%A4%E3%83%80%E3%83%BC-%E9%9D%92%E6%9C%A8%E7%90%86/id1532201544?i=1000689970342"
-            # # succ_source_url= "https://podcasts.apple.com/us/podcast/2281-elon-musk/id360084272?i=1000696846801"
-            # # fail_source_url= "https://podcasts.apple.com/jp/podcast/%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96%E9%85%8D%E4%BF%A1-%E7%89%B9%E9%9B%86-%E8%8D%BB%E4%B8%8A%E3%83%81%E3%82%AD%E3%81%AE%E9%A6%99%E6%B8%AF%E5%8F%96%E6%9D%90%E5%A0%B1%E5%91%8A-%E7%AC%AC1%E5%A4%9C-%E7%8F%BE%E5%9C%B0%E3%81%A7%E4%BD%95%E3%81%8C%E8%B5%B7%E3%81%8D%E3%81%A6%E3%81%84%E3%82%8B%E3%81%AE%E3%81%8B-%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA-%E9%A6%99%E6%B8%AF%E5%8D%B1%E6%A9%9F-2019/id1532201544?i=1000637393474"
-            # task_data = {
-            #     'type': '',
-            #     'owner': 'test_owner',
-            #     'publisher': 'TBS RADIO',
-            #     'p_id': '1532201544',
-            #     'source': 'apple_podcast',
-            #     'label': ['动漫'],
-            #     'source_url': 'https://podcasts.apple.com/jp/podcast/%E7%89%B9%E9%9B%86-%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9%E5%BA%A7%E8%AB%87%E4%BC%9A-%E9%BA%BB%E6%9C%A8%E4%B9%85%E4%BB%81%E5%AD%90-%E3%83%80%E3%83%BC%E3%82%B9%E3%83%AC%E3%82%A4%E3%83%80%E3%83%BC-%E9%9D%92%E6%9C%A8%E7%90%86/id1532201544?i=1000689970342', 'encoding': '日语',
-            #     "storage_location": "/multimodel.db/apple_podcast/",
-            #     'security': '',
-            #     'resolution': 0
-            # }
             # status_code = 200
             # _MSG = "ok"
+            # # Example Data
+            # # task_data = {
+            # #     'type': '',
+            # #     'owner': 'test_owner',
+            # #     'publisher': 'TBS RADIO',
+            # #     'p_id': '1532201544',
+            # #     'source': 'apple_podcast',
+            # #     'label': ['动漫'],
+            # #     'source_url': 'https://podcasts.apple.com/us/podcast/gedanken-zu-weihnachten-petra-sedlbauer/id1679897972?i=1000648197502&l=zh-Hans-CN',
+            # #     'encoding': '日语',
+            # #     "storage_location": "/multimodel.db/apple_podcast/",
+            # #     'security': '',
+            # #     'resolution': 0
+            # # }
+
+            # # Error 'ascii' codec can't encode characters in position 33-37: ordinal not in range(128) 
+            # # task_data = {'type': '', 'owner': '钟振科', 'publisher': 'منصة منطوق', 'p_id': '1564116462', 'source': 'apple_podcast', 'label': ['影视剧'], 'source_url': 'https://podcasts.apple.com/ma/podcast/%D9%83%D8%AA%D8%A7%D8%A8-%D8%B5%D9%88%D8%AA%D9%8A-%D8%A7%D9%84%D8%B9%D9%82%D8%A7%D8%A6%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D9%82%D8%A7%D8%B5%D8%B1%D8%A9-7-8-%D8%A7%D9%84%D9%81%D8%B5%D9%84-%D8%A7%D9%84%D8%B3%D8%A7%D8%AF%D8%B3/id1564116462?i=1000660740012', 'encoding': '阿拉伯语', 'storage_location': 'obs://obs-prod-hw-bj-bdt-multimodel/multimodel.db/apple_podcast_multilingual_video', 'metadata_location': 'cosn://cos-prod-tc-bj-bdt-delta-1302248489/multimodel.db/youtube_multilingual_video', 'security': '', 'resolution': 0}
+
+            # # Error apple_podcast_plugin_handler error, apple_podcast_plugin_handler_api请求失败, request failed, 401 
+            # # task_data = {'type': '', 'owner': '钟振科', 'publisher': 'thebookvoice.com', 'p_id': '1805998074', 'source': 'apple_podcast', 'label': ['广播剧'], 'source_url': 'https://podcasts.apple.com/ma/podcast/spanish-ukus-by-renato-g%C3%B3mez-herrera/id1805998074?i=1000701831828', 'encoding': '阿拉伯语', 'storage_location': 'obs://obs-prod-hw-bj-bdt-multimodel/multimodel.db/apple_podcast_multilingual_video', 'metadata_location': 'cosn://cos-prod-tc-bj-bdt-delta-1302248489/multimodel.db/youtube_multilingual_video', 'security': '', 'resolution': 0}
+            
+            # # Error apple_podcast_plugin_handler error, apple_podcast_plugin_handler_web匹配失败, 未能正确解析MP3信息 
+            # task_data = {'type': '', 'owner': '钟振科', 'publisher': 'thebookvoice.com', 'p_id': '1805998074', 'source': 'apple_podcast', 'label': ['广播剧'], 'source_url': 'https://podcasts.apple.com/ma/podcast/arabic-%D8%A7%D9%84%D8%AC%D8%B2%D8%A7%D8%B1-by-%D8%AD%D8%B3%D9%86-%D8%A7%D9%84%D8%AC%D9%86%D8%AF%D9%8A/id1805998074?i=1000701831646', 'encoding': '阿拉伯语', 'storage_location': 'obs://obs-prod-hw-bj-bdt-multimodel/multimodel.db/apple_podcast_multilingual_video', 'metadata_location': 'cosn://cos-prod-tc-bj-bdt-delta-1302248489/multimodel.db/youtube_multilingual_video', 'security': '', 'resolution': 0}
+
+            # source_url = task_data["source_url"]
             # # ----- 测试数据 HARDCODE -----
 
             # 0 "没有资源下载的需求"

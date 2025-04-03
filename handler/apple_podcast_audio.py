@@ -15,10 +15,10 @@ from db.crawler_plugin import VideoMeta, generate_meta_id
 def get_apple_podcast_audio_id(url):
     """
     获取播客音频id
-    https://podcasts.apple.com/us/podcast/{audio_name}/id{episode_id}?i={audio_id} -> audio_id
+    https://podcasts.apple.com/us/podcast/{audio_name}/id{episode_id}?i={audio_id}&params=xxx -> audio_id
     """
-    aid = url.split("?i=")[-1]
-    return aid
+    audio_id = url.split("&")[0].split("?i=")[-1]
+    return audio_id
 
 def apple_podcast_plugin_handler(url):
     """
@@ -27,7 +27,9 @@ def apple_podcast_plugin_handler(url):
     @Return VideoMeta, 音频信息
     """
     # 可用函数列表
-    functions = [apple_podcast_plugin_handler_web, apple_podcast_plugin_handler_api]
+    functions = [apple_podcast_plugin_handler_web, apple_podcast_plugin_handler_api, apple_podcast_plugin_handler_api_with_login]
+    # functions = [apple_podcast_plugin_handler_web, apple_podcast_plugin_handler_api]
+    # functions = [apple_podcast_plugin_handler_api_with_login]
     random.shuffle(functions)  # 随机执行
 
     for func in functions:
@@ -39,7 +41,7 @@ def apple_podcast_plugin_handler(url):
         return ret
 
     # 如果所有函数都执行过且err_msg不为空，抛出异常
-    raise Exception(f"apple_podcast_plugin_handler error, {err_msg}")
+    raise Exception(f"apple_podcast_plugin_handler, err_msg:{err_msg}")
 
 '''
 @ExampleParam.url  https://podcasts.apple.com/us/podcast/2281-elon-musk/id360084272?i=1000696846801
@@ -254,6 +256,130 @@ def apple_podcast_plugin_handler_api(url:str)->tuple[VideoMeta, str]:
         return None, err_msg
     except Exception as e:
         err_msg = str("apple_podcast_plugin_handler_api未知错误")
+        logger.error(f"{err_msg}, url:{url}, error:{e}")
+        return None, err_msg
+
+def apple_podcast_plugin_handler_api_with_login(url:str)->tuple[VideoMeta, str]:
+    """
+    调播客后台API获取mp3信息，需要登录Apple账号
+    """
+    def extract_audio_link(json_data):
+        ''' 提取音频链接 '''
+        attributes = json_data.get("attributes")
+        return attributes.get("assetUrl", "")
+
+    def extract_audio_meta(json_data, obj:VideoMeta):
+        ''' 提取音频meta信息 '''
+        logger.debug("apple_podcast_plugin_handler_api_with_login extract_audio_meta json_data", json_data)
+        # 解析JSON
+        try:
+            attributes = json_data.get("attributes")
+            obj.title = attributes.get('name', '')
+            obj.description = attributes.get('description').get('standard', '')
+            # obj.source_url = attributes.get('url', '')
+            obj.source_url = url
+            obj.duration_string = str(attributes.get('durationInMilliseconds', ''))
+            obj.duration = round(int(obj.duration_string)/1000) if obj.duration_string != "" else 0
+            obj.categories = attributes.get('genreNames', [])
+            obj.channel = attributes.get('artistName', '')
+            obj.uploader = attributes.get('artistName', '')
+            obj.uploader_url = attributes.get('websiteUrl')
+            obj.upload_date = attributes.get('releaseDateTime', '')
+        except Exception as e:
+            logger.error(f"apple_podcast_plugin_handler_api_with_login extract_audio_meta failed, error:{e}")
+        finally:
+            return obj
+
+    try:
+        # 获取请求参数:音频id
+        audio_id = get_apple_podcast_audio_id(url)
+        if audio_id == "":
+            raise ValueError("get empty audio_id")
+        
+        v = VideoMeta(
+            video_id=generate_meta_id(audio_id),
+            type="音频",
+            is_success=1,
+            storage_location="",
+        )
+
+        # 请求API
+        # request_api = f"https://amp-api.podcasts.apple.com/v1/catalog/us/podcast-episodes"
+        request_api = f"https://amp-api.podcasts.apple.com/v1/catalog/us/podcast-episodes/{audio_id}"
+        headers = {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9",
+            "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkM0SjdHQlA3NEgifQ.eyJpc3MiOiJVTTdOOVJUVDdHIiwiaWF0IjoxNzQyMjQyNTMwLCJleHAiOjE3NDk1MDAxMzAsInJvb3RfaHR0cHNfb3JpZ2luIjpbImFwcGxlLmNvbSJdfQ.MDB9unxGCOXz0GgmhNidPj1rw8gjfog82fwWPUoMKXkL8bFHv1-VUk0yp5GLlgukWrw8i2gtJSUyczet9PqQHA",
+            "cache-control": "no-cache",
+            "media-user-token": "AphTXfnKj/EQTQGGXNMeXaY5lqLrJwX9Lm5hAlXkE0pt6MczC8PNCwAVW5LESQsbSphel3xb0Au7ePjGw2rP9rOZVxB5t2jbltU5GmjilIkbmJTjZYoumtJUZtazMzCI5+4c4iVS5jadpAFV5QEQS6PmaFO6Z/kH5SchFArnr/1tLE0Qj0sHzpD2KAXrbd61mxxb/B+HzIDcextosy+UmMelPgLQ9jDbVTwU3I2dJFFchFXUdQ==",
+            "origin": "https://podcasts.apple.com",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "referer": "https://podcasts.apple.com/",
+            "sec-ch-ua": "\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"127\", \"Chromium\";v=\"127\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+        }
+        cookies = {
+            "geo": "SG",
+            "dslang": "CN-ZH",
+            "site": "CHN",
+            "wosid-replay": "1ZUYTJ06HR8gVbuBZZhmmg",
+            "itspod": "22",
+            "commerce-authorization-token": "AAAAAAAAAAKOAISilZ//atJmRWQody9iqWyxcwUNlE5YPB16rFHcdJvMnJxO8pb1yG8jbZcqXWLbNZnxzNnwrcmZf2Iz6qFIZUp6tbGqVr8juEuGns6sSCWprafWCRF1yQ/icmk+W3uFcl/mOGV63WVr/gva6DoI+FDtgxAeWyiwt//HWdqnk9CqZGbj6r2mkZ1tZ7KGwh6GN/EcIyaaTsBr9M6AmPNIWwMIeuK93QKQsmP3Dlbz4w==",
+            "itre": "0",
+            "media-user-token": "AphTXfnKj/EQTQGGXNMeXaY5lqLrJwX9Lm5hAlXkE0pt6MczC8PNCwAVW5LESQsbSphel3xb0Au7ePjGw2rP9rOZVxB5t2jbltU5GmjilIkbmJTjZYoumtJUZtazMzCI5+4c4iVS5jadpAFV5QEQS6PmaFO6Z/kH5SchFArnr/1tLE0Qj0sHzpD2KAXrbd61mxxb/B+HzIDcextosy+UmMelPgLQ9jDbVTwU3I2dJFFchFXUdQ==",
+            "itua": "US",
+            "pltvcid": "d838ba18428143f2821eac1614fb2f55022",
+            "pldfltcid": "b7ac6f07a7004019a8bcce1c32961659022",
+            "mut-refresh": "1"
+        }
+        params = {
+            "extend": "isSubscribed,personalizedSubscriptionOffers",
+            "extend[podcast-channels]": "editorialArtwork,subscriptionArtwork,subscriptionBrandLogoArtwork",
+            "include": "channel,playback-position",
+            "include[podcast-channels]": "podcasts",
+            "limit[podcasts]": "10",
+            "extend[podcast-episodes]": "inLibrary",
+            "with": "appOffers,entitlements",
+            "l": "zh-Hans-CN"
+        }
+        logger.info(f"apple_podcast_plugin_handler_api_with_login request, url:{request_api}, headers:{headers}, params:{params}")
+        # response = requests.get(request_api, headers=headers, cookies=cookies, params=params)
+        response = requests.get(request_api, headers=headers)
+        if response.status_code != 200:
+            raise requests.RequestException(f"request failed, {response.status_code}")
+        json_data = response.json()
+        if len(json_data.get("data", [])) <= 0:
+            raise requests.RequestException(f"response get empty data")
+        json_data = json_data['data'][0]
+
+        # 提取音频链接
+        v.download_url = extract_audio_link(json_data)
+
+        # 提取音频meta信息
+        v = extract_audio_meta(json_data, v)
+
+        return v, str("")
+
+    except ValueError as e: # get_apple_podcast_audio_id
+        err_msg = str(f"apple_podcast_plugin_handler_api_with_login 预处理失败, {e}")
+        logger.error(f"{err_msg}, url:{url}")
+        return None, err_msg
+    except requests.RequestException as e: # 请求失败
+        err_msg = str(f"apple_podcast_plugin_handler_api_with_login 请求失败, {e}")
+        logger.error(f"{err_msg}, url:{url}, params:{params}, headers:{headers}, response.text:{response.text}")
+        return None, err_msg
+    except KeyError as e: # json解析失败
+        err_msg = str("apple_podcast_plugin_handler_api_with_login 失败, , 未能正确解析MP3信息")
+        logger.error(f"{err_msg}, error:{e}, url:{url}, response.json:{response.json()}")
+        return None, err_msg
+    except Exception as e:
+        err_msg = str("apple_podcast_plugin_handler_api_with_login 未知错误")
         logger.error(f"{err_msg}, url:{url}, error:{e}")
         return None, err_msg
 
