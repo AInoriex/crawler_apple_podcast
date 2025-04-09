@@ -1,6 +1,6 @@
 from utils.logger import logger
 from utils.tool import load_cfg
-from utils.request import download_resource
+from utils.request import download_resource_by_urllib
 
 cfg = load_cfg("config.json")
 
@@ -29,7 +29,7 @@ def test_audio_download():
     print("提取到的MP3链接:", mp3_links)
     if len(mp3_links) <= 0:
         return
-    download_resource(url=mp3_links[0], filename="2281-elon-musk.mp3")
+    download_resource_by_urllib(url=mp3_links[0], filename="2281-elon-musk.mp3")
 
 if __name__ == "__main__":
     # test_audio_download()

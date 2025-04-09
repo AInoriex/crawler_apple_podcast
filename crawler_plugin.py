@@ -3,7 +3,7 @@ import tempfile
 from pathlib import Path
 from utils.logger import logger
 from utils.obs import upload_file_v2
-from utils.request import download_resource
+from utils.request import download_resource_by_urllib, download_resource
 from utils.file import get_file_size
 from utils.utime import get_now_day_string_short, get_now_time_string
 from utils.lark import alarm_lark_text
