@@ -11,6 +11,7 @@ import re
 import requests
 from utils.logger import logger
 from db.crawler_plugin import VideoMeta, generate_meta_id
+from utils.utime import random_sleep
 
 def get_apple_podcast_audio_id(url):
     """
@@ -28,20 +29,19 @@ def apple_podcast_plugin_handler(url):
     """
     # 可用函数列表
     functions = [apple_podcast_plugin_handler_web, apple_podcast_plugin_handler_api, apple_podcast_plugin_handler_api_with_login]
-    # functions = [apple_podcast_plugin_handler_web, apple_podcast_plugin_handler_api]
-    # functions = [apple_podcast_plugin_handler_api_with_login]
     random.shuffle(functions)  # 随机执行
 
     for func in functions:
         ret, err_msg = func(url)  # 执行函数
         if err_msg != "": 
             logger.error(f"apple_podcast_plugin_handler error, func:{func.__name__}, err_msg:{err_msg}")
+            random_sleep(1, 3)
             continue
         # 如果err_msg为空，直接返回结果
         return ret
 
     # 如果所有函数都执行过且err_msg不为空，抛出异常
-    raise Exception(f"apple_podcast_plugin_handler, err_msg:{err_msg}")
+    raise Exception(f"apple_podcast_plugin_handler error, err_msg:{err_msg}")
 
 '''
 @ExampleParam.url  https://podcasts.apple.com/us/podcast/2281-elon-musk/id360084272?i=1000696846801
@@ -55,12 +55,16 @@ def apple_podcast_plugin_handler_web(url:str)->tuple[VideoMeta, str]:
     def extract_audio_link(html_content):
         ''' 提取音频链接 '''
         html_text = etree.tostring(etree.HTML(html_content), method="text", encoding="unicode")
-        # pattern = re.compile(r'https://traffic\.megaphone\.fm.*?updated=\d+')
+        # 正则匹配 https://xxx/xxx.mp3 或者 https://xxx/xxx.mp3?xxx=xxx
         pattern = re.compile(r'(https://[^"]+\.mp3\?[^"]*)')
         mp3_links = re.findall(pattern, html_text)
-        if len(mp3_links) <= 0:
-            raise KeyError("正则匹配mp3链接失败")
-        return mp3_links[0]
+        if len(mp3_links) > 0:
+            return mp3_links[0]
+        pattern = re.compile(r'(https://[^"]+\.mp3)')
+        mp3_links = re.findall(pattern, html_text)
+        if len(mp3_links) > 0:
+            return mp3_links[0]
+        raise KeyError("正则匹配mp3链接失败")
 
     def format_duration_string_to_int(duration_str):
         """
@@ -94,10 +98,10 @@ def apple_podcast_plugin_handler_web(url:str)->tuple[VideoMeta, str]:
         elements = etree.HTML(html_content).xpath('//script[@id="schema:episode"]/text()')
         if len(elements) <= 0:
             raise KeyError("提取mp3.meta信息失败")
-        text = elements[0].strip()
 
         # 解析JSON
         try:
+            text = elements[0].strip()
             json_data = json.loads(text)
             # print(json_data)
             obj.title = json_data.get('name', '')
@@ -149,11 +153,11 @@ def apple_podcast_plugin_handler_web(url:str)->tuple[VideoMeta, str]:
         logger.error(f"{err_msg}, url:{url}, response.text:{response.text}")
         return None, err_msg
     except KeyError as e: # 正则匹配失败
-        err_msg = str("apple_podcast_plugin_handler_web匹配失败, 未能正确解析MP3信息")
+        err_msg = str(f"apple_podcast_plugin_handler_web匹配失败, 未能正确解析MP3信息, error:{e}")
         logger.error(f"{err_msg}, error:{e}, url:{url}, html:{html_content}")
         return None, err_msg
     except Exception as e:
-        err_msg = str("apple_podcast_plugin_handler_web未知错误")
+        err_msg = str(f"apple_podcast_plugin_handler_web未知错误, error:{e}")
         logger.error(f"{err_msg}, url:{url}, error:{e}")
         return None, err_msg
 
@@ -221,12 +225,10 @@ def apple_podcast_plugin_handler_api(url:str)->tuple[VideoMeta, str]:
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0"
         }
         params = {
-            # "ids": "1000696846801"
             "ids": audio_id
         }
         logger.info(f"apple_podcast_plugin_handler_api request, url:{request_api}, headers:{headers}, params:{params}")
         response = requests.get(request_api, headers=headers, params=params)
-        # print(response.text)
         if response.status_code != 200:
             raise requests.RequestException(f"request failed, {response.status_code}")
         json_data = response.json()
@@ -251,11 +253,11 @@ def apple_podcast_plugin_handler_api(url:str)->tuple[VideoMeta, str]:
         logger.error(f"{err_msg}, url:{url}, params:{params}, headers:{headers}, response.text:{response.text}")
         return None, err_msg
     except KeyError as e: # json解析失败
-        err_msg = str("apple_podcast_plugin_handler_api失败, , 未能正确解析MP3信息")
+        err_msg = str(f"apple_podcast_plugin_handler_api失败, 未能正确解析MP3信息, response.json:{response.json()}, error:{e}")
         logger.error(f"{err_msg}, error:{e}, url:{url}, response.json:{response.json()}")
         return None, err_msg
     except Exception as e:
-        err_msg = str("apple_podcast_plugin_handler_api未知错误")
+        err_msg = str(f"apple_podcast_plugin_handler_api未知错误, error:{e}")
         logger.error(f"{err_msg}, url:{url}, error:{e}")
         return None, err_msg
 
@@ -324,20 +326,6 @@ def apple_podcast_plugin_handler_api_with_login(url:str)->tuple[VideoMeta, str]:
             "sec-fetch-site": "same-site",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
         }
-        cookies = {
-            "geo": "SG",
-            "dslang": "CN-ZH",
-            "site": "CHN",
-            "wosid-replay": "1ZUYTJ06HR8gVbuBZZhmmg",
-            "itspod": "22",
-            "commerce-authorization-token": "AAAAAAAAAAKOAISilZ//atJmRWQody9iqWyxcwUNlE5YPB16rFHcdJvMnJxO8pb1yG8jbZcqXWLbNZnxzNnwrcmZf2Iz6qFIZUp6tbGqVr8juEuGns6sSCWprafWCRF1yQ/icmk+W3uFcl/mOGV63WVr/gva6DoI+FDtgxAeWyiwt//HWdqnk9CqZGbj6r2mkZ1tZ7KGwh6GN/EcIyaaTsBr9M6AmPNIWwMIeuK93QKQsmP3Dlbz4w==",
-            "itre": "0",
-            "media-user-token": "AphTXfnKj/EQTQGGXNMeXaY5lqLrJwX9Lm5hAlXkE0pt6MczC8PNCwAVW5LESQsbSphel3xb0Au7ePjGw2rP9rOZVxB5t2jbltU5GmjilIkbmJTjZYoumtJUZtazMzCI5+4c4iVS5jadpAFV5QEQS6PmaFO6Z/kH5SchFArnr/1tLE0Qj0sHzpD2KAXrbd61mxxb/B+HzIDcextosy+UmMelPgLQ9jDbVTwU3I2dJFFchFXUdQ==",
-            "itua": "US",
-            "pltvcid": "d838ba18428143f2821eac1614fb2f55022",
-            "pldfltcid": "b7ac6f07a7004019a8bcce1c32961659022",
-            "mut-refresh": "1"
-        }
         params = {
             "extend": "isSubscribed,personalizedSubscriptionOffers",
             "extend[podcast-channels]": "editorialArtwork,subscriptionArtwork,subscriptionBrandLogoArtwork",
@@ -346,11 +334,10 @@ def apple_podcast_plugin_handler_api_with_login(url:str)->tuple[VideoMeta, str]:
             "limit[podcasts]": "10",
             "extend[podcast-episodes]": "inLibrary",
             "with": "appOffers,entitlements",
-            "l": "zh-Hans-CN"
+            # "l": "zh-Hans-CN"
         }
         logger.info(f"apple_podcast_plugin_handler_api_with_login request, url:{request_api}, headers:{headers}, params:{params}")
-        # response = requests.get(request_api, headers=headers, cookies=cookies, params=params)
-        response = requests.get(request_api, headers=headers)
+        response = requests.get(request_api, headers=headers, params=params)
         if response.status_code != 200:
             raise requests.RequestException(f"request failed, {response.status_code}")
         json_data = response.json()
@@ -375,11 +362,11 @@ def apple_podcast_plugin_handler_api_with_login(url:str)->tuple[VideoMeta, str]:
         logger.error(f"{err_msg}, url:{url}, params:{params}, headers:{headers}, response.text:{response.text}")
         return None, err_msg
     except KeyError as e: # json解析失败
-        err_msg = str("apple_podcast_plugin_handler_api_with_login 失败, , 未能正确解析MP3信息")
+        err_msg = str(f"apple_podcast_plugin_handler_api_with_login 失败, 未能正确解析MP3信息, response.json:{response.json()}, error:{e}")
         logger.error(f"{err_msg}, error:{e}, url:{url}, response.json:{response.json()}")
         return None, err_msg
     except Exception as e:
-        err_msg = str("apple_podcast_plugin_handler_api_with_login 未知错误")
+        err_msg = str(f"apple_podcast_plugin_handler_api_with_login 未知错误, error:{e}")
         logger.error(f"{err_msg}, url:{url}, error:{e}")
         return None, err_msg
 
