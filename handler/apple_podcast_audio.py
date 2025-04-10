@@ -210,7 +210,7 @@ def apple_podcast_plugin_handler_api(url:str)->tuple[VideoMeta, str]:
         headers = {
             "accept": "*/*",
             "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkRBSlcxUk8wNjIifQ.eyJpc3MiOiJFUk1UQTBBQjZNIiwiaWF0IjoxNzM3Mzc4NTYxLCJleHAiOjE3NDM1OTkzNjEsInJvb3RfaHR0cHNfb3JpZ2luIjpbImFwcGxlLmNvbSJdfQ._ZKKySf4sIEzvRY7XQGQj5zo-8xtzcXB3I5Zw8vZTaBajf1VjFIqlOqKmgIQwCd7dYVy7HnNoNQQ9RwTWgztSg",
+            "authorization": "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkM0SjdHQlA3NEgifQ.eyJpc3MiOiJVTTdOOVJUVDdHIiwiaWF0IjoxNzQzNTU2ODE1LCJleHAiOjE3NTA4MTQ0MTUsInJvb3RfaHR0cHNfb3JpZ2luIjpbImFwcGxlLmNvbSJdfQ.lPi4aAB_5WL-rkou9DtOfC3ZiliJmYP0Czh7oXS6MA6iBDliyGJH2qXg0LpWmerHcYrL8n6ItTQceZYJsI96iA",
             "cache-control": "no-cache",
             "origin": "https://embed.podcasts.apple.com",
             "pragma": "no-cache",
