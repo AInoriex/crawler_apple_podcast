@@ -31,6 +31,9 @@ RUN mkdir -p /app/conf
 # 安装Python依赖
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
+# 安装ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
+
 # 设置默认的配置文件
 COPY conf/config.ini /app/conf/
 
