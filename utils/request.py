@@ -171,16 +171,24 @@ def download_resource_by_ytdlp(url:str, filename:str, proxies=None, cookie=None,
     import yt_dlp
     from tempfile import TemporaryDirectory
     logger.info(f"download_resource_by_ytdlp > {url} -- {filename}, retry:{retry}")
+    if "." in filename:
+        # filename: _filename._format
+        _filename = filename.split(".")[0]
+        _format = filename.split(".")[1]
+    else:
+        # filename: _filename
+        _filename = filename
+        _format = "mp3"
     try:
         # yt-dlp download options
         ydl_opts = {
-            'outtmpl': filename, # 输出文件
+            'outtmpl': _filename, # 输出文件
             'proxy': proxies,
             'format': 'bestaudio/best', # 音频质量
             'noplaylist': True, # 禁用播放列表
             'postprocessors': [{ 
                 'key': 'FFmpegExtractAudio', # 下载音频
-                'preferredcodec': 'mp3', # 音频格式
+                'preferredcodec': _format, # 音频格式
                 'preferredquality': '192', # 音频质量
             }],
         }
