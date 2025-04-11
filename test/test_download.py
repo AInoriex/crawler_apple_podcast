@@ -87,7 +87,7 @@ class TestDownload(unittest.TestCase):
                 logger.info(f"链接{url} 测试下载通过")
         logger.info(f"最终测试结果，成功：{succ_count}条， 失败：{fail_count}条")
 
-    @unittest.skip("暂时跳过 `test_download_resource` 测试")
+    # @unittest.skip("暂时跳过 `test_download_resource` 测试")
     def test_download_resource(self):
         self.download_url_list = [
             "https://sphinx.acast.com/p/open/s/6168a08788593900146910ea/e/https%3A%2F%2Fapi.spreaker.com%2Fepisode%2F43254847/media.mp3", # FAILED: 跳转链接+签名
@@ -98,7 +98,7 @@ class TestDownload(unittest.TestCase):
             try:
                 logger.info(f"当前测试下载URL:{url}")
                 with TemporaryDirectory() as tempdir:
-                    filename = os.path.join(tempdir, "temp.mp3")
+                    filename = os.path.join(tempdir, "this_is_a_test_file.mp3")
 
                     # download handler
                     filename = download_resource(url=url, filename=filename)
